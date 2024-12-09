@@ -18,10 +18,13 @@
     <ClCompile Include="GWZ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ObeiktWejsciaWyjscia.cpp">
+    <ClCompile Include="ModelARX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelARX.cpp">
+    <ClCompile Include="UkladSterowania.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RegulatorPID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -33,6 +36,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModelARX.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UkladSterowania.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RegulatorPID.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

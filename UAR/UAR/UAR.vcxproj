@@ -129,12 +129,15 @@
   <ItemGroup>
     <ClCompile Include="GWZ.cpp" />
     <ClCompile Include="ModelARX.cpp" />
-    <ClCompile Include="ObeiktWejsciaWyjscia.cpp" />
+    <ClCompile Include="RegulatorPID.cpp" />
+    <ClCompile Include="UkladSterowania.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GWZ.h" />
     <ClInclude Include="ModelARX.h" />
     <ClInclude Include="ObiektWejsciaWyjscia.h" />
+    <ClInclude Include="RegulatorPID.h" />
+    <ClInclude Include="UkladSterowania.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
