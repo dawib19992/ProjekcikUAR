@@ -1,5 +1,5 @@
 // TU includy:
-
+/*
 #include <iostream>
 #include <iomanip>
 #include "ModelARX.h"
@@ -205,4 +205,4 @@ int main()
 }
 
 #endif
-
+*/

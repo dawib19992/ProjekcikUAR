@@ -1,2 +1,5 @@
-﻿  Testy_ARX.cpp
-  UAR.vcxproj -> C:\Users\dawid\Desktop\ProjekcikUAR\UAR\x64\Debug\UAR.exe
+﻿  RegulatorPID.cpp
+  Testy_PID.cpp
+  UkladSterowania.cpp
+  Generowanie kodu...
+  UAR.vcxproj -> D:\Dokumenty\GitHub\ProjekcikUAR_nowy\UAR\x64\Debug\UAR.exe
