@@ -1,40 +1,31 @@
 #include "RegulatorPID.h"
 #include "ObiektWejsciaWyjscia.h"
 
-RegulatorPID :: RegulatorPID(double k, double Ti, double Td, double czas_probkowania)
-	: k(k), Ti(Ti), Td(Td), czas_probkowania(czas_probkowania), suma_calkowita(0), poprzedni_uchyb(0) {}
+RegulatorPID :: RegulatorPID(double k, double Ti, double Td)
+	: wzmocnienie(k), stala_calkowania(Ti), stala_rozniczkowania(Td), suma_calkowita(0), poprzedni_uchyb(0) {}
 
 double RegulatorPID::wykonajKrok(double uchyb)
 {
-	double skladnik_wzmocnieniaP;
-	double skladnik_calkowaniaI;
-	double skladnik_rozniczkowaniaD;
+    // Sk³adowe regulatora PID
+    double skladnik_wzmocnieniaP = wzmocnienie * uchyb;
 
-	skladnik_wzmocnieniaP = k * uchyb;
-	suma_calkowita += uchyb * czas_probkowania;
+    double skladnik_calkowaniaI = 0.0;
+    if (stala_calkowania > 0) {
+        suma_calkowita += uchyb;
+        skladnik_calkowaniaI = suma_calkowita / stala_calkowania;
+    }
 
-	if (Ti != 0)
-	{
-		skladnik_calkowaniaI = (k / Ti) * suma_calkowita;
-	}
-	else
-	{
-		skladnik_calkowaniaI = 0;
-	}
+    double skladnik_rozniczkowaniaD = 0.0;
+    if (stala_rozniczkowania > 0) {
+        skladnik_rozniczkowaniaD = stala_rozniczkowania * (uchyb - poprzedni_uchyb);
+    }
 
-	if (Td != 0)
-	{
-		skladnik_rozniczkowaniaD = k * Td * ((uchyb - poprzedni_uchyb) / czas_probkowania);
-	}
-	else
-	{
-		skladnik_rozniczkowaniaD = 0;
-	}
+    poprzedni_uchyb = uchyb;
 
-	poprzedni_uchyb = uchyb;
-	double wynik = skladnik_wzmocnieniaP + skladnik_calkowaniaI + skladnik_rozniczkowaniaD;
+    // Wynik dzia³ania regulatora PID
+    double wynik = skladnik_wzmocnieniaP + skladnik_calkowaniaI + skladnik_rozniczkowaniaD;
 
-	return wynik;
+    return wynik;
 }
 
 void RegulatorPID::reset()

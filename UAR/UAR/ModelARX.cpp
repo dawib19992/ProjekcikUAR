@@ -1,64 +1,35 @@
 #include "ModelARX.h"  
+#include <vector>
+#include <iomanip>
 
-ModelARX::ModelARX(std::vector<double>& a, std::vector<double>& b, int opoznienie, double szum)
-    : wspolczynniki_a(a), wspolczynniki_b(b), opoznienie_k(opoznienie), odchylenie_szumu(szum),
-    rozklad_szumu(0.0, szum > 0.0 ? szum : 1.0) {
-    if (szum > 0.0)
-    {
-        rozklad_szumu = std::normal_distribution<double>(0.0, szum);
-    }
-    else
-    {
-        rozklad_szumu = std::normal_distribution<double>(0.0, 1.0);
-    }
-    bufor_wejscia.resize(b.size(), 0.0);
-    bufor_wyjscia.resize(a.size(), 0.0);
-    bufor_opoznienia.resize(opoznienie_k, 0.0);
+ModelARX::ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie, double zaklocenie_)
+    : a(a_), b(b_), opoznienie_k(opoznienie) {
+    bufor_sterowania = std::deque<double>(a.size() + opoznienie_k, 0.0);
+    bufor_opoznienia = std::deque<double>(a.size(), 0.0);
 }
 
 double ModelARX::wykonajKrok(double wejscie) {
 
-    //Aktualizacja buforu opóŸnienia
+    bufor_sterowania.push_front(wejscie);
 
-    bufor_opoznienia.push_back(wejscie);
-    double opoznione_wejscie = bufor_opoznienia.front();
-    bufor_opoznienia.pop_front();
-
-    //Aktualizacja buforu wejœciowego
-
-    bufor_wejscia.push_back(opoznione_wejscie);
-    bufor_wejscia.pop_front();
-
-    double wyjscie = 0.0;
-
-    // Wk³ad ze wspó³czynników A i sygna³ów wejœciowych
-
-    for (size_t i = 0; i < wspolczynniki_a.size(); ++i) {
-        wyjscie -= wspolczynniki_a[i] * bufor_wyjscia[bufor_wyjscia.size() - 1 - i];
+    if (bufor_sterowania.size() > a.size() + opoznienie_k)
+    {
+        bufor_sterowania.resize(bufor_sterowania.size() - 1);
     }
 
-    // Wk³ad ze wspó³czynników B i sygna³ów wejœciowych
-
-    for (size_t i = 0; i < wspolczynniki_b.size(); ++i) {
-        wyjscie += wspolczynniki_b[i] * bufor_wejscia[bufor_wejscia.size() - 1 - i];
+    double wyjscie = zaklocenie;
+    for (size_t i = 0; i < b.size(); i++) {
+        wyjscie += b[i] * bufor_sterowania[opoznienie_k + i];
     }
 
-    //Dodanie szumu
-
-    if (odchylenie_szumu > 0.0) {
-        wyjscie += rozklad_szumu(generator);
+    for (size_t i = 0; i < a.size(); i++) {
+        wyjscie += a[i] * bufor_opoznienia[i];
     }
 
-    // Aktualizacja buforu wyjœciowego
-
-    bufor_wyjscia.push_back(wyjscie);
-    bufor_wyjscia.pop_front();
-
+    bufor_opoznienia.push_front(wyjscie);
+    if (bufor_opoznienia.size() > a.size() ) {
+        bufor_opoznienia.resize(bufor_opoznienia.size() - 1);
+    }
     return wyjscie;
 }
 
-void ModelARX::reset() {
-    std::fill(bufor_wejscia.begin(), bufor_wejscia.end(), 0.0);
-    std::fill(bufor_wyjscia.begin(), bufor_wyjscia.end(), 0.0);
-    std::fill(bufor_opoznienia.begin(), bufor_opoznienia.end(), 0.0);
-}
