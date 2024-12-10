@@ -3,6 +3,8 @@
 
 using namespace std;
 
+//Zwrot wartoœci zadaniej w chwilii i
+
 double GWZ::pobierzWartoscZadana()
 {
 	return (aktualny_czas >= czas_aktywacji) ? amplituda : 0.0;

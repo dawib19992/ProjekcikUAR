@@ -8,26 +8,39 @@ ModelARX::ModelARX(const std::vector<double>& a, const std::vector<double>& b, i
 }
 
 double ModelARX::wykonajKrok(double wejscie) {
+
+    //Aktualizacja buforu opóŸnienia
+
     bufor_opoznienia.push_back(wejscie);
     double opoznione_wejscie = bufor_opoznienia.front();
     bufor_opoznienia.pop_front();
+
+    //Aktualizacja buforu wejœciowego
 
     bufor_wejscia.push_back(opoznione_wejscie);
     bufor_wejscia.pop_front();
 
     double wyjscie = 0.0;
 
-    for (size_t i = 0; i < wspolczynniki_b.size(); ++i) {
-        wyjscie += wspolczynniki_b[i] * bufor_wejscia[bufor_wejscia.size() - 1 - i];
-    }
+    // Wk³ad ze wspó³czynników A i sygna³ów wejœciowych
 
     for (size_t i = 0; i < wspolczynniki_a.size(); ++i) {
         wyjscie -= wspolczynniki_a[i] * bufor_wyjscia[bufor_wyjscia.size() - 1 - i];
     }
 
+    // Wk³ad ze wspó³czynników B i sygna³ów wejœciowych
+
+    for (size_t i = 0; i < wspolczynniki_b.size(); ++i) {
+        wyjscie += wspolczynniki_b[i] * bufor_wejscia[bufor_wejscia.size() - 1 - i];
+    }
+
+    //Dodanie szumu
+
     if (odchylenie_szumu > 0.0) {
         wyjscie += rozklad_szumu(generator);
     }
+
+    // Aktualizacja buforu wyjœciowego
 
     bufor_wyjscia.push_back(wyjscie);
     bufor_wyjscia.pop_front();
