@@ -27,6 +27,9 @@
     <ClCompile Include="RegulatorPID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Testy_ARX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GWZ.h">

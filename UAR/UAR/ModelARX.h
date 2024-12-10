@@ -16,7 +16,7 @@ private:
     std::default_random_engine generator;
     std::normal_distribution<double> rozklad_szumu;
 public:
-    ModelARX(const std::vector<double>& a, const std::vector<double>& b, int opoznienie = 0, double szum = 0.0);
+    ModelARX(std::vector<double>& a, std::vector<double>& b, int opoznienie = 0, double szum = 0.0);
     double wykonajKrok(double wejscie) override;
     void reset() override;
 };

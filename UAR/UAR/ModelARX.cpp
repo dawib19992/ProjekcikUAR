@@ -1,7 +1,16 @@
-#include "ModelARX.h"
-ModelARX::ModelARX(const std::vector<double>& a, const std::vector<double>& b, int opoznienie = 0, double szum = 0.0)
+#include "ModelARX.h"  
+
+ModelARX::ModelARX(std::vector<double>& a, std::vector<double>& b, int opoznienie, double szum)
     : wspolczynniki_a(a), wspolczynniki_b(b), opoznienie_k(opoznienie), odchylenie_szumu(szum),
-    rozklad_szumu(0.0, szum) {
+    rozklad_szumu(0.0, szum > 0.0 ? szum : 1.0) {
+    if (szum > 0.0)
+    {
+        rozklad_szumu = std::normal_distribution<double>(0.0, szum);
+    }
+    else
+    {
+        rozklad_szumu = std::normal_distribution<double>(0.0, 1.0);
+    }
     bufor_wejscia.resize(b.size(), 0.0);
     bufor_wyjscia.resize(a.size(), 0.0);
     bufor_opoznienia.resize(opoznienie_k, 0.0);

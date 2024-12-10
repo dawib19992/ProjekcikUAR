@@ -7,7 +7,7 @@ UkladSterowania::UkladSterowania(ModelARX& arx_model, RegulatorPID& pid, GWZ& ge
 void UkladSterowania::wykonajKrok(double& aktualne_wyjscie, double& sygnal_sterowania) {
     wartosc_zadana = generator_wz.pobierzWartoscZadana();
     double uchyb = wartosc_zadana - aktualne_wyjscie;
-    sygnal_sterowania = regulator.wykonajKrok(uchyb);
+    //sygnal_sterowania = regulator.wykonajKrok(uchyb);
     aktualne_wyjscie = model.wykonajKrok(sygnal_sterowania);
     generator_wz.zwiekszCzas();
 }
