@@ -8,10 +8,17 @@ class UkladSterowania
 private:
     ModelARX& model;
     RegulatorPID& regulator;
-    GWZ& generator_wz;
+    double uchyb;
+    double poprzedniUchyb;
     double wartosc_zadana;
 public:
-    UkladSterowania(ModelARX& arx_model, RegulatorPID& pid, GWZ& generator);
-    void wykonajKrok(double& aktualne_wyjscie, double& sygnal_sterowania);
+    UkladSterowania(ModelARX& arx_model, RegulatorPID& pid, double wz);
+    double symuluj(double aktualne_wejscie);
+    void setUchyb(double uchyb_);
+    void setPoprzedniUchyb(double poprzedniUchyb_);
+    double getUchyb();
+    double getPoprzedniUchyb();
+    void obliczUchyb();
+    void reset();
 };
 

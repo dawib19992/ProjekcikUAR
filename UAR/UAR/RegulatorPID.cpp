@@ -1,11 +1,12 @@
 #include "RegulatorPID.h"
-#include "ObiektWejsciaWyjscia.h"
+#include "UkladSterowania.h"
 
 RegulatorPID :: RegulatorPID(double k, double Ti, double Td)
 	: wzmocnienie(k), stala_calkowania(Ti), stala_rozniczkowania(Td), suma_calkowita(0), poprzedni_uchyb(0) {}
 
 double RegulatorPID::wykonajKrok(double uchyb)
 {
+
     // Sk³adowe regulatora PID
     double skladnik_wzmocnieniaP = wzmocnienie * uchyb;
 

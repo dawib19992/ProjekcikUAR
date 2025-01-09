@@ -18,9 +18,6 @@
     <ClCompile Include="GWZ.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ModelARX.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="UkladSterowania.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,6 +25,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Testy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Testy_UAR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelARX.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,13 +41,13 @@
     <ClInclude Include="ObiektWejsciaWyjscia.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ModelARX.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UkladSterowania.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="RegulatorPID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelARX.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

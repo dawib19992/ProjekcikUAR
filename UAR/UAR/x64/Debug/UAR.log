@@ -1,4 +1,5 @@
-﻿  GWZ.cpp
+﻿  RegulatorPID.cpp
+  Testy_UAR.cpp
   UkladSterowania.cpp
   Generating Code...
   UAR.vcxproj -> C:\Users\dawid\Desktop\ProjekcikUAR\UAR\x64\Debug\UAR.exe

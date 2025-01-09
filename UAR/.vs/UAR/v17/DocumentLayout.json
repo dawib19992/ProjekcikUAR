@@ -3,32 +3,40 @@
   "WorkspaceRootPath": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\GWZ.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\GWZ.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\ModelARX.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\UkladSterowania.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\ModelARX.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\RegulatorPID.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\RegulatorPID.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
-      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\RegulatorPID.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\UkladSterowania.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy_UAR.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\Testy_UAR.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\UkladSterowania.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\ModelARX.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\ModelARX.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\GWZ.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|solutionrelative:UAR\\GWZ.h||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{3B0F9BC4-9F98-4617-AE6A-3A7204A272D9}|UAR\\UAR.vcxproj|C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
@@ -42,110 +50,136 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GWZ.h",
-              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.h",
-              "RelativeDocumentMoniker": "UAR\\GWZ.h",
-              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.h",
-              "RelativeToolTip": "UAR\\GWZ.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-10T23:11:52.11Z",
+              "DocumentIndex": 6,
+              "Title": "ModelARX.cpp",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.cpp",
+              "RelativeDocumentMoniker": "UAR\\ModelARX.cpp",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.cpp",
+              "RelativeToolTip": "UAR\\ModelARX.cpp",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAwwCoAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-09T19:25:13.592Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "RegulatorPID.h",
               "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.h",
               "RelativeDocumentMoniker": "UAR\\RegulatorPID.h",
               "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.h",
               "RelativeToolTip": "UAR\\RegulatorPID.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
               "WhenOpened": "2024-12-10T23:10:07.838Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Testy.cpp",
-              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy.cpp",
-              "RelativeDocumentMoniker": "UAR\\Testy.cpp",
-              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy.cpp",
-              "RelativeToolTip": "UAR\\Testy.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-10T22:56:23.893Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "GWZ.cpp",
-              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.cpp",
-              "RelativeDocumentMoniker": "UAR\\GWZ.cpp",
-              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.cpp",
-              "RelativeToolTip": "UAR\\GWZ.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAACAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-10T22:47:55.373Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ModelARX.h",
-              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.h",
-              "RelativeDocumentMoniker": "UAR\\ModelARX.h",
-              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.h",
-              "RelativeToolTip": "UAR\\ModelARX.h",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAOAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2024-12-10T22:38:23.426Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ModelARX.cpp",
-              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.cpp",
-              "RelativeDocumentMoniker": "UAR\\ModelARX.cpp",
-              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.cpp",
-              "RelativeToolTip": "UAR\\ModelARX.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAKAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
-              "WhenOpened": "2024-12-10T22:21:04.399Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 0,
               "Title": "RegulatorPID.cpp",
               "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.cpp",
               "RelativeDocumentMoniker": "UAR\\RegulatorPID.cpp",
               "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\RegulatorPID.cpp",
               "RelativeToolTip": "UAR\\RegulatorPID.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABsAAAARAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-10T22:20:09.529Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "UkladSterowania.cpp",
               "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.cpp",
               "RelativeDocumentMoniker": "UAR\\UkladSterowania.cpp",
               "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.cpp",
               "RelativeToolTip": "UAR\\UkladSterowania.cpp",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABgAAAARAAAA",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAAAEAAAAACAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2024-12-09T23:39:49.107Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UkladSterowania.h",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.h",
+              "RelativeDocumentMoniker": "UAR\\UkladSterowania.h",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\UkladSterowania.h",
+              "RelativeToolTip": "UAR\\UkladSterowania.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAdAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-09T16:09:37.454Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "GWZ.h",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.h",
+              "RelativeDocumentMoniker": "UAR\\GWZ.h",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.h",
+              "RelativeToolTip": "UAR\\GWZ.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2024-12-10T23:11:52.11Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Testy_UAR.cpp",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy_UAR.cpp",
+              "RelativeDocumentMoniker": "UAR\\Testy_UAR.cpp",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy_UAR.cpp",
+              "RelativeToolTip": "UAR\\Testy_UAR.cpp",
+              "ViewState": "AQIAAEgAAAAAAAAAAAAwwFQAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-01-09T16:02:07.791Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ModelARX.h",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.h",
+              "RelativeDocumentMoniker": "UAR\\ModelARX.h",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\ModelARX.h",
+              "RelativeToolTip": "UAR\\ModelARX.h",
+              "ViewState": "AQIAAAAAAAAAAAAAAIAwwBEAAAACAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-01-09T19:25:32.49Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Testy.cpp",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy.cpp",
+              "RelativeDocumentMoniker": "UAR\\Testy.cpp",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\Testy.cpp",
+              "RelativeToolTip": "UAR\\Testy.cpp",
+              "ViewState": "AQIAAIYAAAAAAAAAAAAwwJUAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-10T22:56:23.893Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "GWZ.cpp",
+              "DocumentMoniker": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.cpp",
+              "RelativeDocumentMoniker": "UAR\\GWZ.cpp",
+              "ToolTip": "C:\\Users\\dawid\\Desktop\\ProjekcikUAR\\UAR\\UAR\\GWZ.cpp",
+              "RelativeToolTip": "UAR\\GWZ.cpp",
+              "ViewState": "AQIAACEAAAAAAAAAAAAAADYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-12-10T22:47:55.373Z",
               "EditorCaption": ""
             }
           ]
