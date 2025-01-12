@@ -1,7 +1,6 @@
 #include "GWZ.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
-using namespace std;
 
 GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_, double wypelnienie_)
     :amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), aktualny_czas(0), typ(typ_), okres(okres_), wypelnienie(wypelnienie_)

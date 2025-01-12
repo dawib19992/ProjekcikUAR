@@ -12,5 +12,9 @@ private:
     double zaklocenie;
 public:
     ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie = 1, double zaklocenie_ = 0.0);
+    std::vector<double> getA() {return a;}
+    std::vector<double> getB() {return b;}
+    int getOpoznienie() {return opoznienie_k;}
+    double getZaklocenie() {return zaklocenie;}
     double wykonajKrok(double wejscie);
 };

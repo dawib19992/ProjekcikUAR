@@ -16,6 +16,7 @@ public:
     void setPoprzedniUchyb(double poprzedniUchyb_);
     double getUchyb();
     double getPoprzedniUchyb();
+    double getWZ() {return wartosc_zadana;}
     void reset();
 };
 

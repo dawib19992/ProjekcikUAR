@@ -1,0 +1,8 @@
+a: 0
+b: 0
+opoznienie: 0
+zaklocenie: 0
+k: 0
+Ti: 0
+Td: 0
+wartoscZadana: 0

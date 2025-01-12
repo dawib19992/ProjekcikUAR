@@ -5,7 +5,6 @@
 #include "ModelARX.h"
 #include "RegulatorPID.h"
 #include "UkladSterowania.h"
-#include <QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class UkladAutomatycznejRegulacji;
@@ -21,9 +20,26 @@ public:
     ~UkladAutomatycznejRegulacji();
 
 private slots:
-    void on_wgrajdane_clicked();
-    void start_symulacji();
-    void stop_symulacji();
+
+    void on_zapisDoPliku_clicked();
+
+    void on_wgrajzPliku_clicked();
+
+    void on_symuluj_clicked();
+
+    void on_wyczyscDane_clicked();
+
+    void ZapisDoPliku();
+
+    void WczytajzPliku();
+
+    void startSymulacji();
+    ModelARX* ustawARX();
+    RegulatorPID* ustawPID();
+    UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid, double wz);
+
+    void on_zatrzymaj_clicked();
+
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
     ModelARX* model;
@@ -32,6 +48,5 @@ private:
 
     QTimer *timer;
     double time;
-    void startSymulacji();
 };
 #endif // UKLADAUTOMATYCZNEJREGULACJI_H

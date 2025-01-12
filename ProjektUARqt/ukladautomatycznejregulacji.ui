@@ -14,308 +14,407 @@
    <string>UkladAutomatycznejRegulacji</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox">
+   <widget class="QLabel" name="NetworkLabel">
     <property name="geometry">
      <rect>
-      <x>880</x>
-      <y>10</y>
-      <width>261</width>
-      <height>181</height>
+      <x>420</x>
+      <y>70</y>
+      <width>271</width>
+      <height>91</height>
      </rect>
     </property>
-    <property name="title">
-     <string>Model ARX</string>
-    </property>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>111</width>
-       <height>77</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>a:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_a"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget">
-     <property name="geometry">
-      <rect>
-       <x>140</x>
-       <y>20</y>
-       <width>111</width>
-       <height>77</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>b:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_b"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget_5">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>80</y>
-       <width>121</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_7">
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>zakłócenie:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_zaklocenie">
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget_2">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>120</y>
-       <width>121</width>
-       <height>32</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>opoznienie:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_opoznienie">
-        <property name="maximumSize">
-         <size>
-          <width>30</width>
-          <height>30</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_2">
-    <property name="geometry">
-     <rect>
-      <x>880</x>
-      <y>200</y>
-      <width>261</width>
-      <height>111</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Regulator PID</string>
-    </property>
-    <widget class="QWidget" name="layoutWidget_4">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>94</width>
-       <height>77</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>k:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_k"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget_6">
-     <property name="geometry">
-      <rect>
-       <x>110</x>
-       <y>20</y>
-       <width>99</width>
-       <height>77</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_8">
-      <item>
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>Ti:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_ti"/>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QWidget" name="layoutWidget_7">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>20</y>
-       <width>103</width>
-       <height>77</height>
-      </rect>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_9">
-      <item>
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Td:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPlainTextEdit" name="te_td"/>
-      </item>
-     </layout>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="layoutWidget_8">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>320</y>
-      <width>147</width>
-      <height>77</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_10">
-     <item>
-      <widget class="QLabel" name="label_10">
-       <property name="text">
-        <string>Wartość zadana:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPlainTextEdit" name="te_wartZadana">
-       <property name="maximumSize">
-        <size>
-         <width>30</width>
-         <height>16777215</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QPushButton" name="wgrajdane">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>370</y>
-      <width>131</width>
-      <height>24</height>
-     </rect>
+    <property name="font">
+     <font>
+      <pointsize>20</pointsize>
+     </font>
     </property>
     <property name="text">
-     <string>Wgraj dane</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="zapisDoPliku">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>400</y>
-      <width>131</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Zapisz dane do pliku</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="wgrajzPliku">
-    <property name="geometry">
-     <rect>
-      <x>940</x>
-      <y>430</y>
-      <width>131</width>
-      <height>24</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Wgraj dane z pliku</string>
+     <string>Network Label</string>
     </property>
    </widget>
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>250</y>
+      <x>160</x>
+      <y>170</y>
       <width>561</width>
       <height>341</height>
      </rect>
     </property>
    </widget>
-   <widget class="QPushButton" name="start_symulacji">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>900</x>
-      <y>480</y>
-      <width>141</width>
-      <height>41</height>
+      <x>800</x>
+      <y>2</y>
+      <width>312</width>
+      <height>314</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>START</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="stop_symulacji">
-    <property name="geometry">
-     <rect>
-      <x>910</x>
-      <y>540</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>STOP</string>
-    </property>
+    <layout class="QVBoxLayout" name="verticalLayout_5">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>a:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="te_a">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>120</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>b:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="te_b">
+               <property name="minimumSize">
+                <size>
+                 <width>120</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>120</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <item>
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>opoznienie:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="te_opoznienie">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>zakłócenie:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="te_zaklocenie">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>k:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="te_k">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Ti:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="te_ti">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>Td:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="te_td">
+                 <property name="minimumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>30</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Wartość zadana:</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="te_wartZadana">
+               <property name="minimumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>30</width>
+                 <height>30</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_12">
+         <item>
+          <widget class="QPushButton" name="symuluj">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Symuluj</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="zatrzymaj">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Zatrzymaj</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_13">
+         <item>
+          <widget class="QPushButton" name="zapisDoPliku">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Zapisz dane do pliku</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="wgrajzPliku">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="layoutDirection">
+            <enum>Qt::LeftToRight</enum>
+           </property>
+           <property name="text">
+            <string>Wgraj dane z pliku</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item alignment="Qt::AlignHCenter">
+        <widget class="QPushButton" name="wyczyscDane">
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>50</height>
+          </size>
+         </property>
+         <property name="layoutDirection">
+          <enum>Qt::LeftToRight</enum>
+         </property>
+         <property name="text">
+          <string>Wyczyść dane</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -324,7 +423,7 @@
      <x>0</x>
      <y>0</y>
      <width>1167</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

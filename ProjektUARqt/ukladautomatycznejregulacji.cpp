@@ -1,6 +1,5 @@
 #include "ukladautomatycznejregulacji.h"
 #include "ui_ukladautomatycznejregulacji.h"
-#include "ModelARX.h"
 
 UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     : QMainWindow(parent)
@@ -11,7 +10,20 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     pid = nullptr;
     us = nullptr;
 
-    // --- Konfiguracja wykresu ---
+    /*ui->customPlot->addGraph();
+    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+    ui->customPlot->graph()->setLineStyle(QCPGraph::lsLine);
+    ui->customPlot->xAxis->setLabel("t [s]");
+    ui->customPlot->yAxis->setLabel("Wyjście");
+    ui->customPlot->xAxis->setRange(0,100);
+    ui->customPlot->yAxis->setRange(0,5);
+
+    QVector<double> x= {1,2,3,4,5,6,7,8,9,10},y={0.856,0.907,0.945,1.053,1.200,1.200,1.200,1.200,1.200,1.200};
+    ui->customPlot->graph(0)->setData(x,y);
+    ui->customPlot->rescaleAxes();
+    ui->customPlot->replot();
+    ui->customPlot->update();*/
+
     ui->customPlot->addGraph(); // Wykres wyjścia modelu ARX
     ui->customPlot->graph(0)->setPen(QPen(Qt::blue));
     ui->customPlot->xAxis->setLabel("Czas [s]");
@@ -23,40 +35,213 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
 
-    // --- Podłączenie przycisków ---
-    connect(ui->start_symulacji, &QPushButton::clicked, this, &UkladAutomatycznejRegulacji::start_symulacji);
-    connect(ui->stop_symulacji, &QPushButton::clicked, this, &UkladAutomatycznejRegulacji::stop_symulacji);
-
     // Dezaktywacja przycisku Stop na start
-    ui->stop_symulacji->setEnabled(false);
+    ui->zatrzymaj->setEnabled(false);
 
 }
 
 UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
 {
+    ZapisDoPliku();
     delete ui;
 }
 
-void UkladAutomatycznejRegulacji::on_wgrajdane_clicked()
+void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
 {
-    //ModelARX
+    ZapisDoPliku();
+}
+
+void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
+{
+    WczytajzPliku();
+}
+
+
+void UkladAutomatycznejRegulacji::on_symuluj_clicked()
+{
+    model = ustawARX();
+    pid = ustawPID();
+    double wz = ui->te_wartZadana->toPlainText().toDouble();
+    us = ustawUS(model, pid, wz);
+    qDebug() << "wektor A: " << model->getA() << "\n";
+    qDebug() << "wektor B: " << model->getB() << "\n";
+
+    if(!timer->isActive()){
+        timer->start(100);  // Timer co 100 ms
+
+        // Dezaktywacja przycisku Start i aktywacja Stop
+        ui->symuluj->setEnabled(false);
+        ui->zatrzymaj->setEnabled(true);
+
+    }
+
+}
+
+void UkladAutomatycznejRegulacji::ZapisDoPliku()
+{
+    QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
+    QFile plik(nazwa);
+    if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Nie udało się znaleźć pliku";
+        return;
+    }
+    QTextStream out(&plik);
+    if(!(ui->te_a->toPlainText().isEmpty()))
+    {
+        out << "a: " << ui->te_a->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "a: " << 0 << "\n";
+    }
+    if(!(ui->te_b->toPlainText().isEmpty()))
+    {
+        out << "b: " << ui->te_b->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "b: " << 0 << "\n";
+    }
+    if(!(ui->te_opoznienie->toPlainText().isEmpty()))
+    {
+        out << "opoznienie: " << ui->te_opoznienie->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "opoznienie: " << 0 << "\n";
+    }
+    if(!(ui->te_zaklocenie->toPlainText().isEmpty()))
+    {
+        out << "zaklocenie: " << ui->te_zaklocenie->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "zaklocenie: " << 0 << "\n";
+    }
+    if(!(ui->te_k->toPlainText().isEmpty()))
+    {
+        out << "k: " << ui->te_k->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "k: " << 0 << "\n";
+    }
+    if(!(ui->te_ti->toPlainText().isEmpty()))
+    {
+        out << "Ti: " << ui->te_ti->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "Ti: " << 0 << "\n";
+    }
+    if(!(ui->te_td->toPlainText().isEmpty()))
+    {
+        out << "Td: " << ui->te_td->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "Td: " << 0 << "\n";
+    }
+    if(!(ui->te_wartZadana->toPlainText().isEmpty()))
+    {
+        out << "wartoscZadana: " << ui->te_wartZadana->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "wartoscZadana: " << 0 << "\n";
+    }
+    plik.close();
+}
+
+void UkladAutomatycznejRegulacji::WczytajzPliku()
+{
+    QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
+    QFile plik(nazwa);
+    if (!plik.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Nie udało się otworzyć pliku";
+        return;
+    }
+    QTextStream in(&plik);
+    while (!in.atEnd()) {
+        QString linia = in.readLine();
+        if (linia.startsWith("a:")) {
+            ui->te_a->setPlainText(linia.mid(2).trimmed());
+        } else if (linia.startsWith("b:")) {
+            ui->te_b->setPlainText(linia.mid(2).trimmed());
+        } else if (linia.startsWith("opoznienie:")) {
+            ui->te_opoznienie->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("zaklocenie:")) {
+            ui->te_zaklocenie->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("k:")) {
+            ui->te_k->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("Ti:")) {
+            ui->te_ti->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("Td:")) {
+            ui->te_td->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("wartoscZadana:")) {
+            ui->te_wartZadana->setPlainText(linia.section(':', 1).trimmed());
+        }
+    }
+
+    plik.close();
+}
+
+
+void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
+{
+    ui->te_a->clear();
+    ui->te_b->clear();
+    ui->te_opoznienie->clear();
+    ui->te_zaklocenie->clear();
+    ui->te_k->clear();
+    ui->te_ti->clear();
+    ui->te_td->clear();
+    ui->te_wartZadana->clear();
+}
+
+ModelARX *UkladAutomatycznejRegulacji::ustawARX()
+{
     std::vector<double> a;
-    std::vector<double>b;
+    std::vector<double> b;
+    QString text_a = ui->te_a->toPlainText();
+    QString text_b = ui->te_b->toPlainText();
+
+    QStringList aList = text_a.split(" ");
+    QStringList bList = text_b.split(" ");
+
+    for (const QString &a_i : aList)
+    {
+        bool ok;
+        double value = a_i.toDouble(&ok);
+        if (ok) {
+            a.push_back(value);
+        }
+    }
+
+    for (const QString &b_i : bList)
+    {
+        bool ok;
+        double value = b_i.toDouble(&ok);
+        if (ok) {
+            b.push_back(value);
+        }
+    }
     int delay = ui->te_opoznienie->toPlainText().toInt();
     double zaklocenie = ui->te_zaklocenie->toPlainText().toDouble();
-    model = new ModelARX(a, b, delay, zaklocenie);
-
-    //PID
+    return (new ModelARX(a, b, delay, zaklocenie));
+}
+RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
+{
     double wzmocnienie = ui->te_k->toPlainText().toDouble();
     double stala_calkowania = ui->te_k->toPlainText().toDouble();
     double stala_rozniczkowania = ui->te_k->toPlainText().toDouble();
 
-    pid = new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania);
+    return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania));
 
-    //Sprzężenie Zwrotne
-    double wz = ui->te_wartZadana->toPlainText().toDouble();
-
-    us = new UkladSterowania(*model, *pid, wz);
+}
+UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid, double wz)
+{
+    return (new UkladSterowania(*model, *pid, wz));
 }
 
 void UkladAutomatycznejRegulacji::startSymulacji()
@@ -81,26 +266,12 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     time+=0.1;
 }
 
-void UkladAutomatycznejRegulacji::start_symulacji ()
-{
-    if(!timer->isActive()){
-        timer->start(100);  // Timer co 100 ms
-
-        // Dezaktywacja przycisku Start i aktywacja Stop
-        ui->start_symulacji->setEnabled(false);
-        ui->stop_symulacji->setEnabled(true);
-
-    }
-}
-void UkladAutomatycznejRegulacji::stop_symulacji()
+void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
 {
     if(timer->isActive()){
         timer->stop();
-        ui->start_symulacji->setEnabled(true);
-        ui->stop_symulacji->setEnabled(false);
+        ui->symuluj->setEnabled(true);
+        ui->zatrzymaj->setEnabled(false);
     }
 }
-
-
-
 
