@@ -276,24 +276,6 @@
      <string>Wgraj dane z pliku</string>
     </property>
    </widget>
-   <widget class="QLabel" name="NetworkLabel">
-    <property name="geometry">
-     <rect>
-      <x>420</x>
-      <y>70</y>
-      <width>271</width>
-      <height>91</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>20</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Network Label</string>
-    </property>
-   </widget>
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>

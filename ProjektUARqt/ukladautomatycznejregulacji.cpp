@@ -1,5 +1,6 @@
 #include "ukladautomatycznejregulacji.h"
 #include "ui_ukladautomatycznejregulacji.h"
+#include "ModelARX.h"
 
 UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     : QMainWindow(parent)
@@ -10,19 +11,25 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     pid = nullptr;
     us = nullptr;
 
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
-    ui->customPlot->graph()->setLineStyle(QCPGraph::lsLine);
-    ui->customPlot->xAxis->setLabel("t [s]");
+    // --- Konfiguracja wykresu ---
+    ui->customPlot->addGraph(); // Wykres wyjścia modelu ARX
+    ui->customPlot->graph(0)->setPen(QPen(Qt::blue));
+    ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(0,100);
-    ui->customPlot->yAxis->setRange(0,5);
+    ui->customPlot->xAxis->setRange(0, 10);
+    ui->customPlot->yAxis->setRange(0, 100);
 
-    QVector<double> x= {1,2,3,4,5,6,7,8,9,10},y={0.856,0.907,0.945,1.053,1.200,1.200,1.200,1.200,1.200,1.200};
+
+    /*QVector<double> x= {1,2,3,4,5,6,7,8,9,10},y={0.856,0.907,0.945,1.053,1.200,1.200,1.200,1.200,1.200,1.200};
     ui->customPlot->graph(0)->setData(x,y);
     ui->customPlot->rescaleAxes();
     ui->customPlot->replot();
-    ui->customPlot->update();
+    ui->customPlot->update(); */
+
+    // TIMER
+    timer=new QTimer(this);
+    connect(timer, &QTimer::timeout,this,&UkladAutomatycznejRegulacji::startSymulacji);
+    timer->start(100); //Liczna w nawiasie to wartość kroku w ms jak cosik
 
 }
 
@@ -51,7 +58,31 @@ void UkladAutomatycznejRegulacji::on_wgrajdane_clicked()
     double wz = ui->te_wartZadana->toPlainText().toDouble();
 
     us = new UkladSterowania(*model, *pid, wz);
-
-
 }
+
+void UkladAutomatycznejRegulacji::startSymulacji()
+{
+    static std::vector<double> a = {0.8};
+    static std::vector<double> b = {0.2};
+    static ModelARX modelARX(a,b,1,0.1);
+
+    static RegulatorPID regulatorPID(1.0,0.5,0.1);
+    static double poprzednieWyjscie =0.0;
+
+    double zadanaWartosc =1.0;
+    double uchyb=zadanaWartosc-poprzednieWyjscie;
+
+    double sterowanie = regulatorPID.wykonajKrok(uchyb);
+    double wyjscie = modelARX.wykonajKrok(sterowanie);
+
+    ui->customPlot->graph(0)->addData(time,wyjscie);
+    ui->customPlot->xAxis->setRange(0,time);
+    ui->customPlot->replot();
+    ui->customPlot->rescaleAxes();
+    time+=0.1;
+}
+
+
+
+
 
