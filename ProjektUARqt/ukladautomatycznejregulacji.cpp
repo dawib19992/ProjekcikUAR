@@ -9,27 +9,14 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     model = nullptr;
     pid = nullptr;
     us = nullptr;
-
-    /*ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
-    ui->customPlot->graph()->setLineStyle(QCPGraph::lsLine);
-    ui->customPlot->xAxis->setLabel("t [s]");
-    ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(0,100);
-    ui->customPlot->yAxis->setRange(0,5);
-
-    QVector<double> x= {1,2,3,4,5,6,7,8,9,10},y={0.856,0.907,0.945,1.053,1.200,1.200,1.200,1.200,1.200,1.200};
-    ui->customPlot->graph(0)->setData(x,y);
-    ui->customPlot->rescaleAxes();
-    ui->customPlot->replot();
-    ui->customPlot->update();*/
+    gwz = nullptr;
 
     ui->customPlot->addGraph(); // Wykres wyjścia modelu ARX
     ui->customPlot->graph(0)->setPen(QPen(Qt::blue));
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
     ui->customPlot->xAxis->setRange(0, 10);
-    ui->customPlot->yAxis->setRange(0, 100);
+    ui->customPlot->yAxis->setRange(0, 1);
 
     // --- TIMER ---
     timer = new QTimer(this);
@@ -59,15 +46,8 @@ void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
 
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 {
-    model = ustawARX();
-    pid = ustawPID();
-    double wz = ui->te_wartZadana->toPlainText().toDouble();
-    us = ustawUS(model, pid, wz);
-    qDebug() << "wektor A: " << model->getA() << "\n";
-    qDebug() << "wektor B: " << model->getB() << "\n";
-
     if(!timer->isActive()){
-        timer->start(100);  // Timer co 100 ms
+        timer->start(250);  // Timer co 100 ms
 
         // Dezaktywacja przycisku Start i aktywacja Stop
         ui->symuluj->setEnabled(false);
@@ -233,37 +213,38 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
 RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
 {
     double wzmocnienie = ui->te_k->toPlainText().toDouble();
-    double stala_calkowania = ui->te_k->toPlainText().toDouble();
-    double stala_rozniczkowania = ui->te_k->toPlainText().toDouble();
+    double stala_calkowania = ui->te_ti->toPlainText().toDouble();
+    double stala_rozniczkowania = ui->te_td->toPlainText().toDouble();
 
     return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania));
 
 }
 UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid, double wz)
 {
-    return (new UkladSterowania(*model, *pid, wz));
+    return (new UkladSterowania(*model, *pid));
 }
 
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
-    static std::vector<double> a = {0.8};
-    static std::vector<double> b = {0.2};
-    static ModelARX modelARX(a,b,1,0.1);
-
-    static RegulatorPID regulatorPID(1.0,0.5,0.1);
-    static double poprzednieWyjscie =0.0;
-
-    double zadanaWartosc =1.0;
-    double uchyb=zadanaWartosc-poprzednieWyjscie;
-
-    double sterowanie = regulatorPID.wykonajKrok(uchyb);
-    double wyjscie = modelARX.wykonajKrok(sterowanie);
-
-    ui->customPlot->graph(0)->addData(time,wyjscie);
+    model = ustawARX();
+    pid = ustawPID();
+    double wz = ui->te_wartZadana->toPlainText().toDouble();
+    us = ustawUS(model, pid, wz);
+    qDebug() << "wektor A: " << model->getA() << "\n";
+    qDebug() << "wektor B: " << model->getB() << "\n";
+    qDebug() << "opoznienie: " << model->getOpoznienie() << "\n";
+    qDebug() << "zaklocenie: " << model->getZaklocenie() << "\n";
+    qDebug() << "k: " << pid->getK() << "\n";
+    qDebug() << "Ti: " << pid->getTi() << "\n";
+    qDebug() << "Td: " << pid->getTd() << "\n";
+    qDebug() << "Wartość zadana: " << wz << "\n";
+    ui->customPlot->graph(0)->addData(time,us->symuluj(wz));
     ui->customPlot->xAxis->setRange(0,time);
     ui->customPlot->replot();
     ui->customPlot->rescaleAxes();
     time+=0.1;
+
+
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()

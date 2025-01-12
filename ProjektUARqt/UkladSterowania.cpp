@@ -2,10 +2,9 @@
 #include "RegulatorPID.h"
 #include "UkladSterowania.h"
 
-UkladSterowania::UkladSterowania(ModelARX arx_model, RegulatorPID pid, double wz)
+UkladSterowania::UkladSterowania(ModelARX arx_model, RegulatorPID pid)
     : model(arx_model), regulator(pid)
 {
-    wartosc_zadana = wz;
     uchyb = 0.0;
     poprzedniUchyb = 0.0;
 }

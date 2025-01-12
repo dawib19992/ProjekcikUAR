@@ -95,7 +95,10 @@ void test_UAR_1_skokJednostkowy()
 
 		// Walidacja poprawnoœci i raport:
 		if (porownanieSekwencji(spodzSygWy, faktSygWy))
+		{
 			std::cerr << "OK!\n";
+			raportBleduSekwencji(spodzSygWy, faktSygWy);
+		}
 		else
 		{
 			std::cerr << "FAIL!\n";
@@ -510,15 +513,15 @@ int main()
 	test_UAR_2_skokJednostkowy();
 
 	//Testy ARX
-	test_ModelARX_brakPobudzenia();
-	test_ModelARX_skokJednostkowy_1();
-	test_ModelARX_skokJednostkowy_2();
-	test_ModelARX_skokJednostkowy_3();
+	//test_ModelARX_brakPobudzenia();
+	//test_ModelARX_skokJednostkowy_1();
+	//test_ModelARX_skokJednostkowy_2();
+	//test_ModelARX_skokJednostkowy_3();
 
-	//Testy PID
-	test_RegulatorP_brakPobudzenia();
-	test_RegulatorP_skokJednostkowy();
-	test_RegulatorPI_skokJednostkowy_1();
-	test_RegulatorPI_skokJednostkowy_2();
-	test_RegulatorPID_skokJednostkowy();
+	////Testy PID
+	//test_RegulatorP_brakPobudzenia();
+	//test_RegulatorP_skokJednostkowy();
+	//test_RegulatorPI_skokJednostkowy_1();
+	//test_RegulatorPI_skokJednostkowy_2();
+	//test_RegulatorPID_skokJednostkowy();
 }

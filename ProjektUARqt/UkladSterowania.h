@@ -8,15 +8,13 @@ private:
     RegulatorPID regulator;
     double uchyb;
     double poprzedniUchyb;
-    double wartosc_zadana;
 public:
-    UkladSterowania(ModelARX arx_model, RegulatorPID pid, double wz = 1.0);
+    UkladSterowania(ModelARX arx_model, RegulatorPID pid);
     double symuluj(double aktualne_wejscie);
     void setUchyb(double uchyb_);
     void setPoprzedniUchyb(double poprzedniUchyb_);
     double getUchyb();
     double getPoprzedniUchyb();
-    double getWZ() {return wartosc_zadana;}
     void reset();
 };
 
