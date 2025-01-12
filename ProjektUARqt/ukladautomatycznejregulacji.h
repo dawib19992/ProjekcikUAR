@@ -22,7 +22,8 @@ public:
 
 private slots:
     void on_wgrajdane_clicked();
-
+    void start_symulacji();
+    void stop_symulacji();
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
     ModelARX* model;

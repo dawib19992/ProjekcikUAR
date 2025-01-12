@@ -19,17 +19,16 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     ui->customPlot->xAxis->setRange(0, 10);
     ui->customPlot->yAxis->setRange(0, 100);
 
+    // --- TIMER ---
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
 
-    /*QVector<double> x= {1,2,3,4,5,6,7,8,9,10},y={0.856,0.907,0.945,1.053,1.200,1.200,1.200,1.200,1.200,1.200};
-    ui->customPlot->graph(0)->setData(x,y);
-    ui->customPlot->rescaleAxes();
-    ui->customPlot->replot();
-    ui->customPlot->update(); */
+    // --- Podłączenie przycisków ---
+    connect(ui->start_symulacji, &QPushButton::clicked, this, &UkladAutomatycznejRegulacji::start_symulacji);
+    connect(ui->stop_symulacji, &QPushButton::clicked, this, &UkladAutomatycznejRegulacji::stop_symulacji);
 
-    // TIMER
-    timer=new QTimer(this);
-    connect(timer, &QTimer::timeout,this,&UkladAutomatycznejRegulacji::startSymulacji);
-    timer->start(100); //Liczna w nawiasie to wartość kroku w ms jak cosik
+    // Dezaktywacja przycisku Stop na start
+    ui->stop_symulacji->setEnabled(false);
 
 }
 
@@ -82,6 +81,25 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     time+=0.1;
 }
 
+void UkladAutomatycznejRegulacji::start_symulacji ()
+{
+    if(!timer->isActive()){
+        timer->start(100);  // Timer co 100 ms
+
+        // Dezaktywacja przycisku Start i aktywacja Stop
+        ui->start_symulacji->setEnabled(false);
+        ui->stop_symulacji->setEnabled(true);
+
+    }
+}
+void UkladAutomatycznejRegulacji::stop_symulacji()
+{
+    if(timer->isActive()){
+        timer->stop();
+        ui->start_symulacji->setEnabled(true);
+        ui->stop_symulacji->setEnabled(false);
+    }
+}
 
 
 
