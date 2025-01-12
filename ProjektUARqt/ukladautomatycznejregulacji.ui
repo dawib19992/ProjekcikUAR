@@ -420,9 +420,9 @@
     <property name="geometry">
      <rect>
       <x>810</x>
-      <y>320</y>
-      <width>72</width>
-      <height>24</height>
+      <y>330</y>
+      <width>121</width>
+      <height>31</height>
      </rect>
     </property>
     <item>
@@ -440,6 +440,16 @@
       <string>prostokatny</string>
      </property>
     </item>
+   </widget>
+   <widget class="QTextEdit" name="amplituda">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>330</y>
+      <width>104</width>
+      <height>31</height>
+     </rect>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

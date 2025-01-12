@@ -10,13 +10,24 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     pid = nullptr;
     us = nullptr;
     gwz = nullptr;
-
-    ui->customPlot->addGraph(); // Wykres wyjścia modelu ARX
+    // Wykres wyjścia modelu ARX
+    ui->customPlot->addGraph();
     ui->customPlot->graph(0)->setPen(QPen(Qt::blue));
+    //Uchyb
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(1)->setPen(QPen(Qt::red));
+    //Sterowanie
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(2)->setPen(QPen(Qt::green));
+    //Regulowanie
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(3)->setPen(QPen(Qt::cyan));
+
+
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
     ui->customPlot->xAxis->setRange(0, 10);
-    ui->customPlot->yAxis->setRange(0, 1);
+    ui->customPlot->yAxis->setRange(0, 10);
 
     // --- TIMER ---
     timer = new QTimer(this);
@@ -230,21 +241,34 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     pid = ustawPID();
     double wz = ui->te_wartZadana->toPlainText().toDouble();
     us = ustawUS(model, pid, wz);
-    qDebug() << "wektor A: " << model->getA() << "\n";
-    qDebug() << "wektor B: " << model->getB() << "\n";
-    qDebug() << "opoznienie: " << model->getOpoznienie() << "\n";
-    qDebug() << "zaklocenie: " << model->getZaklocenie() << "\n";
-    qDebug() << "k: " << pid->getK() << "\n";
-    qDebug() << "Ti: " << pid->getTi() << "\n";
-    qDebug() << "Td: " << pid->getTd() << "\n";
-    qDebug() << "Wartość zadana: " << wz << "\n";
+    //ARX
     ui->customPlot->graph(0)->addData(time,us->symuluj(wz));
+    //Uchyb
+    ui->customPlot->graph(1)->addData(time, us->getUchyb());
+    //Sterowanie
+    ui->customPlot->graph(2)->addData(time, model->wykonajKrok(pid->wykonajKrok(us->getUchyb())));
+    //Regulator
+    ui->customPlot->graph(3)->addData(time, pid->wykonajKrok(us->getUchyb()));
+
     ui->customPlot->xAxis->setRange(0,time);
     ui->customPlot->replot();
-    ui->customPlot->rescaleAxes();
+    //ui->customPlot->rescaleAxes();
     time+=0.1;
 
+    /*if(time > ui->customPlot->xAxis->range().upper)
+    {
+        ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
+    }*/
 
+
+    qDebug() << "wektor A: " << model->getA();
+    qDebug() << "wektor B: " << model->getB();
+    qDebug() << "opoznienie: " << model->getOpoznienie();
+    qDebug() << "zaklocenie: " << model->getZaklocenie();
+    qDebug() << "k: " << pid->getK();
+    qDebug() << "Ti: " << pid->getTi();
+    qDebug() << "Td: " << pid->getTd();
+    qDebug() << "Wartość zadana: " << wz;
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
