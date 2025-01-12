@@ -9,6 +9,21 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     model = nullptr;
     pid = nullptr;
     us = nullptr;
+
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(0)->setScatterStyle(QCPScatterStyle::ssCircle);
+    ui->customPlot->graph()->setLineStyle(QCPGraph::lsLine);
+    ui->customPlot->xAxis->setLabel("t [s]");
+    ui->customPlot->yAxis->setLabel("Wyjście");
+    ui->customPlot->xAxis->setRange(0,100);
+    ui->customPlot->yAxis->setRange(0,5);
+
+    QVector<double> x= {1,2,3,4,5,6,7,8,9,10},y={0.856,0.907,0.945,1.053,1.200,1.200,1.200,1.200,1.200,1.200};
+    ui->customPlot->graph(0)->setData(x,y);
+    ui->customPlot->rescaleAxes();
+    ui->customPlot->replot();
+    ui->customPlot->update();
+
 }
 
 UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()

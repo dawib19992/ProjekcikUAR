@@ -1,6 +1,6 @@
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 CONFIG += c++17
 
@@ -14,6 +14,7 @@ SOURCES += \
     RegulatorPID.cpp \
     UkladSterowania.cpp \
     main.cpp \
+    qcustomplot.cpp \
     uchyb.cpp \
     ukladautomatycznejregulacji.cpp
 
@@ -22,6 +23,7 @@ HEADERS += \
     ModelARX.h \
     RegulatorPID.h \
     UkladSterowania.h \
+    qcustomplot.h \
     uchyb.h \
     ukladautomatycznejregulacji.h
 
