@@ -24,21 +24,15 @@
     <ClCompile Include="RegulatorPID.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Testy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Testy_UAR.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ModelARX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Testy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GWZ.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObiektWejsciaWyjscia.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UkladSterowania.h">

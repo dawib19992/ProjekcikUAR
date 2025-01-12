@@ -1,18 +1,17 @@
 #pragma once
-#include "ObiektWejsciaWyjscia.h"
 
-class RegulatorPID : public ObiektWejsciaWyjscia
+class RegulatorPID
 {
 	double wzmocnienie;
 	double stala_calkowania;
 	double stala_rozniczkowania;
 	double suma_calkowita;
-	double poprzedni_uchyb;
+	double poprzedniUchyb = 0.0;
 
 public:
 
-	RegulatorPID(double k, double Ti, double Td);
-	double wykonajKrok(double uchyb) override;
-	void reset() override;
+	RegulatorPID(double k, double Ti = 0.0, double Td =0.0);
+	double wykonajKrok(double uchyb);
+	void reset();
 };
 

@@ -47,12 +47,10 @@ void UkladAutomatycznejRegulacji::on_wgrajdane_clicked()
 
     pid = new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania);
 
-    //Uchyb
-    double uchyb = 0.0;
-    double poprzedni_uchyb = 0.0;
+    //Sprzężenie Zwrotne
     double wz = ui->te_wartZadana->toPlainText().toDouble();
 
-    Uchyb u(uchyb, poprzedni_uchyb, wz);
+    us = new UkladSterowania(*model, *pid, wz);
 
 
 }

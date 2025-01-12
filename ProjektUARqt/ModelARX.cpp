@@ -3,7 +3,7 @@
 
 ModelARX::ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie, double zaklocenie_)
     : a(a_), b(b_), opoznienie_k(opoznienie), zaklocenie(zaklocenie_) {
-    bufor_sterowania = std::deque<double>(a.size() + opoznienie_k, 0.0);
+    bufor_sterowania = std::deque<double>(b.size() + opoznienie_k, 0.0);
     bufor_opoznienia = std::deque<double>(a.size(), 0.0);
 }
 
@@ -22,7 +22,7 @@ double ModelARX::wykonajKrok(double wejscie) {
     }
 
     for (size_t i = 0; i < a.size(); i++) {
-        wyjscie += a[i] * bufor_opoznienia[i];
+        wyjscie -= a[i] * bufor_opoznienia[i];
     }
 
     bufor_opoznienia.push_front(wyjscie);

@@ -5,8 +5,6 @@
 #include "ModelARX.h"
 #include "RegulatorPID.h"
 #include "UkladSterowania.h"
-#include "uchyb.h"
-
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class UkladAutomatycznejRegulacji;

@@ -15,7 +15,6 @@ SOURCES += \
     UkladSterowania.cpp \
     main.cpp \
     qcustomplot.cpp \
-    uchyb.cpp \
     ukladautomatycznejregulacji.cpp
 
 HEADERS += \
@@ -24,7 +23,6 @@ HEADERS += \
     RegulatorPID.h \
     UkladSterowania.h \
     qcustomplot.h \
-    uchyb.h \
     ukladautomatycznejregulacji.h
 
 FORMS += \

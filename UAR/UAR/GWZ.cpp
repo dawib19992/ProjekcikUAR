@@ -2,11 +2,11 @@
 #include "GWZ.h"
 using namespace std;
 
-//Zwrot wartoœci zadaniej w chwilii i
-
 GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_, double wypelnienie_)
 	:typ(typ_), amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), okres(okres_), wypelnienie(wypelnienie_), aktualny_czas(0)
 {}
+
+//Generator Wartoœci Zadanej, na ten moment nieu¿ywany
 
 double GWZ::pobierzWartoscZadana()
 {
@@ -40,10 +40,7 @@ double GWZ::pobierzWartoscZadana()
 		wartosc = 0.0;
 		break;
 	};
-
 	return wartosc;
-
-
 }
 
 void GWZ::zwiekszCzas() {

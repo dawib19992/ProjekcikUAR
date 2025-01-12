@@ -1,6 +1,6 @@
 #pragma once
-#include <deque>
 #include <vector>
+#include <deque>
 class ModelARX
 {
 private:
@@ -11,6 +11,6 @@ private:
     int opoznienie_k;
     double zaklocenie;
 public:
-    ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie = 0, double zaklocenie_ = 0.0);
+    ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie = 1, double zaklocenie_ = 0.0);
     double wykonajKrok(double wejscie);
 };

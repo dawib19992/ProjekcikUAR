@@ -1,11 +1,10 @@
 #include "GWZ.h"
-#include <cmath>
+#define _USE_MATH_DEFINES
+#include <math.h>
 using namespace std;
 
-//Zwrot warto�ci zadaniej w chwilii i
-
 GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_, double wypelnienie_)
-	:typ(typ_), amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), okres(okres_), wypelnienie(wypelnienie_), aktualny_czas(0)
+    :amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), aktualny_czas(0), typ(typ_), okres(okres_), wypelnienie(wypelnienie_)
 {}
 
 double GWZ::pobierzWartoscZadana()
@@ -24,7 +23,7 @@ double GWZ::pobierzWartoscZadana()
 		}
 		break;
 	case TypSygnalu::sinusoida:
-		wartosc = amplituda * sin((2 * 3.14 * (aktualny_czas % (int)okres)) / okres);
+        wartosc = amplituda * sin((2 * M_PI * (aktualny_czas % (int)okres)) / okres);
 		break;
 	case TypSygnalu::prostokatny:
 		if (aktualny_czas % int(okres) < (wypelnienie * okres))
@@ -40,10 +39,7 @@ double GWZ::pobierzWartoscZadana()
 		wartosc = 0.0;
 		break;
 	};
-
 	return wartosc;
-
-
 }
 
 void GWZ::zwiekszCzas() {
