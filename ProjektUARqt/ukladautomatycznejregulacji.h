@@ -30,7 +30,7 @@ private slots:
 
     void on_wyczyscDane_clicked();
 
-    void ZapisDoPliku();
+    bool ZapisDoPliku();
 
     void WczytajzPliku();
 

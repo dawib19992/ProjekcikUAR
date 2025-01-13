@@ -31,8 +31,8 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(-5, 10);
-    ui->customPlot->yAxis->setRange(-2, 5);
+    ui->customPlot->xAxis->setRange(0, 10);
+    ui->customPlot->yAxis->setRange(-5, 5);
 
     // --- TIMER ---
     timer = new QTimer(this);
@@ -51,7 +51,10 @@ UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
 {
-    ZapisDoPliku();
+    if(ZapisDoPliku())
+    {
+        QMessageBox::information(this, "Zapis konfiguracji", "Konfiguracja została pomyślnie zapisana do pliku.", QMessageBox::Ok);
+    }
 }
 
 void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
@@ -63,7 +66,7 @@ void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 {
     if(!timer->isActive()){
-        timer->start(100);  // Timer co 100 ms
+        timer->start(150);  // Timer co 100 ms
 
         // Dezaktywacja przycisku Start i aktywacja Stop
         ui->symuluj->setEnabled(false);
@@ -73,13 +76,13 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 
 }
 
-void UkladAutomatycznejRegulacji::ZapisDoPliku()
+bool UkladAutomatycznejRegulacji::ZapisDoPliku()
 {
     QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
     QFile plik(nazwa);
     if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Nie udało się znaleźć pliku";
-        return;
+        QMessageBox::warning(this, "Błąd otwarcia pliku", "Program nie mógł otworzyć pliku w celu zapisu konfiguracji do pliku", QMessageBox::Ok);
+        return false;
     }
     QTextStream out(&plik);
     if(!(ui->te_a->toPlainText().isEmpty()))
@@ -138,7 +141,48 @@ void UkladAutomatycznejRegulacji::ZapisDoPliku()
     {
         out << "Td: " << 0 << "\n";
     }
+    if(!(ui->amplituda->toPlainText().isEmpty()))
+    {
+        out << "amplituda: " << ui->amplituda->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "amplituda: " << 0 << "\n";
+    }
+    if(!(ui->wypelnienie->toPlainText().isEmpty()))
+    {
+        out << "wypelnienie: " << ui->wypelnienie->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "wypelnienie: " << 0 << "\n";
+    }
+    if(!(ui->czas_aktywacji->toPlainText().isEmpty()))
+    {
+        out << "czas_aktywacji: " << ui->czas_aktywacji->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "czas_aktywacji: " << 0 << "\n";
+    }
+    if(!(ui->okres->toPlainText().isEmpty()))
+    {
+        out << "okres: " << ui->okres->toPlainText() << "\n";
+    }
+    else
+    {
+        out << "okres: " << 0 << "\n";
+    }
+    if(!(ui->comboGWZ->currentText().isEmpty()))
+    {
+        out << "typ: " << ui->comboGWZ->currentText()<< "\n";
+    }
+    else
+    {
+        out << "okres: " << "skok" << "\n";
+    }
     plik.close();
+    return true;
 }
 
 void UkladAutomatycznejRegulacji::WczytajzPliku()
@@ -146,7 +190,7 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
     QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
     QFile plik(nazwa);
     if (!plik.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qDebug() << "Nie udało się otworzyć pliku";
+        QMessageBox::warning(this, "Błąd otwarcia pliku", "Program nie mógł otworzyć pliku w celu wczytania konfiguracji", QMessageBox::Ok);
         return;
     }
     QTextStream in(&plik);
@@ -166,9 +210,21 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
             ui->te_ti->setPlainText(linia.section(':', 1).trimmed());
         } else if (linia.startsWith("Td:")) {
             ui->te_td->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("amplituda:")) {
+            ui->amplituda->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("wypelnienie:")) {
+            ui->wypelnienie->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("czas_aktywacji:")) {
+            ui->czas_aktywacji->setPlainText(linia.section(':', 1).trimmed());
+        } else if (linia.startsWith("okres:")) {
+            ui->okres->setPlainText(linia.section(':', 1).trimmed());
+        } else if(linia.startsWith("typ: ")){
+            QString typ = linia.section(':', 1).trimmed();
+            int index = ui->comboGWZ->findText(typ);
+            if(index != -1)
+                ui->comboGWZ->setCurrentIndex(index);
         }
     }
-
     plik.close();
 }
 
@@ -182,6 +238,13 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
     ui->te_k->clear();
     ui->te_ti->clear();
     ui->te_td->clear();
+    ui->amplituda->clear();
+    ui->czas_aktywacji->clear();
+    ui->wypelnienie->clear();
+    ui->okres->clear();
+    QString skok = "skok";
+    int index = ui->comboGWZ->findText(skok);
+    ui->comboGWZ->setCurrentIndex(index);
 }
 
 ModelARX *UkladAutomatycznejRegulacji::ustawARX()
@@ -251,31 +314,25 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
-    time+=0.1;
+    time += 0.1;
     double wartZadana = us->gwz.pobierzWartoscZadana(time);
     double wyjscie_arx = us->model.wykonajKrok(wartZadana);
     double wyjscie_pid = us->getPoprzedniUchyb();
     uchyb = wartZadana - wyjscie_pid;
     us->symuluj(wartZadana);
-    //ARX
-    ui->customPlot->graph(0)->addData(time,wyjscie_arx);
-    //Uchyb
-    //ui->customPlot->graph(1)->addData(time, uchyb);
-    //Sterowanie
-    //ui->customPlot->graph(2)->addData(time, wartZadana);
-    //Regulator
-    //ui->customPlot->graph(3)->addData(time, wyjscie_pid);
 
-    ui->customPlot->xAxis->setRange(0,time);
+    // ARX
+    ui->customPlot->graph(0)->addData(time, wyjscie_arx);
+    // Uchyb
+    ui->customPlot->graph(1)->addData(time, uchyb);
+    // Sterowanie
+    ui->customPlot->graph(2)->addData(time, wartZadana);
+    // Regulator
+    ui->customPlot->graph(3)->addData(time, wyjscie_pid);
+
+    ui->customPlot->xAxis->setRange(time-2, time);
+    //ui->customPlot->rescaleAxes(true);
     ui->customPlot->replot();
-
-    qDebug() << "wektor A: " << model->getA();
-    qDebug() << "wektor B: " << model->getB();
-    qDebug() << "opoznienie: " << model->getOpoznienie();
-    qDebug() << "zaklocenie: " << model->getZaklocenie();
-    qDebug() << "k: " << pid->getK();
-    qDebug() << "Ti: " << pid->getTi();
-    qDebug() << "Td: " << pid->getTd();
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()

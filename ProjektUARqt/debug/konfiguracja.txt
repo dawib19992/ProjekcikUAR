@@ -1,8 +1,0 @@
-a: -0.4
-b: 0.6
-opoznienie: 1
-zaklocenie: 0
-k: 12
-Ti: 6
-Td: 0.5
-wartoscZadana: 1
