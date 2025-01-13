@@ -26,8 +26,8 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(0, 10);
-    ui->customPlot->yAxis->setRange(0, 10);
+    ui->customPlot->xAxis->setRange(-5, 10);
+    ui->customPlot->yAxis->setRange(-2, 5);
 
     // --- TIMER ---
     timer = new QTimer(this);
@@ -230,36 +230,55 @@ RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
     return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania));
 
 }
-UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid, double wz)
+UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid)
 {
     return (new UkladSterowania(*model, *pid));
 }
+GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
+{
+    TypSygnalu typ;
+    QString typSygnalu = ui->comboGWZ->currentText();
+    if(typSygnalu == "skok"){
+        typ = TypSygnalu::skok;
+    }
+    if(typSygnalu == "sinusoida"){
+        typ = TypSygnalu::sinusoida;
+    }
+    if(typSygnalu == "prostokatny"){
+        typ = TypSygnalu::prostokatny;
+    }
+    double amplituda = ui->amplituda->toPlainText().toDouble();
+    int czas = ui->czas_aktywacji->toPlainText().toInt();
+    double okres = ui->okres->toPlainText().toDouble();
+    double wypelnienie = ui->wypelnienie->toPlainText().toDouble();
+    return (new GWZ(typ, amplituda, czas, okres, wypelnienie));
+}
+
 
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
-    model = ustawARX();
-    pid = ustawPID();
-    double wz = ui->te_wartZadana->toPlainText().toDouble();
-    us = ustawUS(model, pid, wz);
+    time+=0.1;
+    double wartZadana = gwz->pobierzWartoscZadana(time);
+    double wyjscie_arx = us->symuluj(wartZadana);
+    double wyjscie_pid = us->getPoprzedniUchyb();
+    double uchyb = wartZadana - wyjscie_pid;
     //ARX
-    ui->customPlot->graph(0)->addData(time,us->symuluj(wz));
+    ui->customPlot->graph(0)->addData(time,wyjscie_arx);
     //Uchyb
-    ui->customPlot->graph(1)->addData(time, us->getUchyb());
+    ui->customPlot->graph(1)->addData(time, uchyb);
     //Sterowanie
-    ui->customPlot->graph(2)->addData(time, model->wykonajKrok(pid->wykonajKrok(us->getUchyb())));
+    ui->customPlot->graph(2)->addData(time, wartZadana);
     //Regulator
-    ui->customPlot->graph(3)->addData(time, pid->wykonajKrok(us->getUchyb()));
+    ui->customPlot->graph(3)->addData(time, wyjscie_pid);
 
     ui->customPlot->xAxis->setRange(0,time);
     ui->customPlot->replot();
     //ui->customPlot->rescaleAxes();
-    time+=0.1;
 
     /*if(time > ui->customPlot->xAxis->range().upper)
     {
         ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
     }*/
-
 
     qDebug() << "wektor A: " << model->getA();
     qDebug() << "wektor B: " << model->getB();
@@ -268,7 +287,7 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     qDebug() << "k: " << pid->getK();
     qDebug() << "Ti: " << pid->getTi();
     qDebug() << "Td: " << pid->getTd();
-    qDebug() << "Wartość zadana: " << wz;
+    qDebug() << "Typ: " << gwz->getTyp();
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
@@ -278,5 +297,14 @@ void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
         ui->symuluj->setEnabled(true);
         ui->zatrzymaj->setEnabled(false);
     }
+}
+
+
+void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
+{
+    model = ustawARX();
+    pid = ustawPID();
+    gwz = ustawGWZ();
+    us = ustawUS(model, pid);
 }
 

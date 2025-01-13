@@ -37,9 +37,12 @@ private slots:
     void startSymulacji();
     ModelARX* ustawARX();
     RegulatorPID* ustawPID();
-    UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid, double wz);
+    UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid);
+    GWZ* ustawGWZ();
 
     void on_zatrzymaj_clicked();
+
+    void on_wgrajDane_clicked();
 
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
