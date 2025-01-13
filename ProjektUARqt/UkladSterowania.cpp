@@ -2,8 +2,8 @@
 #include "RegulatorPID.h"
 #include "UkladSterowania.h"
 
-UkladSterowania::UkladSterowania(ModelARX arx_model, RegulatorPID pid)
-    : model(arx_model), regulator(pid)
+UkladSterowania::UkladSterowania(ModelARX arx_model, RegulatorPID pid, GWZ gwz)
+    : model(arx_model), regulator(pid), gwz(gwz)
 {
     uchyb = 0.0;
     poprzedniUchyb = 0.0;

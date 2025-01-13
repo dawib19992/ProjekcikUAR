@@ -1,15 +1,18 @@
 #pragma once
 #include "ModelARX.h"
 #include "RegulatorPID.h"
+#include "GWZ.h"
 class UkladSterowania
 {
 private:
-    ModelARX model;
-    RegulatorPID regulator;
+
     double uchyb;
     double poprzedniUchyb;
 public:
-    UkladSterowania(ModelARX arx_model, RegulatorPID pid);
+    ModelARX model;
+    RegulatorPID regulator;
+    GWZ gwz;
+    UkladSterowania(ModelARX arx_model, RegulatorPID pid, GWZ gwz);
     double symuluj(double aktualne_wejscie);
     void setUchyb(double uchyb_);
     void setPoprzedniUchyb(double poprzedniUchyb_);

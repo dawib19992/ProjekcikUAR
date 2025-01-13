@@ -22,7 +22,11 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     //Regulowanie
     ui->customPlot->addGraph();
     ui->customPlot->graph(3)->setPen(QPen(Qt::cyan));
-
+    ui->customPlot->legend->setVisible(true);
+    ui->customPlot->graph(0)->setName("Wartość Regulowana");
+    ui->customPlot->graph(1)->setName("Uchyb");
+    ui->customPlot->graph(2)->setName("Wartość Zadana");
+    ui->customPlot->graph(3)->setName("Sterowanie");
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
@@ -58,7 +62,7 @@ void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 {
     if(!timer->isActive()){
-        timer->start(250);  // Timer co 100 ms
+        timer->start(100);  // Timer co 100 ms
 
         // Dezaktywacja przycisku Start i aktywacja Stop
         ui->symuluj->setEnabled(false);
@@ -230,9 +234,9 @@ RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
     return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania));
 
 }
-UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid)
+UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid, GWZ* gwz)
 {
-    return (new UkladSterowania(*model, *pid));
+    return (new UkladSterowania(*model, *pid, *gwz));
 }
 GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 {
@@ -258,10 +262,11 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
     time+=0.1;
+    double uchyb = 0.0;
     double wartZadana = gwz->pobierzWartoscZadana(time);
     double wyjscie_arx = us->symuluj(wartZadana);
     double wyjscie_pid = us->getPoprzedniUchyb();
-    double uchyb = wartZadana - wyjscie_pid;
+    uchyb = wartZadana - wyjscie_pid;
     //ARX
     ui->customPlot->graph(0)->addData(time,wyjscie_arx);
     //Uchyb
@@ -275,10 +280,10 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     ui->customPlot->replot();
     //ui->customPlot->rescaleAxes();
 
-    /*if(time > ui->customPlot->xAxis->range().upper)
+    if(time > ui->customPlot->xAxis->range().upper)
     {
         ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
-    }*/
+    }
 
     qDebug() << "wektor A: " << model->getA();
     qDebug() << "wektor B: " << model->getB();
@@ -299,12 +304,11 @@ void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
     }
 }
 
-
 void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
 {
     model = ustawARX();
     pid = ustawPID();
     gwz = ustawGWZ();
-    us = ustawUS(model, pid);
+    us = ustawUS(model, pid, gwz);
 }
 

@@ -37,7 +37,7 @@ private slots:
     void startSymulacji();
     ModelARX* ustawARX();
     RegulatorPID* ustawPID();
-    UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid);
+    UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid, GWZ* gwz);
     GWZ* ustawGWZ();
 
     void on_zatrzymaj_clicked();
