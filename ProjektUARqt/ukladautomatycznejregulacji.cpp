@@ -6,13 +6,14 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     , ui(new Ui::UkladAutomatycznejRegulacji)
 {
     ui->setupUi(this);
+    setFixedSize(1230, 750);
     model = nullptr;
     pid = nullptr;
     us = nullptr;
     gwz = nullptr;
     // Wykres wyjścia modelu ARX
     ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setPen(QPen(Qt::blue));
+    ui->customPlot->graph(0)->setPen(QPen(Qt::cyan));
     //Uchyb
     ui->customPlot->addGraph();
     ui->customPlot->graph(1)->setPen(QPen(Qt::red));
@@ -21,12 +22,12 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     ui->customPlot->graph(2)->setPen(QPen(Qt::green));
     //Regulowanie
     ui->customPlot->addGraph();
-    ui->customPlot->graph(3)->setPen(QPen(Qt::cyan));
+    ui->customPlot->graph(3)->setPen(QPen(Qt::blue));
     ui->customPlot->legend->setVisible(true);
-    ui->customPlot->graph(0)->setName("Wartość Regulowana");
+    ui->customPlot->graph(0)->setName("Sterowanie");
     ui->customPlot->graph(1)->setName("Uchyb");
     ui->customPlot->graph(2)->setName("Wartość Zadana");
-    ui->customPlot->graph(3)->setName("Sterowanie");
+    ui->customPlot->graph(3)->setName("Wartość Regulowana");
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
@@ -137,14 +138,6 @@ void UkladAutomatycznejRegulacji::ZapisDoPliku()
     {
         out << "Td: " << 0 << "\n";
     }
-    if(!(ui->te_wartZadana->toPlainText().isEmpty()))
-    {
-        out << "wartoscZadana: " << ui->te_wartZadana->toPlainText() << "\n";
-    }
-    else
-    {
-        out << "wartoscZadana: " << 0 << "\n";
-    }
     plik.close();
 }
 
@@ -173,8 +166,6 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
             ui->te_ti->setPlainText(linia.section(':', 1).trimmed());
         } else if (linia.startsWith("Td:")) {
             ui->te_td->setPlainText(linia.section(':', 1).trimmed());
-        } else if (linia.startsWith("wartoscZadana:")) {
-            ui->te_wartZadana->setPlainText(linia.section(':', 1).trimmed());
         }
     }
 
@@ -191,7 +182,6 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
     ui->te_k->clear();
     ui->te_ti->clear();
     ui->te_td->clear();
-    ui->te_wartZadana->clear();
 }
 
 ModelARX *UkladAutomatycznejRegulacji::ustawARX()
@@ -262,28 +252,22 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
     time+=0.1;
-    double uchyb = 0.0;
-    double wartZadana = gwz->pobierzWartoscZadana(time);
-    double wyjscie_arx = us->symuluj(wartZadana);
+    double wartZadana = us->gwz.pobierzWartoscZadana(time);
+    double wyjscie_arx = us->model.wykonajKrok(wartZadana);
     double wyjscie_pid = us->getPoprzedniUchyb();
     uchyb = wartZadana - wyjscie_pid;
+    us->symuluj(wartZadana);
     //ARX
     ui->customPlot->graph(0)->addData(time,wyjscie_arx);
     //Uchyb
-    ui->customPlot->graph(1)->addData(time, uchyb);
+    //ui->customPlot->graph(1)->addData(time, uchyb);
     //Sterowanie
-    ui->customPlot->graph(2)->addData(time, wartZadana);
+    //ui->customPlot->graph(2)->addData(time, wartZadana);
     //Regulator
-    ui->customPlot->graph(3)->addData(time, wyjscie_pid);
+    //ui->customPlot->graph(3)->addData(time, wyjscie_pid);
 
     ui->customPlot->xAxis->setRange(0,time);
     ui->customPlot->replot();
-    //ui->customPlot->rescaleAxes();
-
-    if(time > ui->customPlot->xAxis->range().upper)
-    {
-        ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
-    }
 
     qDebug() << "wektor A: " << model->getA();
     qDebug() << "wektor B: " << model->getB();
@@ -292,7 +276,6 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     qDebug() << "k: " << pid->getK();
     qDebug() << "Ti: " << pid->getTi();
     qDebug() << "Td: " << pid->getTd();
-    qDebug() << "Typ: " << gwz->getTyp();
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()

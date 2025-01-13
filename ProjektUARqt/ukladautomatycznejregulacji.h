@@ -50,6 +50,7 @@ private:
     RegulatorPID* pid;
     UkladSterowania* us;
     GWZ* gwz;
+    double uchyb = 0.0;
 
     QTimer *timer;
     double time;
