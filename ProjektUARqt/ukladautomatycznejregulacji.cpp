@@ -7,6 +7,10 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(1230, 750);
+    QShortcut* zapis_skrot = new QShortcut(QKeySequence("Ctrl+S"), this);
+    QShortcut* wczytaj_skrot = new QShortcut(QKeySequence("Ctrl+L"), this);
+    connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
+    connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
     model = nullptr;
     pid = nullptr;
     us = nullptr;
@@ -51,10 +55,7 @@ UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
 {
-    if(ZapisDoPliku())
-    {
-        QMessageBox::information(this, "Zapis konfiguracji", "Konfiguracja została pomyślnie zapisana do pliku.", QMessageBox::Ok);
-    }
+    ZapisDoPliku();
 }
 
 void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
@@ -76,13 +77,12 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 
 }
 
-bool UkladAutomatycznejRegulacji::ZapisDoPliku()
+void UkladAutomatycznejRegulacji::ZapisDoPliku()
 {
     QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
     QFile plik(nazwa);
     if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Błąd otwarcia pliku", "Program nie mógł otworzyć pliku w celu zapisu konfiguracji do pliku", QMessageBox::Ok);
-        return false;
     }
     QTextStream out(&plik);
     if(!(ui->te_a->toPlainText().isEmpty()))
@@ -182,7 +182,7 @@ bool UkladAutomatycznejRegulacji::ZapisDoPliku()
         out << "okres: " << "skok" << "\n";
     }
     plik.close();
-    return true;
+    QMessageBox::information(this, "Zapis konfiguracji", "Konfiguracja została pomyślnie zapisana do pliku.", QMessageBox::Ok);
 }
 
 void UkladAutomatycznejRegulacji::WczytajzPliku()
@@ -351,4 +351,3 @@ void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
     gwz = ustawGWZ();
     us = ustawUS(model, pid, gwz);
 }
-

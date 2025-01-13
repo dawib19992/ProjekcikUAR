@@ -6,6 +6,7 @@
 #include "RegulatorPID.h"
 #include "UkladSterowania.h"
 #include "GWZ.h"
+#include <QShortcut>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class UkladAutomatycznejRegulacji;
@@ -30,10 +31,9 @@ private slots:
 
     void on_wyczyscDane_clicked();
 
-    bool ZapisDoPliku();
+    void ZapisDoPliku();
 
     void WczytajzPliku();
-
     void startSymulacji();
     ModelARX* ustawARX();
     RegulatorPID* ustawPID();
