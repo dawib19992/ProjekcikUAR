@@ -246,6 +246,7 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
 
 ModelARX *UkladAutomatycznejRegulacji::ustawARX()
 {
+    bool ok;
     std::vector<double> a;
     std::vector<double> b;
     QString text_a = ui->te_a->toPlainText();
@@ -256,22 +257,32 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
 
     for (const QString &a_i : aList)
     {
-        bool ok;
         double value = a_i.toDouble(&ok);
         if (ok) {
             a.push_back(value);
+        }
+        else
+        {
+            QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wektora A!", QMessageBox::Ok);
         }
     }
 
     for (const QString &b_i : bList)
     {
-        bool ok;
         double value = b_i.toDouble(&ok);
         if (ok) {
             b.push_back(value);
         }
+        else
+        {
+             QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wektora B!", QMessageBox::Ok);
+        }
     }
-    int delay = ui->te_opoznienie->toPlainText().toInt();
+    int delay = ui->te_opoznienie->toPlainText().toInt(&ok);
+    if(!ok)
+    {
+         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość opóźnienia!", QMessageBox::Ok);
+    }
     if(isZaklocenie)
     {
         std::random_device rd;
@@ -284,9 +295,16 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
 }
 RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
 {
-    double wzmocnienie = ui->te_k->toPlainText().toDouble();
-    double stala_calkowania = ui->te_ti->toPlainText().toDouble();
-    double stala_rozniczkowania = ui->te_td->toPlainText().toDouble();
+    bool ok;
+    double wzmocnienie = ui->te_k->toPlainText().toDouble(&ok);
+    if(!ok)
+         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wzmocnienia(k)!", QMessageBox::Ok);
+    double stala_calkowania = ui->te_ti->toPlainText().toDouble(&ok);
+    if(!ok)
+        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość stałej całkowania(Ti)!", QMessageBox::Ok);
+    double stala_rozniczkowania = ui->te_td->toPlainText().toDouble(&ok);
+    if(!ok)
+        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość stałej różniczkowania(Td)!", QMessageBox::Ok);
 
     return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania));
 
@@ -297,6 +315,7 @@ UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, Regulator
 }
 GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 {
+    bool ok;
     TypSygnalu typ;
     QString typSygnalu = ui->comboGWZ->currentText();
     if(typSygnalu == "skok"){
@@ -308,10 +327,18 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
     if(typSygnalu == "prostokatny"){
         typ = TypSygnalu::prostokatny;
     }
-    double amplituda = ui->amplituda->toPlainText().toDouble();
-    int czas = ui->czas_aktywacji->toPlainText().toInt();
-    double okres = ui->okres->toPlainText().toDouble();
-    double wypelnienie = ui->wypelnienie->toPlainText().toDouble();
+    double amplituda = ui->amplituda->toPlainText().toDouble(&ok);
+    if(!ok)
+        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość amplitudy", QMessageBox::Ok);
+    int czas = ui->czas_aktywacji->toPlainText().toInt(&ok);
+    if(!ok)
+        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość czasu aktywacji", QMessageBox::Ok);
+    double okres = ui->okres->toPlainText().toDouble(&ok);
+    if(!ok)
+        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość okresu", QMessageBox::Ok);
+    double wypelnienie = ui->wypelnienie->toPlainText().toDouble(&ok);
+    if(!ok)
+        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wypełnienia", QMessageBox::Ok);
     return (new GWZ(typ, amplituda, czas, okres, wypelnienie));
 }
 
@@ -335,17 +362,17 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     }
     double wartZadana = us->gwz.pobierzWartoscZadana(time);
     double wyjscie_arx = us->model.wykonajKrok(wartZadana);
-    double wyjscie_pid = us->getPoprzedniUchyb();
-    uchyb = wartZadana - wyjscie_pid;
+    double wyjscie_pid = us->regulator.wykonajKrok(uchyb);
+    uchyb = wartZadana - wyjscie_arx;
     us->symuluj(wartZadana);
 
-    // ARX
+    // PID
     ui->customPlot->graph(0)->addData(time, wyjscie_arx);
     // Uchyb
     ui->customPlot->graph(1)->addData(time, uchyb);
-    // Sterowanie
+    // Wartość Zadana
     ui->customPlot->graph(2)->addData(time, wartZadana);
-    // Regulator
+    // ARX
     ui->customPlot->graph(3)->addData(time, wyjscie_pid);
 
     if (time > ui->customPlot->xAxis->range().upper)
@@ -353,9 +380,13 @@ void UkladAutomatycznejRegulacji::startSymulacji()
         ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
     }
     ui->customPlot->replot();
-    qDebug() << "zaklocenie: " <<model->getZaklocenie();
-    qDebug() << "zaklocenie us: " <<us->model.getZaklocenie();
-    qDebug() << "isZaklocenie: " <<isZaklocenie;
+    ui->zaklocenie_wartosc->setText("zakłócenie: " + QString::number(us->model.getZaklocenie()));
+    qDebug() << "ARX: " << wyjscie_arx;
+    qDebug() << "Uchyb: " << uchyb;
+    qDebug() << "Wartość Zadana: " << wartZadana;
+    qDebug() << "PID: " << wyjscie_pid;
+    qDebug() << "Zakłócenie: " <<us->model.getZaklocenie();
+    qDebug() <<"--------------------------------------";
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
@@ -380,8 +411,12 @@ void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
     if(isZaklocenie)
     {
         isZaklocenie = false;
+        ui->zaklocenie_wartosc->setVisible(true);
     }
     else
+    {
         isZaklocenie = true;
+        ui->zaklocenie_wartosc->setVisible(false);
+    }
 }
 

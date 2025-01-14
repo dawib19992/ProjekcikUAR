@@ -53,7 +53,7 @@ private:
     UkladSterowania* us;
     GWZ* gwz;
     double uchyb = 0.0;
-    bool isZaklocenie;
+    bool isZaklocenie = true;
     QTimer *timer;
     double time;
 };

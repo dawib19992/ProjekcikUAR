@@ -24,9 +24,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>40</y>
+      <y>80</y>
       <width>871</width>
-      <height>641</height>
+      <height>601</height>
      </rect>
     </property>
    </widget>
@@ -703,6 +703,22 @@
       </widget>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="zaklocenie_wartosc">
+    <property name="geometry">
+     <rect>
+      <x>730</x>
+      <y>50</y>
+      <width>151</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="text">
+     <string>zakłócenie:</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
