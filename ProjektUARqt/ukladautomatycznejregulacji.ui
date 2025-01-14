@@ -48,7 +48,7 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -59,7 +59,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_14"/>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -70,7 +70,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_16"/>
    </widget>
-   <widget class="QWidget" name="">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -81,7 +81,7 @@
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_17"/>
    </widget>
-   <widget class="QFrame" name="">
+   <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
       <x>890</x>
@@ -99,7 +99,7 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_15">
          <item>
-          <widget class="QFrame" name="">
+          <widget class="QFrame" name="frame">
            <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
@@ -115,7 +115,7 @@
                     <item>
                      <layout class="QVBoxLayout" name="verticalLayout_3">
                       <item>
-                       <widget class="QFrame" name="">
+                       <widget class="QFrame" name="frame">
                         <property name="frameShape">
                          <enum>QFrame::Box</enum>
                         </property>
@@ -191,33 +191,6 @@
                              </item>
                              <item>
                               <widget class="QPlainTextEdit" name="te_opoznienie">
-                               <property name="minimumSize">
-                                <size>
-                                 <width>30</width>
-                                 <height>30</height>
-                                </size>
-                               </property>
-                               <property name="maximumSize">
-                                <size>
-                                 <width>30</width>
-                                 <height>30</height>
-                                </size>
-                               </property>
-                              </widget>
-                             </item>
-                            </layout>
-                           </item>
-                           <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout_7">
-                             <item>
-                              <widget class="QLabel" name="label_7">
-                               <property name="text">
-                                <string>zakłócenie:</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QPlainTextEdit" name="te_zaklocenie">
                                <property name="minimumSize">
                                 <size>
                                  <width>30</width>
@@ -343,7 +316,7 @@
                    </layout>
                   </item>
                   <item>
-                   <widget class="QFrame" name="">
+                   <widget class="QFrame" name="frame">
                     <property name="frameShape">
                      <enum>QFrame::Box</enum>
                     </property>
@@ -472,7 +445,7 @@
               <item>
                <layout class="QVBoxLayout" name="verticalLayout_9">
                 <item>
-                 <widget class="QFrame" name="">
+                 <widget class="QFrame" name="frame">
                   <property name="frameShape">
                    <enum>QFrame::Box</enum>
                   </property>
@@ -538,7 +511,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QFrame" name="">
+          <widget class="QFrame" name="frame">
            <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
@@ -616,7 +589,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QFrame" name="">
+        <widget class="QFrame" name="frame">
          <property name="frameShape">
           <enum>QFrame::Box</enum>
          </property>

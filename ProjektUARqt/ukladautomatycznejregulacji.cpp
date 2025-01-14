@@ -9,8 +9,16 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     setFixedSize(1230, 750);
     QShortcut* zapis_skrot = new QShortcut(QKeySequence("Ctrl+S"), this);
     QShortcut* wczytaj_skrot = new QShortcut(QKeySequence("Ctrl+L"), this);
+    QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
+    QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
+    QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
+    QShortcut* wgraj_skrot = new QShortcut(QKeySequence("Ctrl+F1"), this);
     connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
     connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
+    connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
+    connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
+    connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
+    connect(wgraj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wgrajDane_clicked);
     model = nullptr;
     pid = nullptr;
     us = nullptr;
@@ -35,7 +43,7 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(0, 10);
+    ui->customPlot->xAxis->setRange(-5, 10);
     ui->customPlot->yAxis->setRange(-5, 5);
 
     // --- TIMER ---
@@ -108,14 +116,6 @@ void UkladAutomatycznejRegulacji::ZapisDoPliku()
     else
     {
         out << "opoznienie: " << 0 << "\n";
-    }
-    if(!(ui->te_zaklocenie->toPlainText().isEmpty()))
-    {
-        out << "zaklocenie: " << ui->te_zaklocenie->toPlainText() << "\n";
-    }
-    else
-    {
-        out << "zaklocenie: " << 0 << "\n";
     }
     if(!(ui->te_k->toPlainText().isEmpty()))
     {
@@ -202,8 +202,6 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
             ui->te_b->setPlainText(linia.mid(2).trimmed());
         } else if (linia.startsWith("opoznienie:")) {
             ui->te_opoznienie->setPlainText(linia.section(':', 1).trimmed());
-        } else if (linia.startsWith("zaklocenie:")) {
-            ui->te_zaklocenie->setPlainText(linia.section(':', 1).trimmed());
         } else if (linia.startsWith("k:")) {
             ui->te_k->setPlainText(linia.section(':', 1).trimmed());
         } else if (linia.startsWith("Ti:")) {
@@ -234,7 +232,6 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
     ui->te_a->clear();
     ui->te_b->clear();
     ui->te_opoznienie->clear();
-    ui->te_zaklocenie->clear();
     ui->te_k->clear();
     ui->te_ti->clear();
     ui->te_td->clear();
@@ -275,7 +272,10 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
         }
     }
     int delay = ui->te_opoznienie->toPlainText().toInt();
-    double zaklocenie = ui->te_zaklocenie->toPlainText().toDouble();
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::normal_distribution<double> dist(0.0, 1.0);
+    double zaklocenie = dist(gen);
     return (new ModelARX(a, b, delay, zaklocenie));
 }
 RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
@@ -330,7 +330,7 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     // Regulator
     ui->customPlot->graph(3)->addData(time, wyjscie_pid);
 
-    ui->customPlot->xAxis->setRange(time-2, time);
+    ui->customPlot->xAxis->setRange(time-5, time);
     //ui->customPlot->rescaleAxes(true);
     ui->customPlot->replot();
 }
