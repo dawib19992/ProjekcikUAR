@@ -44,6 +44,8 @@ private slots:
 
     void on_wgrajDane_clicked();
 
+    void on_zaklocenie_clicked();
+
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
     ModelARX* model;
@@ -51,7 +53,7 @@ private:
     UkladSterowania* us;
     GWZ* gwz;
     double uchyb = 0.0;
-
+    bool isZaklocenie;
     QTimer *timer;
     double time;
 };

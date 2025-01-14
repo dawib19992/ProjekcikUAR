@@ -17,4 +17,5 @@ public:
     int getOpoznienie() {return opoznienie_k;}
     double getZaklocenie() {return zaklocenie;}
     double wykonajKrok(double wejscie);
+    void setZaklocenie(double zak);
 };

@@ -31,3 +31,8 @@ double ModelARX::wykonajKrok(double wejscie) {
     }
     return wyjscie;
 }
+
+void ModelARX::setZaklocenie(double zak)
+{
+    zaklocenie = zak;
+}

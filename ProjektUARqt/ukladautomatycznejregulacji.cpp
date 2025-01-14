@@ -43,7 +43,7 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(-5, 10);
+    ui->customPlot->xAxis->setRange(0, 10);
     ui->customPlot->yAxis->setRange(-5, 5);
 
     // --- TIMER ---
@@ -272,11 +272,15 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
         }
     }
     int delay = ui->te_opoznienie->toPlainText().toInt();
-    std::random_device rd;
-    std::mt19937 gen(rd());
-    std::normal_distribution<double> dist(0.0, 1.0);
-    double zaklocenie = dist(gen);
-    return (new ModelARX(a, b, delay, zaklocenie));
+    if(isZaklocenie)
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::normal_distribution<double> dist(0.0, 0.05);
+        double zaklocenie = dist(gen);
+        return (new ModelARX(a, b, delay, zaklocenie));
+    }
+    return (new ModelARX(a, b, delay,0));
 }
 RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
 {
@@ -315,6 +319,20 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
     time += 0.1;
+    double zaklocenie;
+    if(isZaklocenie == false)
+    {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::normal_distribution<double> dist(0.0, 0.05);
+        zaklocenie = dist(gen);
+        us->model.setZaklocenie(zaklocenie);
+    }
+    else
+    {
+        zaklocenie = 0.0;
+        us->model.setZaklocenie(zaklocenie);
+    }
     double wartZadana = us->gwz.pobierzWartoscZadana(time);
     double wyjscie_arx = us->model.wykonajKrok(wartZadana);
     double wyjscie_pid = us->getPoprzedniUchyb();
@@ -330,9 +348,14 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     // Regulator
     ui->customPlot->graph(3)->addData(time, wyjscie_pid);
 
-    ui->customPlot->xAxis->setRange(time-5, time);
-    //ui->customPlot->rescaleAxes(true);
+    if (time > ui->customPlot->xAxis->range().upper)
+    {
+        ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
+    }
     ui->customPlot->replot();
+    qDebug() << "zaklocenie: " <<model->getZaklocenie();
+    qDebug() << "zaklocenie us: " <<us->model.getZaklocenie();
+    qDebug() << "isZaklocenie: " <<isZaklocenie;
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
@@ -351,3 +374,14 @@ void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
     gwz = ustawGWZ();
     us = ustawUS(model, pid, gwz);
 }
+
+void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
+{
+    if(isZaklocenie)
+    {
+        isZaklocenie = false;
+    }
+    else
+        isZaklocenie = true;
+}
+
