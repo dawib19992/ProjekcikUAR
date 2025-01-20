@@ -1,7 +1,7 @@
 #include "RegulatorPID.h"
 
-RegulatorPID :: RegulatorPID(double k, double Ti, double Td)
-	: wzmocnienie(k), stala_calkowania(Ti), stala_rozniczkowania(Td), suma_calkowita(0)
+RegulatorPID :: RegulatorPID(double k, double Ti, double Td, double dG, double gG)
+    : wzmocnienie(k), stala_calkowania(Ti), stala_rozniczkowania(Td), suma_calkowita(0), dGranicaAW(dG), gGranicaAW(gG)
 {}
 double RegulatorPID::wykonajKrok(double uchyb)
 {

@@ -8,9 +8,12 @@ class RegulatorPID
 	double suma_calkowita;
     double poprzedniUchyb = 0.0;
 
+    double dGranicaAW;
+    double gGranicaAW;
+
 public:
 
-	RegulatorPID(double k, double Ti = 0.0, double Td =0.0);
+    RegulatorPID(double k, double Ti = 0.0, double Td =0.0, double dG = -1000.0, double gG = 1000.0);
     double wykonajKrok(double uchyb);
     double getK() {return wzmocnienie;}
     double getTi() {return stala_calkowania;}

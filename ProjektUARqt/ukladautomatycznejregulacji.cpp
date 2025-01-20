@@ -6,7 +6,7 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     , ui(new Ui::UkladAutomatycznejRegulacji)
 {
     ui->setupUi(this);
-    setFixedSize(1230, 750);
+    setFixedSize(1450, 850);
     QShortcut* zapis_skrot = new QShortcut(QKeySequence("Ctrl+S"), this);
     QShortcut* wczytaj_skrot = new QShortcut(QKeySequence("Ctrl+L"), this);
     QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
@@ -26,20 +26,39 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     // Wykres wyjścia modelu ARX
     ui->customPlot->addGraph();
     ui->customPlot->graph(0)->setPen(QPen(Qt::cyan));
+    //Wartość Zadana
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(1)->setPen(QPen(Qt::green));
+
     //Uchyb
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(1)->setPen(QPen(Qt::red));
+    ui->customPlot_uchyb->addGraph();
+    ui->customPlot_uchyb->graph(0)->setPen(QPen(Qt::red));
+
     //Sterowanie
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(2)->setPen(QPen(Qt::green));
-    //Regulowanie
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(3)->setPen(QPen(Qt::blue));
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(0)->setPen(QPen(Qt::blue));
+    //Wzmocnienie
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(1)->setPen(QPen(Qt::cyan));
+    //Ti - stala calkowania
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(2)->setPen(QPen(Qt::red));
+    //Td - stala rozniczkowania
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(3)->setPen(QPen(Qt::green));
+    //Legenda Głównego wykresu
     ui->customPlot->legend->setVisible(true);
-    ui->customPlot->graph(0)->setName("Sterowanie");
-    ui->customPlot->graph(1)->setName("Uchyb");
-    ui->customPlot->graph(2)->setName("Wartość Zadana");
-    ui->customPlot->graph(3)->setName("Wartość Regulowana");
+    ui->customPlot->graph(0)->setName("Wartość Regulowana");
+    ui->customPlot->graph(1)->setName("Wartość Zadana");
+    //Legenda Uchybu
+    ui->customPlot_uchyb->legend->setVisible(true);
+    ui->customPlot_uchyb->graph(0)->setName("Uchyb");
+    //Legenda PID
+    ui->customPlot_pid->legend->setVisible(true);
+    ui->customPlot_pid->graph(0)->setName("Sterowanie");
+    ui->customPlot_pid->graph(1)->setName("Wzmocnienie");
+    ui->customPlot_pid->graph(2)->setName("Stała Całkowania");
+    ui->customPlot_pid->graph(3)->setName("Stała Różniczkownia");
 
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
@@ -75,7 +94,7 @@ void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 {
     if(!timer->isActive()){
-        timer->start(150);  // Timer co 100 ms
+        timer->start(100);  // Timer co 100 ms
 
         // Dezaktywacja przycisku Start i aktywacja Stop
         ui->symuluj->setEnabled(false);
@@ -305,8 +324,9 @@ RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
     double stala_rozniczkowania = ui->te_td->toPlainText().toDouble(&ok);
     if(!ok)
         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość stałej różniczkowania(Td)!", QMessageBox::Ok);
-
-    return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania));
+    double gorna = ui->gorna->toPlainText().toDouble();
+    double dolna = ui->dolna->toPlainText().toDouble();
+    return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania, dolna, gorna));
 
 }
 UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid, GWZ* gwz)
@@ -363,23 +383,40 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     double wartZadana = us->gwz.pobierzWartoscZadana(time);
     double wyjscie_arx = us->model.wykonajKrok(wartZadana);
     double wyjscie_pid = us->regulator.wykonajKrok(uchyb);
+    double wzmocnienie = us->regulator.getK();
+    double Ti = us->regulator.getTi();
+    double Td = us->regulator.getTd();
     uchyb = wartZadana - wyjscie_arx;
     us->symuluj(wartZadana);
 
     // PID
     ui->customPlot->graph(0)->addData(time, wyjscie_arx);
     // Uchyb
-    ui->customPlot->graph(1)->addData(time, uchyb);
+    ui->customPlot_uchyb->graph(0)->addData(time, uchyb);
     // Wartość Zadana
-    ui->customPlot->graph(2)->addData(time, wartZadana);
+    ui->customPlot->graph(1)->addData(time, wartZadana);
     // ARX
-    ui->customPlot->graph(3)->addData(time, wyjscie_pid);
+    ui->customPlot_pid->graph(0)->addData(time, wyjscie_pid);
+
+    ui->customPlot_pid->graph(1)->addData(time, wzmocnienie);
+
+    ui->customPlot_pid->graph(2)->addData(time, Ti);
+
+    ui->customPlot_pid->graph(3)->addData(time, Td);
 
     if (time > ui->customPlot->xAxis->range().upper)
     {
         ui->customPlot->xAxis->setRange(time, 10, Qt::AlignRight);
+        ui->customPlot_uchyb->xAxis->setRange(time, 10, Qt::AlignRight);
+        ui->customPlot_pid->xAxis->setRange(time, 10, Qt::AlignRight);
     }
     ui->customPlot->replot();
+    ui->customPlot_pid->replot();
+    ui->customPlot_uchyb->replot();
+    ui->customPlot_uchyb->xAxis->rescale();
+    ui->customPlot_pid->xAxis->rescale();
+    ui->customPlot_uchyb->yAxis->rescale();
+    ui->customPlot_pid->yAxis->rescale();
     ui->zaklocenie_wartosc->setText("zakłócenie: " + QString::number(us->model.getZaklocenie()));
     qDebug() << "ARX: " << wyjscie_arx;
     qDebug() << "Uchyb: " << uchyb;
