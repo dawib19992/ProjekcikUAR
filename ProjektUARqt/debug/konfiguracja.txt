@@ -1,0 +1,13 @@
+a: -0.4
+b: 0.6
+opoznienie: 1
+k: 0.5
+Ti: 1.5
+Td: 0.2
+amplituda: 1
+wypelnienie: 2
+czas_aktywacji: 1
+okres: 2
+typ: sinusoida
+dolna: -1000
+gorna: 10

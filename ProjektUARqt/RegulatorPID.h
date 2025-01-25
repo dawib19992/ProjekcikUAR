@@ -7,9 +7,10 @@ class RegulatorPID
 	double stala_rozniczkowania;
 	double suma_calkowita;
     double poprzedniUchyb = 0.0;
-
+    double wyjscie;
     double dGranicaAW;
     double gGranicaAW;
+    bool antiwindup;
 
 public:
 
@@ -19,5 +20,6 @@ public:
     double getTi() {return stala_calkowania;}
     double getTd() {return stala_rozniczkowania;}
 	void reset();
+    void setGranica(double dolna, double gorna);
 };
 
