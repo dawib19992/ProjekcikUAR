@@ -1,6 +1,8 @@
 #include "ukladautomatycznejregulacji.h"
 #include "ui_ukladautomatycznejregulacji.h"
 
+const QString nazwa = "konfiguracja.txt";
+
 UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::UkladAutomatycznejRegulacji)
@@ -9,17 +11,15 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     setFixedSize(1600, 900);
     ustawShortcuty();
     ustawWykresy();
-
+    ui->zaklocenie_wartosc->setVisible(false);
     model = nullptr;
     pid = nullptr;
     us = nullptr;
     gwz = nullptr;
-
-    // --- TIMER ---
+    ui->gorna->setMaximum(1000);
+    ui->dolna->setMinimum(-1000);
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
-
-    // Dezaktywacja przycisku Stop na start
     ui->zatrzymaj->setEnabled(false);
     ui->ukryjLegendy->setEnabled(false);
 
@@ -27,7 +27,6 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
 UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
 {
-    ZapisDoPliku();
     delete ui;
 }
 
@@ -102,13 +101,14 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
             ui->zatrzymaj->setEnabled(true);
 
         }
+          ui->ukryjLegendy->setEnabled(true);
     }
     else
     {
         QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane zostały poprawnie wgrane do programu");
     }
 
-    ui->ukryjLegendy->setEnabled(true);
+
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
@@ -174,11 +174,7 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
              QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wektora B!", QMessageBox::Ok);
         }
     }
-    int delay = ui->te_opoznienie->toPlainText().toInt(&ok);
-    if(!ok)
-    {
-         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość opóźnienia!", QMessageBox::Ok);
-    }
+    int delay = ui->te_opoznienie->value();
     if(isZaklocenie)
     {
         std::random_device rd;
@@ -191,27 +187,17 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
 }
 RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
 {
-    bool ok;
-    double wzmocnienie = ui->te_k->toPlainText().toDouble(&ok);
-    if(!ok)
-         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wzmocnienia(k)!", QMessageBox::Ok);
-    double stala_calkowania = ui->te_ti->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość stałej całkowania(Ti)!", QMessageBox::Ok);
-    double stala_rozniczkowania = ui->te_td->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość stałej różniczkowania(Td)!", QMessageBox::Ok);
-    double gorna = ui->gorna->toPlainText().toDouble();
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość stałej różniczkowania(Td)!", QMessageBox::Ok);
-    double dolna = ui->dolna->toPlainText().toDouble();
+    double wzmocnienie = ui->te_k->value();
+    double stala_calkowania = ui->te_ti->value();
+    double stala_rozniczkowania = ui->te_td->value();
+    double gorna = ui->gorna->value();
+    double dolna = ui->dolna->value();
     return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania, dolna, gorna));
 
 }
 
 GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
 {
-    bool ok;
     TypSygnalu typ;
     QString typSygnalu = ui->comboGWZ->currentText();
     if(typSygnalu == "skok"){
@@ -223,18 +209,10 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
     if(typSygnalu == "prostokatny"){
         typ = TypSygnalu::prostokatny;
     }
-    double amplituda = ui->amplituda->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość amplitudy", QMessageBox::Ok);
-    int czas = ui->czas_aktywacji->toPlainText().toInt(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość czasu aktywacji", QMessageBox::Ok);
-    double okres = ui->okres->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość okresu", QMessageBox::Ok);
-    double wypelnienie = ui->wypelnienie->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wypełnienia", QMessageBox::Ok);
+    double amplituda = ui->amplituda->value();
+    int czas = ui->czas_aktywacji->value();
+    double okres = ui->okres->value();
+    double wypelnienie = ui->wypelnienie->value();
     return (new GWZ(typ, amplituda, czas, okres, wypelnienie));
 }
 
@@ -263,15 +241,8 @@ void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
     pid = ustawPID();
     gwz = ustawGWZ();
     us = ustawUS(model, pid, gwz);
-
-    bool ok;
-
-    double dolnaGranica = ui->dolna->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość Górnej Granicy", QMessageBox::Ok);
-    double gornaGranica = ui->gorna->toPlainText().toDouble(&ok);
-    if(!ok)
-        QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość Dolnej Granicy", QMessageBox::Ok);
+    double dolnaGranica = ui->dolna->value();
+    double gornaGranica = ui->gorna->value();
     pid->setGranica(dolnaGranica, gornaGranica);
     isWgrane = true;
 }
@@ -283,11 +254,7 @@ void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
 
 void UkladAutomatycznejRegulacji::ZapisDoPliku()
 {
-    bool tablicaBooli[13];
-    for(int i = 0; i < 13; i++){
-        tablicaBooli[i] = false;
-    }
-    QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
+    bool ok;
     QFile plik(nazwa);
     if (!plik.open(QIODevice::WriteOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Błąd otwarcia pliku", "Program nie mógł otworzyć pliku w celu zapisu konfiguracji do pliku", QMessageBox::Ok);
@@ -295,83 +262,32 @@ void UkladAutomatycznejRegulacji::ZapisDoPliku()
     QTextStream out(&plik);
     if(!(ui->te_a->toPlainText().isEmpty()))
     {
-        out << "a: " << ui->te_a->toPlainText() << "\n";
-        tablicaBooli[0] = true;
+        out << "a: " << ui->te_a->toPlainText().toDouble(&ok) << "\n";
+    }
+    else
+    {
+        out << "a: " << 0 << "\n";
     }
     if(!(ui->te_b->toPlainText().isEmpty()))
     {
-        out << "b: " << ui->te_b->toPlainText() << "\n";
-        tablicaBooli[1] = true;
+        out << "b: " << ui->te_b->toPlainText().toDouble(&ok) << "\n";
     }
-    if(!(ui->te_opoznienie->toPlainText().isEmpty()))
-    {
-        out << "opoznienie: " << ui->te_opoznienie->toPlainText() << "\n";
-        tablicaBooli[2] = true;
-    }
-    if(!(ui->te_k->toPlainText().isEmpty()))
-    {
-        out << "k: " << ui->te_k->toPlainText() << "\n";
-        tablicaBooli[3] = true;
-    }
-    if(!(ui->te_ti->toPlainText().isEmpty()))
-    {
-        out << "Ti: " << ui->te_ti->toPlainText() << "\n";
-        tablicaBooli[4] = true;
-    }
-    if(!(ui->te_td->toPlainText().isEmpty()))
-    {
-        out << "Td: " << ui->te_td->toPlainText() << "\n";
-        tablicaBooli[5] = true;
-    }
-    if(!(ui->amplituda->toPlainText().isEmpty()))
-    {
-        out << "amplituda: " << ui->amplituda->toPlainText() << "\n";
-        tablicaBooli[6] = true;
-    }
-    if(!(ui->wypelnienie->toPlainText().isEmpty()))
-    {
-        out << "wypelnienie: " << ui->wypelnienie->toPlainText() << "\n";
-        tablicaBooli[7] = true;
-    }
-    if(!(ui->czas_aktywacji->toPlainText().isEmpty()))
-    {
-        out << "czas_aktywacji: " << ui->czas_aktywacji->toPlainText() << "\n";
-        tablicaBooli[8] = true;
-    }
-    if(!(ui->okres->toPlainText().isEmpty()))
-    {
-        out << "okres: " << ui->okres->toPlainText() << "\n";
-        tablicaBooli[9] = true;
-    }
-    if(!(ui->comboGWZ->currentText().isEmpty()))
-    {
-        out << "typ: " << ui->comboGWZ->currentText()<< "\n";
-        tablicaBooli[10] = true;
-    }
-    if(!(ui->dolna->toPlainText().isEmpty()))
-    {
-        out << "dolna: " << ui->dolna->toPlainText().toDouble()<< "\n";
-        tablicaBooli[11] = true;
-    }
-    if(!(ui->gorna->toPlainText().isEmpty()))
-    {
-        out << "gorna: " << ui->gorna->toPlainText().toDouble()<< "\n";
-        tablicaBooli[12] = true;
-    }
-    bool temp = true;
-    for(int i = 0; i < 13; i++)
-    {
-        if(tablicaBooli[i] == false)
-        {
-            temp = false;
-            break;
-        }
-    }
-    if(temp == true)
-        QMessageBox::information(this, "Zapis konfiguracji", "Konfiguracja została pomyślnie zapisana do pliku.", QMessageBox::Ok);
     else
-        QMessageBox::warning(this, "Zapis konfiguracji", "Sprawdź poprawność konfiguracji przed jej zapisaniem", QMessageBox::Ok);
-
+    {
+        out << "b: " << 0 << "\n";
+    }
+    out << "opoznienie: " << ui->te_opoznienie->value() << "\n";
+    out << "k: " << ui->te_k->value() << "\n";
+    out << "Ti: " << ui->te_ti->value() << "\n";
+    out << "Td: " << ui->te_td->value() << "\n";
+    out << "amplituda: " << ui->amplituda->value() << "\n";
+    out << "wypelnienie: " << ui->wypelnienie->value() << "\n";
+    out << "czas_aktywacji: " << ui->czas_aktywacji->value() << "\n";
+    out << "okres: " << ui->okres->value() << "\n";
+    out << "typ: " << ui->comboGWZ->currentText()<< "\n";
+    out << "dolna: " << ui->dolna->value()<< "\n";
+    out << "gorna: " << ui->gorna->value() << "\n";
+    QMessageBox::information(this, "Zapis do pliku", "Konfiguracja została zapisana do pliku", QMessageBox::Ok);
     plik.close();
 
 }
@@ -383,7 +299,6 @@ void UkladAutomatycznejRegulacji::on_wgrajzPliku_clicked()
 
 void UkladAutomatycznejRegulacji::WczytajzPliku()
 {
-    QString nazwa = QCoreApplication::applicationDirPath() + "/konfiguracja.txt";
     QFile plik(nazwa);
     if (!plik.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QMessageBox::warning(this, "Błąd otwarcia pliku", "Program nie mógł otworzyć pliku w celu wczytania konfiguracji", QMessageBox::Ok);
@@ -397,30 +312,30 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
         } else if (linia.startsWith("b:")) {
             ui->te_b->setPlainText(linia.mid(2).trimmed());
         } else if (linia.startsWith("opoznienie:")) {
-            ui->te_opoznienie->setPlainText(linia.section(':', 1).trimmed());
+            ui->te_opoznienie->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("k:")) {
-            ui->te_k->setPlainText(linia.section(':', 1).trimmed());
+            ui->te_k->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("Ti:")) {
-            ui->te_ti->setPlainText(linia.section(':', 1).trimmed());
+            ui->te_ti->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("Td:")) {
-            ui->te_td->setPlainText(linia.section(':', 1).trimmed());
+            ui->te_td->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("amplituda:")) {
-            ui->amplituda->setPlainText(linia.section(':', 1).trimmed());
+            ui->amplituda->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("wypelnienie:")) {
-            ui->wypelnienie->setPlainText(linia.section(':', 1).trimmed());
+            ui->wypelnienie->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("czas_aktywacji:")) {
-            ui->czas_aktywacji->setPlainText(linia.section(':', 1).trimmed());
+            ui->czas_aktywacji->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("okres:")) {
-            ui->okres->setPlainText(linia.section(':', 1).trimmed());
+            ui->okres->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if(linia.startsWith("typ: ")){
             QString typ = linia.section(':', 1).trimmed();
             int index = ui->comboGWZ->findText(typ);
             if(index != -1)
                 ui->comboGWZ->setCurrentIndex(index);
         } else if(linia.startsWith("dolna: ")){
-            ui->dolna->setPlainText(linia.section(':', 1).trimmed());
+            ui->dolna->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if(linia.startsWith("gorna: ")){
-            ui->gorna->setPlainText(linia.section(':', 1).trimmed());
+            ui->gorna->setValue(linia.section(':', 1).trimmed().toDouble());
         }
     }
     plik.close();
@@ -447,13 +362,13 @@ void UkladAutomatycznejRegulacji::ustawWykresy()
 {
     // Wykres wyjścia modelu ARX
     ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setPen(QPen(Qt::red));
+    ui->customPlot->graph(0)->setPen(QPen(Qt::red, 1.5));
     //Wartość Zadana
     ui->customPlot->addGraph();
-    ui->customPlot->graph(1)->setPen(QPen(Qt::blue));
+    ui->customPlot->graph(1)->setPen(QPen(Qt::blue,1.5));
     //Uchyb
     ui->customPlot_uchyb->addGraph();
-    ui->customPlot_uchyb->graph(0)->setPen(QPen(Qt::green));
+    ui->customPlot_uchyb->graph(0)->setPen(QPen(Qt::green, 1.5));
     //Sterowanie
     ui->customPlot_pid->addGraph();
     ui->customPlot_pid->graph(0)->setPen(QPen(Qt::blue));

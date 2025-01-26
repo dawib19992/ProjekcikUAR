@@ -217,16 +217,16 @@
                               </widget>
                              </item>
                              <item>
-                              <widget class="QPlainTextEdit" name="te_opoznienie">
+                              <widget class="QDoubleSpinBox" name="te_opoznienie">
                                <property name="minimumSize">
                                 <size>
-                                 <width>30</width>
+                                 <width>60</width>
                                  <height>30</height>
                                 </size>
                                </property>
                                <property name="maximumSize">
                                 <size>
-                                 <width>30</width>
+                                 <width>60</width>
                                  <height>30</height>
                                 </size>
                                </property>
@@ -242,7 +242,7 @@
                                </property>
                                <property name="minimumSize">
                                 <size>
-                                 <width>120</width>
+                                 <width>80</width>
                                  <height>30</height>
                                 </size>
                                </property>
@@ -281,16 +281,16 @@
                                 </widget>
                                </item>
                                <item>
-                                <widget class="QPlainTextEdit" name="te_k">
+                                <widget class="QDoubleSpinBox" name="te_k">
                                  <property name="minimumSize">
                                   <size>
-                                   <width>30</width>
+                                   <width>60</width>
                                    <height>30</height>
                                   </size>
                                  </property>
                                  <property name="maximumSize">
                                   <size>
-                                   <width>40</width>
+                                   <width>60</width>
                                    <height>30</height>
                                   </size>
                                  </property>
@@ -308,16 +308,16 @@
                                 </widget>
                                </item>
                                <item>
-                                <widget class="QPlainTextEdit" name="te_ti">
+                                <widget class="QDoubleSpinBox" name="te_ti">
                                  <property name="minimumSize">
                                   <size>
-                                   <width>30</width>
+                                   <width>60</width>
                                    <height>30</height>
                                   </size>
                                  </property>
                                  <property name="maximumSize">
                                   <size>
-                                   <width>40</width>
+                                   <width>60</width>
                                    <height>30</height>
                                   </size>
                                  </property>
@@ -335,16 +335,16 @@
                                 </widget>
                                </item>
                                <item>
-                                <widget class="QPlainTextEdit" name="te_td">
+                                <widget class="QDoubleSpinBox" name="te_td">
                                  <property name="minimumSize">
                                   <size>
-                                   <width>30</width>
+                                   <width>60</width>
                                    <height>30</height>
                                   </size>
                                  </property>
                                  <property name="maximumSize">
                                   <size>
-                                   <width>40</width>
+                                   <width>60</width>
                                    <height>30</height>
                                   </size>
                                  </property>
@@ -395,16 +395,16 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QTextEdit" name="amplituda">
+                        <widget class="QDoubleSpinBox" name="amplituda">
                          <property name="minimumSize">
                           <size>
-                           <width>30</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -422,16 +422,16 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QTextEdit" name="wypelnienie">
+                        <widget class="QDoubleSpinBox" name="wypelnienie">
                          <property name="minimumSize">
                           <size>
-                           <width>30</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -449,16 +449,16 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QTextEdit" name="czas_aktywacji">
+                        <widget class="QSpinBox" name="czas_aktywacji">
                          <property name="minimumSize">
                           <size>
-                           <width>30</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -476,16 +476,16 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QTextEdit" name="okres">
+                        <widget class="QDoubleSpinBox" name="okres">
                          <property name="minimumSize">
                           <size>
-                           <width>30</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -503,16 +503,16 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPlainTextEdit" name="gorna">
+                        <widget class="QDoubleSpinBox" name="gorna">
                          <property name="minimumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -530,16 +530,16 @@
                         </widget>
                        </item>
                        <item>
-                        <widget class="QPlainTextEdit" name="dolna">
+                        <widget class="QDoubleSpinBox" name="dolna">
                          <property name="minimumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
                          <property name="maximumSize">
                           <size>
-                           <width>40</width>
+                           <width>80</width>
                            <height>30</height>
                           </size>
                          </property>
@@ -632,7 +632,7 @@
              <number>9</number>
             </property>
             <property name="bottomMargin">
-             <number>36</number>
+             <number>18</number>
             </property>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_19">
@@ -698,13 +698,13 @@
                 <property name="minimumSize">
                  <size>
                   <width>0</width>
-                  <height>0</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
                   <width>16777215</width>
-                  <height>16777215</height>
+                  <height>40</height>
                  </size>
                 </property>
                 <property name="text">
@@ -714,6 +714,18 @@
               </item>
               <item>
                <widget class="QPushButton" name="ukryjLegendy">
+                <property name="minimumSize">
+                 <size>
+                  <width>0</width>
+                  <height>40</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>40</height>
+                 </size>
+                </property>
                 <property name="text">
                  <string>Ukryj legendy</string>
                 </property>
@@ -783,28 +795,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item alignment="Qt::AlignHCenter">
-      <widget class="QPushButton" name="wyczyscDane">
-       <property name="minimumSize">
-        <size>
-         <width>150</width>
-         <height>30</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>150</width>
-         <height>50</height>
-        </size>
-       </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
-       </property>
-       <property name="text">
-        <string>Wyczyść dane</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </widget>

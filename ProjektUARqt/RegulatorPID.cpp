@@ -7,7 +7,6 @@ double RegulatorPID::wykonajKrok(double uchyb)
 {
     skladnik_wzmocnienia = wzmocnienie * uchyb;
 
-    skladnik_calkowania = 0.0;
     if (stala_calkowania > 0) {
         if (!antiwindup) {
             suma_calkowita += uchyb;
@@ -15,7 +14,6 @@ double RegulatorPID::wykonajKrok(double uchyb)
         skladnik_calkowania = suma_calkowita / stala_calkowania;
     }
 
-    skladnik_rozniczkowania = 0.0;
     if (stala_rozniczkowania > 0) {
         double roznicaUchybow = uchyb - poprzedniUchyb;
         skladnik_rozniczkowania = stala_rozniczkowania * roznicaUchybow;
