@@ -34,7 +34,13 @@ private slots:
     void ZapisDoPliku();
 
     void WczytajzPliku();
+
     void startSymulacji();
+
+    void ustawShortcuty();
+
+    void ustawWykresy();
+
     ModelARX* ustawARX();
     RegulatorPID* ustawPID();
     UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid, GWZ* gwz);
@@ -46,6 +52,8 @@ private slots:
 
     void on_zaklocenie_clicked();
 
+    void on_ukryjLegendy_clicked();
+
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
     ModelARX* model;
@@ -56,5 +64,7 @@ private:
     bool isZaklocenie = true;
     QTimer *timer;
     double time;
+    bool isLegenda = true;
+    bool isWgrane = false;
 };
 #endif // UKLADAUTOMATYCZNEJREGULACJI_H

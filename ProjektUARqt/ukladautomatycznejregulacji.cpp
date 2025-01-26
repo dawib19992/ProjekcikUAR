@@ -7,63 +7,13 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 {
     ui->setupUi(this);
     setFixedSize(1600, 900);
-    QShortcut* zapis_skrot = new QShortcut(QKeySequence("Ctrl+S"), this);
-    QShortcut* wczytaj_skrot = new QShortcut(QKeySequence("Ctrl+L"), this);
-    QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
-    QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
-    QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
-    QShortcut* wgraj_skrot = new QShortcut(QKeySequence("Ctrl+F1"), this);
-    connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
-    connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
-    connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
-    connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
-    connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
-    connect(wgraj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wgrajDane_clicked);
+    ustawShortcuty();
+    ustawWykresy();
+
     model = nullptr;
     pid = nullptr;
     us = nullptr;
     gwz = nullptr;
-    // Wykres wyjścia modelu ARX
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(0)->setPen(QPen(Qt::cyan));
-    //Wartość Zadana
-    ui->customPlot->addGraph();
-    ui->customPlot->graph(1)->setPen(QPen(Qt::green));
-
-    //Uchyb
-    ui->customPlot_uchyb->addGraph();
-    ui->customPlot_uchyb->graph(0)->setPen(QPen(Qt::red));
-
-    //Sterowanie
-    ui->customPlot_pid->addGraph();
-    ui->customPlot_pid->graph(0)->setPen(QPen(Qt::blue));
-    //Wzmocnienie
-    ui->customPlot_pid->addGraph();
-    ui->customPlot_pid->graph(1)->setPen(QPen(Qt::cyan));
-    //Ti - stala calkowania
-    ui->customPlot_pid->addGraph();
-    ui->customPlot_pid->graph(2)->setPen(QPen(Qt::red));
-    //Td - stala rozniczkowania
-    ui->customPlot_pid->addGraph();
-    ui->customPlot_pid->graph(3)->setPen(QPen(Qt::green));
-    //Legenda Głównego wykresu
-    ui->customPlot->legend->setVisible(true);
-    ui->customPlot->graph(0)->setName("Wartość Regulowana");
-    ui->customPlot->graph(1)->setName("Wartość Zadana");
-    //Legenda Uchybu
-    ui->customPlot_uchyb->legend->setVisible(true);
-    ui->customPlot_uchyb->graph(0)->setName("Uchyb");
-    //Legenda PID
-    ui->customPlot_pid->legend->setVisible(true);
-    ui->customPlot_pid->graph(0)->setName("Sterowanie");
-    ui->customPlot_pid->graph(1)->setName("Wzmocnienie");
-    ui->customPlot_pid->graph(2)->setName("Stała Całkowania");
-    ui->customPlot_pid->graph(3)->setName("Stała Różniczkownia");
-
-    ui->customPlot->xAxis->setLabel("Czas [s]");
-    ui->customPlot->yAxis->setLabel("Wyjście");
-    ui->customPlot->xAxis->setRange(0, 10);
-    ui->customPlot->yAxis->setRange(-5, 5);
 
     // --- TIMER ---
     timer = new QTimer(this);
@@ -71,6 +21,7 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
     // Dezaktywacja przycisku Stop na start
     ui->zatrzymaj->setEnabled(false);
+    ui->ukryjLegendy->setEnabled(false);
 
 }
 
@@ -141,15 +92,23 @@ void UkladAutomatycznejRegulacji::startSymulacji()
 
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 {
-    if(!timer->isActive()){
-        timer->start(100);  // Timer co 100 ms
+    if(isWgrane == true)
+    {
+        if(!timer->isActive()){
+            timer->start(100);  // Timer co 100 ms
 
-        // Dezaktywacja przycisku Start i aktywacja Stop
-        ui->symuluj->setEnabled(false);
-        ui->zatrzymaj->setEnabled(true);
+            // Dezaktywacja przycisku Start i aktywacja Stop
+            ui->symuluj->setEnabled(false);
+            ui->zatrzymaj->setEnabled(true);
 
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane zostały poprawnie wgrane do programu");
     }
 
+    ui->ukryjLegendy->setEnabled(true);
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
@@ -314,7 +273,7 @@ void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
     if(!ok)
         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość Dolnej Granicy", QMessageBox::Ok);
     pid->setGranica(dolnaGranica, gornaGranica);
-
+    isWgrane = true;
 }
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
@@ -466,3 +425,86 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
     }
     plik.close();
 }
+
+void UkladAutomatycznejRegulacji::ustawShortcuty()
+{
+    QShortcut* zapis_skrot = new QShortcut(QKeySequence("Ctrl+S"), this);
+    QShortcut* wczytaj_skrot = new QShortcut(QKeySequence("Ctrl+L"), this);
+    QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
+    QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
+    QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
+    QShortcut* wgraj_skrot = new QShortcut(QKeySequence("Ctrl+F1"), this);
+    connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
+    connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
+    connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
+    connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
+    connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
+    connect(wgraj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wgrajDane_clicked);
+}
+
+
+void UkladAutomatycznejRegulacji::ustawWykresy()
+{
+    // Wykres wyjścia modelu ARX
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(0)->setPen(QPen(Qt::red));
+    //Wartość Zadana
+    ui->customPlot->addGraph();
+    ui->customPlot->graph(1)->setPen(QPen(Qt::blue));
+    //Uchyb
+    ui->customPlot_uchyb->addGraph();
+    ui->customPlot_uchyb->graph(0)->setPen(QPen(Qt::green));
+    //Sterowanie
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(0)->setPen(QPen(Qt::blue));
+    //Wzmocnienie
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(1)->setPen(QPen(Qt::magenta));
+    //Ti - stala calkowania
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(2)->setPen(QPen(Qt::red));
+    //Td - stala rozniczkowania
+    ui->customPlot_pid->addGraph();
+    ui->customPlot_pid->graph(3)->setPen(QPen(Qt::green));
+    //Legenda Głównego wykresu
+    ui->customPlot->legend->setVisible(true);
+    ui->customPlot->graph(0)->setName("Wartość Regulowana");
+    ui->customPlot->graph(1)->setName("Wartość Zadana");
+    //Legenda Uchybu
+    ui->customPlot_uchyb->legend->setVisible(true);
+    ui->customPlot_uchyb->graph(0)->setName("Uchyb");
+    //Legenda PID
+    ui->customPlot_pid->legend->setVisible(true);
+    ui->customPlot_pid->graph(0)->setName("Sterowanie");
+    ui->customPlot_pid->graph(1)->setName("Wzmocnienie");
+    ui->customPlot_pid->graph(2)->setName("Stała Całkowania");
+    ui->customPlot_pid->graph(3)->setName("Stała Różniczkownia");
+
+    ui->customPlot->xAxis->setLabel("Czas [s]");
+    ui->customPlot->yAxis->setLabel("Wyjście");
+    ui->customPlot->xAxis->setRange(0, 10);
+    ui->customPlot->yAxis->setRange(-5, 5);
+
+}
+
+
+void UkladAutomatycznejRegulacji::on_ukryjLegendy_clicked()
+{
+    if(isLegenda == true)
+    {
+        ui->customPlot->legend->setVisible(false);
+        ui->customPlot_pid->legend->setVisible(false);
+        ui->customPlot_uchyb->legend->setVisible(false);
+        isLegenda = false;
+        ui->ukryjLegendy->setText("Pokaż legendy");
+    }
+    else
+    {
+        ui->customPlot->legend->setVisible(true);
+        ui->customPlot_pid->legend->setVisible(true);
+        ui->customPlot_uchyb->legend->setVisible(true);
+        isLegenda = true;
+        ui->ukryjLegendy->setText("Ukryj legendy");
+    }
+}
+
