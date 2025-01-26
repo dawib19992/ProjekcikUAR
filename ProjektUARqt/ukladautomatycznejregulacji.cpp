@@ -6,7 +6,7 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     , ui(new Ui::UkladAutomatycznejRegulacji)
 {
     ui->setupUi(this);
-    setFixedSize(1450, 850);
+    setFixedSize(1600, 900);
     QShortcut* zapis_skrot = new QShortcut(QKeySequence("Ctrl+S"), this);
     QShortcut* wczytaj_skrot = new QShortcut(QKeySequence("Ctrl+L"), this);
     QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
@@ -106,13 +106,13 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     uchyb = wartZadana - wyjscie_arx;
     us->symuluj(wartZadana);
 
-    // PID
+    //ARX
     ui->customPlot->graph(0)->addData(time, wyjscie_arx);
-    // Uchyb
+    //Uchyb
     ui->customPlot_uchyb->graph(0)->addData(time, uchyb);
-    // Wartość Zadana
+    //Wartość Zadana
     ui->customPlot->graph(1)->addData(time, wartZadana);
-    // ARX
+    //PID
     ui->customPlot_pid->graph(0)->addData(time, wyjscie_pid);
 
     ui->customPlot_pid->graph(1)->addData(time, wzmocnienie);
@@ -131,11 +131,11 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     ui->customPlot_pid->replot();
     ui->customPlot_uchyb->replot();
     ui->customPlot->xAxis->rescale();
-    ui->customPlot_uchyb->xAxis->rescale();
     ui->customPlot_pid->xAxis->rescale();
+    ui->customPlot_uchyb->xAxis->rescale();
     ui->customPlot->yAxis->rescale();
-    ui->customPlot_uchyb->yAxis->rescale();
     ui->customPlot_pid->yAxis->rescale();
+    ui->customPlot_uchyb->yAxis->rescale();
     ui->zaklocenie_wartosc->setText("zakłócenie: " + QString::number(us->model.getZaklocenie()));
 }
 
@@ -177,6 +177,8 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
     QString skok = "skok";
     int index = ui->comboGWZ->findText(skok);
     ui->comboGWZ->setCurrentIndex(index);
+    ui->gorna->clear();
+    ui->dolna->clear();
 }
 
 ModelARX *UkladAutomatycznejRegulacji::ustawARX()
@@ -312,6 +314,7 @@ void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
     if(!ok)
         QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość Dolnej Granicy", QMessageBox::Ok);
     pid->setGranica(dolnaGranica, gornaGranica);
+
 }
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
@@ -455,6 +458,10 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
             int index = ui->comboGWZ->findText(typ);
             if(index != -1)
                 ui->comboGWZ->setCurrentIndex(index);
+        } else if(linia.startsWith("dolna: ")){
+            ui->dolna->setPlainText(linia.section(':', 1).trimmed());
+        } else if(linia.startsWith("gorna: ")){
+            ui->gorna->setPlainText(linia.section(':', 1).trimmed());
         }
     }
     plik.close();

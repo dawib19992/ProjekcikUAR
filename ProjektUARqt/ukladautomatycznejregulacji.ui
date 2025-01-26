@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1452</width>
-    <height>850</height>
+    <width>1600</width>
+    <height>900</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -23,10 +23,10 @@
    <widget class="QCustomPlot" name="customPlot" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>330</y>
-      <width>1071</width>
-      <height>461</height>
+      <x>20</x>
+      <y>410</y>
+      <width>1221</width>
+      <height>441</height>
      </rect>
     </property>
    </widget>
@@ -35,7 +35,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>1081</width>
+      <width>1231</width>
       <height>31</height>
      </rect>
     </property>
@@ -90,10 +90,10 @@
    <widget class="QFrame" name="frame">
     <property name="geometry">
      <rect>
-      <x>1100</x>
+      <x>1270</x>
       <y>10</y>
-      <width>331</width>
-      <height>681</height>
+      <width>321</width>
+      <height>841</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -141,13 +141,13 @@
                               <widget class="QPlainTextEdit" name="te_a">
                                <property name="minimumSize">
                                 <size>
-                                 <width>120</width>
+                                 <width>90</width>
                                  <height>30</height>
                                 </size>
                                </property>
                                <property name="maximumSize">
                                 <size>
-                                 <width>120</width>
+                                 <width>90</width>
                                  <height>30</height>
                                 </size>
                                </property>
@@ -168,13 +168,13 @@
                               <widget class="QPlainTextEdit" name="te_b">
                                <property name="minimumSize">
                                 <size>
-                                 <width>120</width>
+                                 <width>90</width>
                                  <height>30</height>
                                 </size>
                                </property>
                                <property name="maximumSize">
                                 <size>
-                                 <width>120</width>
+                                 <width>90</width>
                                  <height>30</height>
                                 </size>
                                </property>
@@ -190,6 +190,12 @@
                             <layout class="QHBoxLayout" name="horizontalLayout_4">
                              <item>
                               <widget class="QLabel" name="label_4">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>120</width>
+                                 <height>39</height>
+                                </size>
+                               </property>
                                <property name="text">
                                 <string>opoznienie:</string>
                                </property>
@@ -472,6 +478,60 @@
                        </item>
                       </layout>
                      </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_18">
+                       <item>
+                        <widget class="QLabel" name="label_5">
+                         <property name="text">
+                          <string>Górna granica: </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPlainTextEdit" name="gorna">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
+                     <item>
+                      <layout class="QHBoxLayout" name="horizontalLayout_7">
+                       <item>
+                        <widget class="QLabel" name="label_7">
+                         <property name="text">
+                          <string>Dolna granica: </string>
+                         </property>
+                        </widget>
+                       </item>
+                       <item>
+                        <widget class="QPlainTextEdit" name="dolna">
+                         <property name="minimumSize">
+                          <size>
+                           <width>40</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                         <property name="maximumSize">
+                          <size>
+                           <width>40</width>
+                           <height>30</height>
+                          </size>
+                         </property>
+                        </widget>
+                       </item>
+                      </layout>
+                     </item>
                     </layout>
                    </widget>
                   </item>
@@ -707,9 +767,9 @@
    <widget class="QLabel" name="zaklocenie_wartosc">
     <property name="geometry">
      <rect>
-      <x>930</x>
+      <x>1110</x>
       <y>50</y>
-      <width>151</width>
+      <width>131</width>
       <height>21</height>
      </rect>
     </property>
@@ -723,40 +783,20 @@
    <widget class="QCustomPlot" name="customPlot_uchyb" native="true">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>521</width>
-      <height>231</height>
+      <x>20</x>
+      <y>80</y>
+      <width>431</width>
+      <height>321</height>
      </rect>
     </property>
    </widget>
    <widget class="QCustomPlot" name="customPlot_pid" native="true">
     <property name="geometry">
      <rect>
-      <x>560</x>
-      <y>90</y>
-      <width>521</width>
-      <height>231</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="dolna">
-    <property name="geometry">
-     <rect>
-      <x>1110</x>
-      <y>710</y>
-      <width>104</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QPlainTextEdit" name="gorna">
-    <property name="geometry">
-     <rect>
-      <x>1230</x>
-      <y>710</y>
-      <width>104</width>
-      <height>31</height>
+      <x>470</x>
+      <y>80</y>
+      <width>771</width>
+      <height>321</height>
      </rect>
     </property>
    </widget>
@@ -766,7 +806,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1452</width>
+     <width>1600</width>
      <height>21</height>
     </rect>
    </property>
