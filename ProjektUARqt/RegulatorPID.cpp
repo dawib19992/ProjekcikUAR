@@ -23,16 +23,17 @@ double RegulatorPID::wykonajKrok(double uchyb)
     poprzedniUchyb = uchyb;
     wyjscie = skladnik_wzmocnienia + skladnik_calkowania + skladnik_rozniczkowania;
 
-    if (wyjscie < dGranicaAW) {
-        wyjscie = dGranicaAW;
-        antiwindup = true;  // Aktywuj anti-windup
-    } else if (wyjscie > gGranicaAW) {
-        wyjscie = gGranicaAW;
-        antiwindup = true;  // Aktywuj anti-windup
-    } else {
-        antiwindup = false;  // Dezaktywuj anti-windup
+    if(czyAW){
+        if (wyjscie < dGranicaAW) {
+            wyjscie = dGranicaAW;
+            antiwindup = true;  // Aktywuj anti-windup
+        } else if (wyjscie > gGranicaAW) {
+            wyjscie = gGranicaAW;
+            antiwindup = true;  // Aktywuj anti-windup
+        } else {
+            antiwindup = false;  // Dezaktywuj anti-windup
+        }
     }
-
     return wyjscie;
 }
 

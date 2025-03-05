@@ -14,6 +14,7 @@ class RegulatorPID
     double dGranicaAW;
     double gGranicaAW;
     bool antiwindup;
+    bool czyAW;
 
 public:
 
@@ -23,6 +24,7 @@ public:
     double getK() {return skladnik_wzmocnienia;}
     double getTi() {return skladnik_calkowania;}
     double getTd() {return skladnik_rozniczkowania;}
+    void setAW(bool aw) {czyAW = aw;}
 	void reset();
     void setGranica(double dolna, double gorna);
     void setK(double k) {wzmocnienie = k;}

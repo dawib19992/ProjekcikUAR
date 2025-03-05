@@ -9,7 +9,7 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 {
     ui->setupUi(this);
     us = new UkladSterowania();
-    setFixedSize(1600, 900);
+    setFixedSize(1800, 900);
     ustawShortcuty();
     ustawWykresy();
     ui->zaklocenie_wartosc->setVisible(false);
@@ -199,6 +199,7 @@ void UkladAutomatycznejRegulacji::ustawARX()
     us->model.setOpoznienie(delay);
 
 }
+
 void UkladAutomatycznejRegulacji::ustawPID()
 {
     double wzmocnienie = ui->te_k->value();
@@ -206,10 +207,12 @@ void UkladAutomatycznejRegulacji::ustawPID()
     double stala_rozniczkowania = ui->te_td->value();
     double gorna = ui->gorna->value();
     double dolna = ui->dolna->value();
+    bool czyAW = ui->antiwindup->isChecked();
     us->regulator.setK(wzmocnienie);
-    us->regulator.setTd(stala_calkowania);
+    us->regulator.setTi(stala_calkowania);
     us->regulator.setTd(stala_rozniczkowania);
     us->regulator.setGranica(dolna, gorna);
+    us->regulator.setAW(czyAW);
 }
 
 void UkladAutomatycznejRegulacji::ustawGWZ()
