@@ -7,6 +7,8 @@ ModelARX::ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznie
     bufor_opoznienia = std::deque<double>(a.size(), 0.0);
 }
 
+ModelARX::ModelARX() {}
+
 double ModelARX::wykonajKrok(double wejscie) {
 
     bufor_sterowania.push_front(wejscie);

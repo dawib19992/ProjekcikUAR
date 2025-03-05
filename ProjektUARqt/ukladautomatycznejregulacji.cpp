@@ -8,14 +8,11 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     , ui(new Ui::UkladAutomatycznejRegulacji)
 {
     ui->setupUi(this);
+    us = new UkladSterowania();
     setFixedSize(1600, 900);
     ustawShortcuty();
     ustawWykresy();
     ui->zaklocenie_wartosc->setVisible(false);
-    model = nullptr;
-    pid = nullptr;
-    us = nullptr;
-    gwz = nullptr;
     ui->gorna->setMaximum(1000);
     ui->dolna->setMinimum(-1000);
     timer = new QTimer(this);
@@ -91,7 +88,13 @@ void UkladAutomatycznejRegulacji::startSymulacji()
 
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
 {
-    if(isWgrane == true)
+    bool czyWgrane = true;
+    for(int i = 0; i < 3; i++){
+        if(isWgrane[i] == 0) {
+            czyWgrane = false;
+        }
+    }
+    if(czyWgrane == true)
     {
         if(!timer->isActive()){
             timer->start(100);  // Timer co 100 ms
@@ -105,7 +108,15 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
     }
     else
     {
-        QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane zostały poprawnie wgrane do programu");
+        if(isWgrane[0] == false){
+            QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane MODELU ARX zostały poprawnie wgrane do programu");
+        }
+        if(isWgrane[1] == false){
+            QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane REGULATORA PID zostały poprawnie wgrane do programu");
+        }
+        if(isWgrane[2] == false){
+            QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane GENERATORA WARTOŚCI ZADANEJ zostały poprawnie wgrane do programu");
+        }
     }
 
 
@@ -140,7 +151,7 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
     ui->dolna->clear();
 }
 
-ModelARX *UkladAutomatycznejRegulacji::ustawARX()
+void UkladAutomatycznejRegulacji::ustawARX()
 {
     bool ok;
     std::vector<double> a;
@@ -181,22 +192,27 @@ ModelARX *UkladAutomatycznejRegulacji::ustawARX()
         std::mt19937 gen(rd());
         std::normal_distribution<double> dist(0.0, 0.05);
         double zaklocenie = dist(gen);
-        return (new ModelARX(a, b, delay, zaklocenie));
+        us->model.setZaklocenie(zaklocenie);
     }
-    return (new ModelARX(a, b, delay,0));
+    us->model.setA(a);
+    us->model.setB(b);
+    us->model.setOpoznienie(delay);
+
 }
-RegulatorPID* UkladAutomatycznejRegulacji::ustawPID()
+void UkladAutomatycznejRegulacji::ustawPID()
 {
     double wzmocnienie = ui->te_k->value();
     double stala_calkowania = ui->te_ti->value();
     double stala_rozniczkowania = ui->te_td->value();
     double gorna = ui->gorna->value();
     double dolna = ui->dolna->value();
-    return (new RegulatorPID(wzmocnienie, stala_calkowania, stala_rozniczkowania, dolna, gorna));
-
+    us->regulator.setK(wzmocnienie);
+    us->regulator.setTd(stala_calkowania);
+    us->regulator.setTd(stala_rozniczkowania);
+    us->regulator.setGranica(dolna, gorna);
 }
 
-GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
+void UkladAutomatycznejRegulacji::ustawGWZ()
 {
     TypSygnalu typ;
     QString typSygnalu = ui->comboGWZ->currentText();
@@ -213,14 +229,14 @@ GWZ* UkladAutomatycznejRegulacji::ustawGWZ()
     int czas = ui->czas_aktywacji->value();
     double okres = ui->okres->value();
     double wypelnienie = ui->wypelnienie->value();
-    return (new GWZ(typ, amplituda, czas, okres, wypelnienie));
-}
 
-UkladSterowania* UkladAutomatycznejRegulacji::ustawUS(ModelARX* model, RegulatorPID* pid, GWZ* gwz)
-{
-    return (new UkladSterowania(*model, *pid, *gwz));
-}
+    us->gwz.setTyp(typ);
+    us->gwz.setAmplituda(amplituda);
+    us->gwz.setOkres(okres);
+    us->gwz.setWypelnienie(wypelnienie);
+    us->gwz.setCzas(czas);
 
+}
 void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
 {
     if(isZaklocenie)
@@ -233,18 +249,6 @@ void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
         isZaklocenie = true;
         ui->zaklocenie_wartosc->setVisible(false);
     }
-}
-
-void UkladAutomatycznejRegulacji::on_wgrajDane_clicked()
-{
-    model = ustawARX();
-    pid = ustawPID();
-    gwz = ustawGWZ();
-    us = ustawUS(model, pid, gwz);
-    double dolnaGranica = ui->dolna->value();
-    double gornaGranica = ui->gorna->value();
-    pid->setGranica(dolnaGranica, gornaGranica);
-    isWgrane = true;
 }
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
@@ -348,13 +352,11 @@ void UkladAutomatycznejRegulacji::ustawShortcuty()
     QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
     QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
     QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
-    QShortcut* wgraj_skrot = new QShortcut(QKeySequence("Ctrl+F1"), this);
     connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
     connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
     connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
     connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
     connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
-    connect(wgraj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wgrajDane_clicked);
 }
 
 
@@ -421,5 +423,25 @@ void UkladAutomatycznejRegulacji::on_ukryjLegendy_clicked()
         isLegenda = true;
         ui->ukryjLegendy->setText("Ukryj legendy");
     }
+}
+
+
+void UkladAutomatycznejRegulacji::on_wgrajARX_clicked()
+{
+    ustawARX();
+    isWgrane[0] = 1;
+}
+
+
+void UkladAutomatycznejRegulacji::on_wgrajPID_clicked()
+{
+    ustawPID();
+    isWgrane[1] = 1;
+}
+
+void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
+{
+    ustawGWZ();
+    isWgrane[2] = 1;
 }
 

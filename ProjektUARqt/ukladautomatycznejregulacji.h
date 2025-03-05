@@ -2,10 +2,7 @@
 #define UKLADAUTOMATYCZNEJREGULACJI_H
 
 #include <QMainWindow>
-#include "ModelARX.h"
-#include "RegulatorPID.h"
 #include "UkladSterowania.h"
-#include "GWZ.h"
 #include <QShortcut>
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -41,30 +38,32 @@ private slots:
 
     void ustawWykresy();
 
-    ModelARX* ustawARX();
-    RegulatorPID* ustawPID();
-    UkladSterowania* ustawUS(ModelARX* model, RegulatorPID* pid, GWZ* gwz);
-    GWZ* ustawGWZ();
+    void ustawARX();
+    void ustawPID();
+    void ustawGWZ();
+
 
     void on_zatrzymaj_clicked();
-
-    void on_wgrajDane_clicked();
 
     void on_zaklocenie_clicked();
 
     void on_ukryjLegendy_clicked();
 
+    void on_wgrajARX_clicked();
+
+    void on_wgrajPID_clicked();
+
+
+    void on_wgrajGWZ_clicked();
+
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
-    ModelARX* model;
-    RegulatorPID* pid;
     UkladSterowania* us;
-    GWZ* gwz;
     double uchyb = 0.0;
     bool isZaklocenie = true;
     QTimer *timer;
     double time;
     bool isLegenda = true;
-    bool isWgrane = false;
+    bool isWgrane[3] = {0,0,0};
 };
 #endif // UKLADAUTOMATYCZNEJREGULACJI_H

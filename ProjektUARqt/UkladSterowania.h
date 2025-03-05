@@ -13,6 +13,7 @@ public:
     RegulatorPID regulator;
     GWZ gwz;
     UkladSterowania(ModelARX arx_model, RegulatorPID pid, GWZ gwz);
+    UkladSterowania();
     double symuluj(double aktualne_wejscie);
     void setUchyb(double uchyb_);
     void setPoprzedniUchyb(double poprzedniUchyb_);

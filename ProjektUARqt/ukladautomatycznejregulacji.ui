@@ -45,13 +45,13 @@
      </font>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::Shape::Box</enum>
     </property>
     <property name="text">
      <string>SYMULATOR UKŁADU AUTOMATYCZNEJ REGULACJI</string>
     </property>
     <property name="alignment">
-     <set>Qt::AlignCenter</set>
+     <set>Qt::AlignmentFlag::AlignCenter</set>
     </property>
    </widget>
    <widget class="QWidget" name="layoutWidget">
@@ -97,7 +97,7 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::Shape::Box</enum>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout_19">
      <item>
@@ -107,7 +107,7 @@
          <item>
           <widget class="QFrame" name="frame">
            <property name="frameShape">
-            <enum>QFrame::Box</enum>
+            <enum>QFrame::Shape::Box</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_13">
             <item>
@@ -123,7 +123,7 @@
                       <item>
                        <widget class="QFrame" name="frame">
                         <property name="frameShape">
-                         <enum>QFrame::Box</enum>
+                         <enum>QFrame::Shape::Box</enum>
                         </property>
                         <layout class="QVBoxLayout" name="verticalLayout_2">
                          <property name="leftMargin">
@@ -247,7 +247,7 @@
                                 </size>
                                </property>
                                <property name="layoutDirection">
-                                <enum>Qt::RightToLeft</enum>
+                                <enum>Qt::LayoutDirection::RightToLeft</enum>
                                </property>
                                <property name="autoFillBackground">
                                 <bool>false</bool>
@@ -266,6 +266,25 @@
                             </layout>
                            </item>
                           </layout>
+                         </item>
+                         <item>
+                          <widget class="QPushButton" name="wgrajARX">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="text">
+                            <string>Ustaw ARX</string>
+                           </property>
+                          </widget>
                          </item>
                          <item>
                           <layout class="QVBoxLayout" name="verticalLayout">
@@ -356,6 +375,25 @@
                            </item>
                           </layout>
                          </item>
+                         <item>
+                          <widget class="QPushButton" name="wgrajPID">
+                           <property name="minimumSize">
+                            <size>
+                             <width>0</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="maximumSize">
+                            <size>
+                             <width>16777215</width>
+                             <height>30</height>
+                            </size>
+                           </property>
+                           <property name="text">
+                            <string>Ustaw PID</string>
+                           </property>
+                          </widget>
+                         </item>
                         </layout>
                        </widget>
                       </item>
@@ -376,7 +414,7 @@
                   <item>
                    <widget class="QFrame" name="frame">
                     <property name="frameShape">
-                     <enum>QFrame::Box</enum>
+                     <enum>QFrame::Shape::Box</enum>
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_6">
                      <item>
@@ -559,7 +597,7 @@
                 <item>
                  <widget class="QFrame" name="frame">
                   <property name="frameShape">
-                   <enum>QFrame::Box</enum>
+                   <enum>QFrame::Shape::Box</enum>
                   </property>
                   <layout class="QHBoxLayout" name="horizontalLayout_17">
                    <property name="leftMargin">
@@ -619,13 +657,32 @@
               </item>
              </layout>
             </item>
+            <item>
+             <widget class="QPushButton" name="wgrajGWZ">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="text">
+               <string>Ustaw GWZ</string>
+              </property>
+             </widget>
+            </item>
            </layout>
           </widget>
          </item>
          <item>
           <widget class="QFrame" name="frame">
            <property name="frameShape">
-            <enum>QFrame::Box</enum>
+            <enum>QFrame::Shape::Box</enum>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_12">
             <property name="topMargin">
@@ -637,7 +694,7 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_19">
               <property name="bottomMargin">
-               <number>45</number>
+               <number>30</number>
               </property>
               <item>
                <widget class="QPushButton" name="symuluj">
@@ -660,7 +717,7 @@
                  </size>
                 </property>
                 <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
+                 <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
                  <string>Symuluj</string>
@@ -682,7 +739,7 @@
                  </size>
                 </property>
                 <property name="layoutDirection">
-                 <enum>Qt::LeftToRight</enum>
+                 <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
                  <string>Zatrzymaj</string>
@@ -693,25 +750,6 @@
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_10">
-              <item>
-               <widget class="QPushButton" name="wgrajDane">
-                <property name="minimumSize">
-                 <size>
-                  <width>0</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>40</height>
-                 </size>
-                </property>
-                <property name="text">
-                 <string>Wgraj wartości do programu</string>
-                </property>
-               </widget>
-              </item>
               <item>
                <widget class="QPushButton" name="ukryjLegendy">
                 <property name="minimumSize">
@@ -741,7 +779,7 @@
        <item>
         <widget class="QFrame" name="frame">
          <property name="frameShape">
-          <enum>QFrame::Box</enum>
+          <enum>QFrame::Shape::Box</enum>
          </property>
          <layout class="QHBoxLayout" name="horizontalLayout_20">
           <property name="bottomMargin">
@@ -762,7 +800,7 @@
              </size>
             </property>
             <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
+             <enum>Qt::LayoutDirection::LeftToRight</enum>
             </property>
             <property name="text">
              <string>Zapisz dane do pliku</string>
@@ -784,7 +822,7 @@
              </size>
             </property>
             <property name="layoutDirection">
-             <enum>Qt::LeftToRight</enum>
+             <enum>Qt::LayoutDirection::LeftToRight</enum>
             </property>
             <property name="text">
              <string>Wgraj dane z pliku</string>
@@ -808,7 +846,7 @@
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::Box</enum>
+     <enum>QFrame::Shape::Box</enum>
     </property>
     <property name="text">
      <string>zakłócenie:</string>

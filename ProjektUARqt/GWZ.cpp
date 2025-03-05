@@ -5,6 +5,8 @@ GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_,
     :amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), typ(typ_), okres(okres_), wypelnienie(wypelnienie_)
 {}
 
+GWZ::GWZ() {}
+
 double GWZ::pobierzWartoscZadana(double czas)
 {
     double wartosc = 0.0;
