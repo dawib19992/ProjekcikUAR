@@ -212,7 +212,7 @@
                                 </size>
                                </property>
                                <property name="text">
-                                <string>opoznienie:</string>
+                                <string>opóźnienie:</string>
                                </property>
                               </widget>
                              </item>
@@ -233,32 +233,30 @@
                               </widget>
                              </item>
                              <item>
-                              <widget class="QRadioButton" name="zaklocenie">
-                               <property name="sizePolicy">
-                                <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
-                                 <horstretch>0</horstretch>
-                                 <verstretch>0</verstretch>
-                                </sizepolicy>
+                              <widget class="QLabel" name="label_15">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>120</width>
+                                 <height>39</height>
+                                </size>
                                </property>
+                               <property name="text">
+                                <string>zakłócenie:</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QDoubleSpinBox" name="te_zaklocenie">
                                <property name="minimumSize">
                                 <size>
-                                 <width>80</width>
+                                 <width>60</width>
                                  <height>30</height>
                                 </size>
                                </property>
-                               <property name="layoutDirection">
-                                <enum>Qt::LayoutDirection::RightToLeft</enum>
-                               </property>
-                               <property name="autoFillBackground">
-                                <bool>false</bool>
-                               </property>
-                               <property name="text">
-                                <string>Zakłócenie</string>
-                               </property>
-                               <property name="iconSize">
+                               <property name="maximumSize">
                                 <size>
-                                 <width>50</width>
-                                 <height>50</height>
+                                 <width>60</width>
+                                 <height>30</height>
                                 </size>
                                </property>
                               </widget>
@@ -517,7 +515,7 @@
                        <item>
                         <widget class="QLabel" name="label_12">
                          <property name="text">
-                          <string>Amplituda</string>
+                          <string>Amplituda:</string>
                          </property>
                         </widget>
                        </item>
@@ -761,7 +759,7 @@
                  <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
-                 <string>Symuluj</string>
+                 <string>SYMULUJ</string>
                 </property>
                </widget>
               </item>
@@ -783,7 +781,7 @@
                  <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
-                 <string>Zatrzymaj</string>
+                 <string>ZATRZYMAJ</string>
                 </property>
                </widget>
               </item>
@@ -811,7 +809,7 @@
                  <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
-                 <string>Reset</string>
+                 <string>RESET</string>
                 </property>
                </widget>
               </item>
