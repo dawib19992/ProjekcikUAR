@@ -42,7 +42,6 @@
     <property name="font">
      <font>
       <pointsize>16</pointsize>
-      <bold>true</bold>
      </font>
     </property>
     <property name="frameShape">
@@ -213,7 +212,7 @@
                                 </size>
                                </property>
                                <property name="text">
-                                <string>opóźnienie:</string>
+                                <string>opoznienie:</string>
                                </property>
                               </widget>
                              </item>
@@ -234,30 +233,32 @@
                               </widget>
                              </item>
                              <item>
-                              <widget class="QLabel" name="label_15">
-                               <property name="maximumSize">
-                                <size>
-                                 <width>120</width>
-                                 <height>39</height>
-                                </size>
+                              <widget class="QRadioButton" name="zaklocenie">
+                               <property name="sizePolicy">
+                                <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                                 <horstretch>0</horstretch>
+                                 <verstretch>0</verstretch>
+                                </sizepolicy>
                                </property>
-                               <property name="text">
-                                <string>zakłócenie:</string>
-                               </property>
-                              </widget>
-                             </item>
-                             <item>
-                              <widget class="QDoubleSpinBox" name="te_zaklocenie">
                                <property name="minimumSize">
                                 <size>
-                                 <width>60</width>
+                                 <width>80</width>
                                  <height>30</height>
                                 </size>
                                </property>
-                               <property name="maximumSize">
+                               <property name="layoutDirection">
+                                <enum>Qt::LayoutDirection::RightToLeft</enum>
+                               </property>
+                               <property name="autoFillBackground">
+                                <bool>false</bool>
+                               </property>
+                               <property name="text">
+                                <string>Zakłócenie</string>
+                               </property>
+                               <property name="iconSize">
                                 <size>
-                                 <width>60</width>
-                                 <height>30</height>
+                                 <width>50</width>
+                                 <height>50</height>
                                 </size>
                                </property>
                               </widget>
@@ -265,29 +266,6 @@
                             </layout>
                            </item>
                           </layout>
-                         </item>
-                         <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_23">
-                           <item>
-                            <widget class="QLabel" name="label_16">
-                             <property name="maximumSize">
-                              <size>
-                               <width>120</width>
-                               <height>16777215</height>
-                              </size>
-                             </property>
-                             <property name="text">
-                              <string>interwał:</string>
-                             </property>
-                            </widget>
-                           </item>
-                           <item>
-                            <widget class="QSpinBox" name="interwal"/>
-                           </item>
-                          </layout>
-                         </item>
-                         <item>
-                          <layout class="QHBoxLayout" name="horizontalLayout_18"/>
                          </item>
                          <item>
                           <widget class="QPushButton" name="wgrajARX">
@@ -539,7 +517,7 @@
                        <item>
                         <widget class="QLabel" name="label_12">
                          <property name="text">
-                          <string>Amplituda:</string>
+                          <string>Amplituda</string>
                          </property>
                         </widget>
                        </item>
@@ -769,13 +747,13 @@
                 </property>
                 <property name="minimumSize">
                  <size>
-                  <width>80</width>
+                  <width>130</width>
                   <height>70</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>80</width>
+                  <width>130</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -783,7 +761,7 @@
                  <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
-                 <string>SYMULUJ</string>
+                 <string>Symuluj</string>
                 </property>
                </widget>
               </item>
@@ -791,13 +769,13 @@
                <widget class="QPushButton" name="zatrzymaj">
                 <property name="minimumSize">
                  <size>
-                  <width>80</width>
+                  <width>130</width>
                   <height>70</height>
                  </size>
                 </property>
                 <property name="maximumSize">
                  <size>
-                  <width>80</width>
+                  <width>130</width>
                   <height>30</height>
                  </size>
                 </property>
@@ -805,41 +783,7 @@
                  <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
                 <property name="text">
-                 <string>ZATRZYMAJ</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="reset">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="minimumSize">
-                 <size>
-                  <width>80</width>
-                  <height>70</height>
-                 </size>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>80</width>
-                  <height>30</height>
-                 </size>
-                </property>
-                <property name="font">
-                 <font>
-                  <bold>true</bold>
-                  <underline>true</underline>
-                 </font>
-                </property>
-                <property name="layoutDirection">
-                 <enum>Qt::LayoutDirection::LeftToRight</enum>
-                </property>
-                <property name="text">
-                 <string>RESET</string>
+                 <string>Zatrzymaj</string>
                 </property>
                </widget>
               </item>
@@ -932,6 +876,22 @@
       </layout>
      </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="zaklocenie_wartosc">
+    <property name="geometry">
+     <rect>
+      <x>1290</x>
+      <y>50</y>
+      <width>131</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Shape::Box</enum>
+    </property>
+    <property name="text">
+     <string>zakłócenie:</string>
+    </property>
    </widget>
    <widget class="QCustomPlot" name="customPlot_uchyb" native="true">
     <property name="geometry">

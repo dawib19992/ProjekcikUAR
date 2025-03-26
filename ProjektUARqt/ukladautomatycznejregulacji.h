@@ -19,7 +19,6 @@ public:
     ~UkladAutomatycznejRegulacji();
 
 private slots:
-    void inicjalizujUI();
 
     void on_zapisDoPliku_clicked();
 
@@ -56,10 +55,6 @@ private slots:
 
 
     void on_wgrajGWZ_clicked();
-
-    void on_reset_clicked();
-
-    void on_te_opoznienie_textChanged(const QString &arg1);
 
 private:
     Ui::UkladAutomatycznejRegulacji *ui;

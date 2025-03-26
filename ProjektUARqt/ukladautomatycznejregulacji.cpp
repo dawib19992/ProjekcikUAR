@@ -12,12 +12,14 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     setFixedSize(1800, 900);
     ustawShortcuty();
     ustawWykresy();
+    ui->zaklocenie_wartosc->setVisible(false);
     ui->gorna->setMaximum(1000);
     ui->dolna->setMinimum(-1000);
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
     ui->zatrzymaj->setEnabled(false);
     ui->ukryjLegendy->setEnabled(false);
+
 }
 
 UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
@@ -81,6 +83,7 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     ui->customPlot->yAxis->rescale();
     ui->customPlot_pid->yAxis->rescale();
     ui->customPlot_uchyb->yAxis->rescale();
+    ui->zaklocenie_wartosc->setText("zakłócenie: " + QString::number(us->model.getZaklocenie()));
 }
 
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
@@ -99,7 +102,6 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
             // Dezaktywacja przycisku Start i aktywacja Stop
             ui->symuluj->setEnabled(false);
             ui->zatrzymaj->setEnabled(true);
-            ui->reset->setEnabled(true);
 
         }
           ui->ukryjLegendy->setEnabled(true);
@@ -126,57 +128,8 @@ void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
         timer->stop();
         ui->symuluj->setEnabled(true);
         ui->zatrzymaj->setEnabled(false);
-        ui->reset->setEnabled(true);
     }
 }
-
-void UkladAutomatycznejRegulacji::on_reset_clicked()
-{
-    if (timer->isActive())
-    {
-        timer->stop();
-    }
-
-    // Reset wartości symulacji
-    time = 0.0;
-    uchyb = 0.0;
-    isZaklocenie = false;
-
-    // Czyszczenie wykresów
-    ui->customPlot->graph(0)->data()->clear();
-    ui->customPlot->graph(1)->data()->clear();
-    ui->customPlot_uchyb->graph(0)->data()->clear();
-    ui->customPlot_pid->graph(0)->data()->clear();
-    ui->customPlot_pid->graph(1)->data()->clear();
-    ui->customPlot_pid->graph(2)->data()->clear();
-    ui->customPlot_pid->graph(3)->data()->clear();
-
-    // Aktualizacja wykresów
-    ui->customPlot->replot();
-    ui->customPlot_uchyb->replot();
-    ui->customPlot_pid->replot();
-
-    // Reset przycisków
-    ui->symuluj->setEnabled(true);
-    ui->zatrzymaj->setEnabled(false);
-    ui->reset->setEnabled(false);
-    ui->ukryjLegendy->setEnabled(false);
-
-    // Czyszczenie pól edycyjnych
-    ui->te_a->clear();
-    ui->te_b->clear();
-    ui->te_opoznienie->clear();
-    ui->te_k->clear();
-    ui->te_ti->clear();
-    ui->te_td->clear();
-    ui->amplituda->clear();
-    ui->czas_aktywacji->clear();
-    ui->wypelnienie->clear();
-    ui->okres->clear();
-    ui->gorna->clear();
-    ui->dolna->clear();
-}
-
 
 
 void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
@@ -233,10 +186,13 @@ void UkladAutomatycznejRegulacji::ustawARX()
         }
     }
     int delay = ui->te_opoznienie->value();
-    double disturbtion = ui->te_zaklocenie->value();
-    if(disturbtion >= 0.0)
+    if(isZaklocenie)
     {
-        us->model.setZaklocenie(disturbtion);
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::normal_distribution<double> dist(0.0, 0.05);
+        double zaklocenie = dist(gen);
+        us->model.setZaklocenie(zaklocenie);
     }
     us->model.setA(a);
     us->model.setB(b);
@@ -276,12 +232,26 @@ void UkladAutomatycznejRegulacji::ustawGWZ()
     int czas = ui->czas_aktywacji->value();
     double okres = ui->okres->value();
     double wypelnienie = ui->wypelnienie->value();
+
     us->gwz.setTyp(typ);
     us->gwz.setAmplituda(amplituda);
     us->gwz.setOkres(okres);
     us->gwz.setWypelnienie(wypelnienie);
     us->gwz.setCzas(czas);
 
+}
+void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
+{
+    if(isZaklocenie)
+    {
+        isZaklocenie = false;
+        ui->zaklocenie_wartosc->setVisible(true);
+    }
+    else
+    {
+        isZaklocenie = true;
+        ui->zaklocenie_wartosc->setVisible(false);
+    }
 }
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
@@ -385,13 +355,11 @@ void UkladAutomatycznejRegulacji::ustawShortcuty()
     QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
     QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
     QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
-    QShortcut* reset_skrot = new QShortcut(QKeySequence("Ctrl+R"), this);
     connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
     connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
     connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
     connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
     connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
-    connect(reset_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_reset_clicked);
 }
 
 
@@ -479,10 +447,4 @@ void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
     ustawGWZ();
     isWgrane[2] = 1;
 }
-
-
-
-
-
-
 
