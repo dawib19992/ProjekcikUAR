@@ -12,7 +12,6 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     setFixedSize(1800, 900);
     ustawShortcuty();
     ustawWykresy();
-    ui->zaklocenie_wartosc->setVisible(false);
     ui->gorna->setMaximum(1000);
     ui->dolna->setMinimum(-1000);
     timer = new QTimer(this);
@@ -82,7 +81,6 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     ui->customPlot->yAxis->rescale();
     ui->customPlot_pid->yAxis->rescale();
     ui->customPlot_uchyb->yAxis->rescale();
-    ui->zaklocenie_wartosc->setText("zakłócenie: " + QString::number(us->model.getZaklocenie()));
 }
 
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
@@ -235,13 +233,10 @@ void UkladAutomatycznejRegulacji::ustawARX()
         }
     }
     int delay = ui->te_opoznienie->value();
-    if(isZaklocenie)
+    double disturbtion = ui->te_zaklocenie->value();
+    if(disturbtion >= 0.0)
     {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::normal_distribution<double> dist(0.0, 0.05);
-        double zaklocenie = dist(gen);
-        us->model.setZaklocenie(zaklocenie);
+        us->model.setZaklocenie(disturbtion);
     }
     us->model.setA(a);
     us->model.setB(b);
@@ -281,26 +276,12 @@ void UkladAutomatycznejRegulacji::ustawGWZ()
     int czas = ui->czas_aktywacji->value();
     double okres = ui->okres->value();
     double wypelnienie = ui->wypelnienie->value();
-
     us->gwz.setTyp(typ);
     us->gwz.setAmplituda(amplituda);
     us->gwz.setOkres(okres);
     us->gwz.setWypelnienie(wypelnienie);
     us->gwz.setCzas(czas);
 
-}
-void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
-{
-    if(isZaklocenie)
-    {
-        isZaklocenie = false;
-        ui->zaklocenie_wartosc->setVisible(true);
-    }
-    else
-    {
-        isZaklocenie = true;
-        ui->zaklocenie_wartosc->setVisible(false);
-    }
 }
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
@@ -498,6 +479,9 @@ void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
     ustawGWZ();
     isWgrane[2] = 1;
 }
+
+
+
 
 
 
