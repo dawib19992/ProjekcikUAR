@@ -102,7 +102,7 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
             // Dezaktywacja przycisku Start i aktywacja Stop
             ui->symuluj->setEnabled(false);
             ui->zatrzymaj->setEnabled(true);
-
+            ui->resetuj->setEnabled(true);
         }
           ui->ukryjLegendy->setEnabled(true);
     }
@@ -128,6 +128,7 @@ void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
         timer->stop();
         ui->symuluj->setEnabled(true);
         ui->zatrzymaj->setEnabled(false);
+        ui->resetuj->setEnabled(true);
     }
 }
 
@@ -414,44 +415,56 @@ void UkladAutomatycznejRegulacji::ustawWykresy()
     // Wykres wyjścia modelu ARX
     ui->customPlot->addGraph();
     ui->customPlot->graph(0)->setPen(QPen(Qt::red, 1.5));
-    //Wartość Zadana
+    // Wartość Zadana
     ui->customPlot->addGraph();
-    ui->customPlot->graph(1)->setPen(QPen(Qt::blue,1.5));
-    //Uchyb
+    ui->customPlot->graph(1)->setPen(QPen(Qt::blue, 1.5));
+
+    // Uchyb
     ui->customPlot_uchyb->addGraph();
     ui->customPlot_uchyb->graph(0)->setPen(QPen(Qt::green, 1.5));
-    //Sterowanie
+
+    // Sterowanie
     ui->customPlot_pid->addGraph();
     ui->customPlot_pid->graph(0)->setPen(QPen(Qt::blue));
-    //Wzmocnienie
+    // Wzmocnienie
     ui->customPlot_pid->addGraph();
     ui->customPlot_pid->graph(1)->setPen(QPen(Qt::magenta));
-    //Ti - stala calkowania
+    // Ti - stała całkowania
     ui->customPlot_pid->addGraph();
     ui->customPlot_pid->graph(2)->setPen(QPen(Qt::red));
-    //Td - stala rozniczkowania
+    // Td - stała różniczkowania
     ui->customPlot_pid->addGraph();
     ui->customPlot_pid->graph(3)->setPen(QPen(Qt::green));
-    //Legenda Głównego wykresu
+
+    // Legenda Głównego wykresu
     ui->customPlot->legend->setVisible(true);
     ui->customPlot->graph(0)->setName("Wartość Regulowana");
     ui->customPlot->graph(1)->setName("Wartość Zadana");
-    //Legenda Uchybu
-    ui->customPlot_uchyb->legend->setVisible(true);
-    ui->customPlot_uchyb->graph(0)->setName("Uchyb");
-    //Legenda PID
+    // Legenda PID
     ui->customPlot_pid->legend->setVisible(true);
     ui->customPlot_pid->graph(0)->setName("Sterowanie");
     ui->customPlot_pid->graph(1)->setName("Wzmocnienie");
     ui->customPlot_pid->graph(2)->setName("Stała Całkowania");
-    ui->customPlot_pid->graph(3)->setName("Stała Różniczkownia");
+    ui->customPlot_pid->graph(3)->setName("Stała Różniczkowania");
 
+    // Oznaczenia osi dla głównego wykresu
     ui->customPlot->xAxis->setLabel("Czas [s]");
     ui->customPlot->yAxis->setLabel("Wyjście");
     ui->customPlot->xAxis->setRange(0, 10);
     ui->customPlot->yAxis->setRange(-5, 5);
 
+    // Oznaczenia osi dla uchybu
+    ui->customPlot_uchyb->xAxis->setLabel("Czas [s]");
+    ui->customPlot_uchyb->yAxis->setLabel("Uchyb");
+    ui->customPlot_uchyb->xAxis->setRange(0, 10);
+    ui->customPlot_uchyb->yAxis->setRange(-5, 5);
+
+    // Oznaczenia osi dla PID
+    ui->customPlot_pid->xAxis->setLabel("Czas [s]");
+    ui->customPlot_pid->xAxis->setRange(0, 10);
+    ui->customPlot_pid->yAxis->setRange(-5, 5);
 }
+
 
 
 void UkladAutomatycznejRegulacji::on_ukryjLegendy_clicked()
