@@ -259,6 +259,9 @@
                                  <height>30</height>
                                 </size>
                                </property>
+                               <property name="singleStep">
+                                <double>0.010000000000000</double>
+                               </property>
                               </widget>
                              </item>
                             </layout>
@@ -940,7 +943,7 @@
      <x>0</x>
      <y>0</y>
      <width>1800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>
