@@ -269,6 +269,49 @@
                           </layout>
                          </item>
                          <item>
+                          <layout class="QHBoxLayout" name="horizontalLayout_18">
+                           <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout_23">
+                             <item>
+                              <widget class="QLabel" name="label_17">
+                               <property name="maximumSize">
+                                <size>
+                                 <width>120</width>
+                                 <height>39</height>
+                                </size>
+                               </property>
+                               <property name="text">
+                                <string>interwał:</string>
+                               </property>
+                              </widget>
+                             </item>
+                             <item>
+                              <widget class="QDoubleSpinBox" name="interwal">
+                               <property name="minimumSize">
+                                <size>
+                                 <width>60</width>
+                                 <height>30</height>
+                                </size>
+                               </property>
+                               <property name="maximumSize">
+                                <size>
+                                 <width>60</width>
+                                 <height>30</height>
+                                </size>
+                               </property>
+                               <property name="maximum">
+                                <double>99.900000000000006</double>
+                               </property>
+                               <property name="singleStep">
+                                <double>0.100000000000000</double>
+                               </property>
+                              </widget>
+                             </item>
+                            </layout>
+                           </item>
+                          </layout>
+                         </item>
+                         <item>
                           <widget class="QPushButton" name="wgrajARX">
                            <property name="minimumSize">
                             <size>
@@ -943,7 +986,7 @@
      <x>0</x>
      <y>0</y>
      <width>1800</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>

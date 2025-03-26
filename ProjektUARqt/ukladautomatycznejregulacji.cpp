@@ -224,9 +224,12 @@ void UkladAutomatycznejRegulacji::ustawARX()
     {
         us->model.setZaklocenie(disruption);
     }
+    //double interwal = ui->interwal->value();
     us->model.setA(a);
     us->model.setB(b);
     us->model.setOpoznienie(delay);
+    us->model.setZaklocenie(disruption);
+    //us->model.setInterwal(interwal);
 
 }
 
