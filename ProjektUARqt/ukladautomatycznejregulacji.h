@@ -56,6 +56,8 @@ private slots:
 
     void on_wgrajGWZ_clicked();
 
+    void on_resetuj_clicked();
+
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
     UkladSterowania* us;
