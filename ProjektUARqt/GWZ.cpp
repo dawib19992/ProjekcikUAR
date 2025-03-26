@@ -1,9 +1,10 @@
 #include "GWZ.h"
 #include <QtMath>
 
-GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_, double wypelnienie_)
-    :amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), typ(typ_), okres(okres_), wypelnienie(wypelnienie_)
+GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_, double wypelnienie_, double skladowa_stala_)
+    : amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), typ(typ_), okres(okres_), wypelnienie(wypelnienie_), skladowa_stala(skladowa_stala_)
 {}
+
 
 GWZ::GWZ() {}
 
@@ -37,17 +38,17 @@ double GWZ::pobierzWartoscZadana(double czas)
     case TypSygnalu::prostokatny:
         if (czas >= czas_aktywacji)
         {
-            // Oblicz aktualną fazę w obrębie jednego okresu
-            double faza = czas - ((int)(czas / okres) * okres);
+            // Oblicz resztę z dzielenia czasu przez okres
+            double faza = std::fmod(czas, okres);
 
-            // Uwzględnij wypełnienie
-            if (faza < (okres * wypelnienie)) // wypelnienie jako ułamek (np. 0.5 dla 50%)
+            // Uwzględnij wypełnienie sygnału
+            if (faza < (okres * wypelnienie))
             {
-                wartosc = amplituda;
+                wartosc = amplituda + skladowa_stala;  // A + S
             }
             else
             {
-                wartosc = 0.0;
+                wartosc = skladowa_stala;  // S
             }
         }
         break;

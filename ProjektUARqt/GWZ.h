@@ -10,9 +10,10 @@ private:
     TypSygnalu typ;
     double okres; //sinus
     double wypelnienie; //prostokatny
+    double skladowa_stala;  // Dodajemy stałą S
 
 public:
-    GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_ = 0, double okres_ = 0.0, double wypelnienie_ = 0.0);
+    GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_ = 0, double okres_ = 0.0, double wypelnienie_ = 0.0, double skladowa_stala_ = 0.0);
     GWZ();
     double pobierzWartoscZadana(double czas);
     void reset();
@@ -21,4 +22,6 @@ public:
     void setOkres(double okres_) {okres = okres_;}
     void setWypelnienie(double wypelnienie_) {wypelnienie = wypelnienie_;}
     void setCzas(int czas_aktywacji_) {czas_aktywacji = czas_aktywacji_;}
+    void setSkladowaStala(double S) { skladowa_stala = S; }
+
 };
