@@ -265,12 +265,14 @@ void UkladAutomatycznejRegulacji::ustawGWZ()
     int czas = ui->czas_aktywacji->value();
     double okres = ui->okres->value();
     double wypelnienie = ui->wypelnienie->value();
+    double skladowa_stala = ui->skladowa_stala->value();
 
     us->gwz.setTyp(typ);
     us->gwz.setAmplituda(amplituda);
     us->gwz.setOkres(okres);
     us->gwz.setWypelnienie(wypelnienie);
     us->gwz.setCzas(czas);
+    us->gwz.setSkladowaStala(skladowa_stala);
 
 }
 
@@ -312,6 +314,7 @@ void UkladAutomatycznejRegulacji::ZapisDoPliku()
     out << "wypelnienie: " << ui->wypelnienie->value() << "\n";
     out << "czas_aktywacji: " << ui->czas_aktywacji->value() << "\n";
     out << "okres: " << ui->okres->value() << "\n";
+    out << "skladowa_stala: " << ui->skladowa_stala->value() << "\n";
     out << "typ: " << ui->comboGWZ->currentText()<< "\n";
     out << "dolna: " << ui->dolna->value()<< "\n";
     out << "gorna: " << ui->gorna->value() << "\n";
@@ -357,6 +360,8 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
             ui->czas_aktywacji->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("okres:")) {
             ui->okres->setValue(linia.section(':', 1).trimmed().toDouble());
+        } else if (linia.startsWith("skladowa_stala:")) {
+            ui->skladowa_stala->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if(linia.startsWith("typ: ")){
             QString typ = linia.section(':', 1).trimmed();
             int index = ui->comboGWZ->findText(typ);
