@@ -35,9 +35,13 @@ double GWZ::pobierzWartoscZadana(double czas)
         break;
     }
     case TypSygnalu::prostokatny:
-        if(czas >= czas_aktywacji)
+        if (czas >= czas_aktywacji)
         {
-            if(czas - ((int)(czas / okres) * okres) < (okres / 2))
+            // Oblicz aktualną fazę w obrębie jednego okresu
+            double faza = czas - ((int)(czas / okres) * okres);
+
+            // Uwzględnij wypełnienie
+            if (faza < (okres * wypelnienie)) // wypelnienie jako ułamek (np. 0.5 dla 50%)
             {
                 wartosc = amplituda;
             }
@@ -47,6 +51,7 @@ double GWZ::pobierzWartoscZadana(double czas)
             }
         }
         break;
+
     default:
         wartosc = 0.0;
         break;

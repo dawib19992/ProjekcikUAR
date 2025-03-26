@@ -82,14 +82,15 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
     if(czyWgrane == true)
     {
         if(!timer->isActive()){
-            timer->start(100);  // Timer co 100 ms
+            int interwalCzasowy = ui->interwal->value(); // Pobranie wartości interwału ze spinboxa
+            timer->start(interwalCzasowy);  // Ustawienie nowego interwału timera
 
             // Dezaktywacja przycisku Start i aktywacja Stop
             ui->symuluj->setEnabled(false);
             ui->zatrzymaj->setEnabled(true);
             ui->resetuj->setEnabled(true);
         }
-          ui->ukryjLegendy->setEnabled(true);
+        ui->ukryjLegendy->setEnabled(true);
     }
     else
     {
@@ -103,8 +104,6 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
             QMessageBox::warning(this, "Błąd startu symulacji", "Przed rozpoczęciem symulacji upewnij się że dane GENERATORA WARTOŚCI ZADANEJ zostały poprawnie wgrane do programu");
         }
     }
-
-
 }
 
 void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
@@ -229,7 +228,8 @@ void UkladAutomatycznejRegulacji::ustawARX()
     us->model.setB(b);
     us->model.setOpoznienie(delay);
     us->model.setZaklocenie(disruption);
-    //us->model.setInterwal(interwal);
+    int interwalCzasowy = ui->interwal->value();
+    timer->setInterval(interwalCzasowy);
 
 }
 
