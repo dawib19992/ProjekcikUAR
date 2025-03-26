@@ -131,6 +131,52 @@ void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
     }
 }
 
+void UkladAutomatycznejRegulacji::on_resetuj_clicked()
+{
+    if (timer->isActive())
+    {
+        timer->stop();
+    }
+
+    // Reset wartości symulacji
+    time = 0.0;
+    uchyb = 0.0;
+    isZaklocenie = false;
+
+    // Czyszczenie wykresów
+    ui->customPlot->graph(0)->data()->clear();
+    ui->customPlot->graph(1)->data()->clear();
+    ui->customPlot_uchyb->graph(0)->data()->clear();
+    ui->customPlot_pid->graph(0)->data()->clear();
+    ui->customPlot_pid->graph(1)->data()->clear();
+    ui->customPlot_pid->graph(2)->data()->clear();
+    ui->customPlot_pid->graph(3)->data()->clear();
+
+    // Aktualizacja wykresów
+    ui->customPlot->replot();
+    ui->customPlot_uchyb->replot();
+    ui->customPlot_pid->replot();
+
+    // Reset przycisków
+    ui->symuluj->setEnabled(true);
+    ui->zatrzymaj->setEnabled(false);
+    ui->resetuj->setEnabled(false);
+    ui->ukryjLegendy->setEnabled(false);
+
+    // Czyszczenie pól edycyjnych
+    ui->te_a->clear();
+    ui->te_b->clear();
+    ui->te_opoznienie->clear();
+    ui->te_k->clear();
+    ui->te_ti->clear();
+    ui->te_td->clear();
+    ui->amplituda->clear();
+    ui->czas_aktywacji->clear();
+    ui->wypelnienie->clear();
+    ui->okres->clear();
+    ui->gorna->clear();
+    ui->dolna->clear();
+}
 
 void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
 {
@@ -447,4 +493,5 @@ void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
     ustawGWZ();
     isWgrane[2] = 1;
 }
+
 
