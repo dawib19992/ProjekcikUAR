@@ -3,9 +3,7 @@
 
 const QString nazwa = "konfiguracja.txt";
 
-UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::UkladAutomatycznejRegulacji)
+void UkladAutomatycznejRegulacji::inicjalizujUI()
 {
     ui->setupUi(this);
     us = new UkladSterowania();
@@ -19,6 +17,27 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
     ui->zatrzymaj->setEnabled(false);
     ui->ukryjLegendy->setEnabled(false);
+}
+
+UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::UkladAutomatycznejRegulacji)
+{
+   /* ui->setupUi(this);
+    us = new UkladSterowania();
+    setFixedSize(1800, 900);
+    ustawShortcuty();
+    ustawWykresy();
+    ui->zaklocenie_wartosc->setVisible(false);
+    ui->gorna->setMaximum(1000);
+    ui->dolna->setMinimum(-1000);
+    timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
+    ui->zatrzymaj->setEnabled(false);
+    ui->ukryjLegendy->setEnabled(false);
+*/
+   inicjalizujUI();
+
 
 }
 
@@ -102,6 +121,7 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
             // Dezaktywacja przycisku Start i aktywacja Stop
             ui->symuluj->setEnabled(false);
             ui->zatrzymaj->setEnabled(true);
+            ui->reset->setEnabled(true);
 
         }
           ui->ukryjLegendy->setEnabled(true);
@@ -128,8 +148,21 @@ void UkladAutomatycznejRegulacji::on_zatrzymaj_clicked()
         timer->stop();
         ui->symuluj->setEnabled(true);
         ui->zatrzymaj->setEnabled(false);
+        ui->reset->setEnabled(true);
     }
 }
+
+void UkladAutomatycznejRegulacji::on_reset_clicked()
+{
+    if(timer->isActive()){
+        timer->stop();
+        ui->symuluj->setEnabled(true);
+        ui->zatrzymaj->setEnabled(true);
+        ui->reset->setEnabled(false);
+    }
+    inicjalizujUI();
+}
+
 
 
 void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
@@ -355,11 +388,13 @@ void UkladAutomatycznejRegulacji::ustawShortcuty()
     QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
     QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
     QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
+    //QShortcut* reset_skrot = new QShortcut(QKeySequence("Ctrl+R"), this);
     connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
     connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
     connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
     connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
     connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
+    //connect(reset_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_reset_clicked);
 }
 
 
@@ -447,4 +482,7 @@ void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
     ustawGWZ();
     isWgrane[2] = 1;
 }
+
+
+
 

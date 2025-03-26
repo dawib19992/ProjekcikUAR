@@ -19,6 +19,7 @@ public:
     ~UkladAutomatycznejRegulacji();
 
 private slots:
+    void inicjalizujUI();
 
     void on_zapisDoPliku_clicked();
 
@@ -55,6 +56,8 @@ private slots:
 
 
     void on_wgrajGWZ_clicked();
+
+    void on_reset_clicked();
 
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
