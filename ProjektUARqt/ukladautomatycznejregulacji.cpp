@@ -101,7 +101,7 @@ void UkladAutomatycznejRegulacji::on_symuluj_clicked()
             // Dezaktywacja przycisku Start i aktywacja Stop
             ui->symuluj->setEnabled(false);
             ui->zatrzymaj->setEnabled(true);
-            //ui->reset->setEnabled(true);
+            ui->reset->setEnabled(true);
 
         }
           ui->ukryjLegendy->setEnabled(true);

@@ -42,6 +42,7 @@
     <property name="font">
      <font>
       <pointsize>16</pointsize>
+      <bold>true</bold>
      </font>
     </property>
     <property name="frameShape">
@@ -264,6 +265,29 @@
                             </layout>
                            </item>
                           </layout>
+                         </item>
+                         <item>
+                          <layout class="QHBoxLayout" name="horizontalLayout_23">
+                           <item>
+                            <widget class="QLabel" name="label_16">
+                             <property name="maximumSize">
+                              <size>
+                               <width>120</width>
+                               <height>16777215</height>
+                              </size>
+                             </property>
+                             <property name="text">
+                              <string>interwał:</string>
+                             </property>
+                            </widget>
+                           </item>
+                           <item>
+                            <widget class="QSpinBox" name="interwal"/>
+                           </item>
+                          </layout>
+                         </item>
+                         <item>
+                          <layout class="QHBoxLayout" name="horizontalLayout_18"/>
                          </item>
                          <item>
                           <widget class="QPushButton" name="wgrajARX">
@@ -805,6 +829,12 @@
                   <height>30</height>
                  </size>
                 </property>
+                <property name="font">
+                 <font>
+                  <bold>true</bold>
+                  <underline>true</underline>
+                 </font>
+                </property>
                 <property name="layoutDirection">
                  <enum>Qt::LayoutDirection::LeftToRight</enum>
                 </property>
@@ -902,22 +932,6 @@
       </layout>
      </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="zaklocenie_wartosc">
-    <property name="geometry">
-     <rect>
-      <x>1290</x>
-      <y>50</y>
-      <width>131</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::Shape::Box</enum>
-    </property>
-    <property name="text">
-     <string>zakłócenie:</string>
-    </property>
    </widget>
    <widget class="QCustomPlot" name="customPlot_uchyb" native="true">
     <property name="geometry">
