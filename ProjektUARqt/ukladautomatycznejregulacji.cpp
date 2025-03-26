@@ -12,7 +12,6 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     setFixedSize(1800, 900);
     ustawShortcuty();
     ustawWykresy();
-    ui->zaklocenie_wartosc->setVisible(false);
     ui->gorna->setMaximum(1000);
     ui->dolna->setMinimum(-1000);
     timer = new QTimer(this);
@@ -30,20 +29,7 @@ UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
 void UkladAutomatycznejRegulacji::startSymulacji()
 {
     time += 0.1;
-    double zaklocenie;
-    if(isZaklocenie == false)
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::normal_distribution<double> dist(0.0, 0.05);
-        zaklocenie = dist(gen);
-        us->model.setZaklocenie(zaklocenie);
-    }
-    else
-    {
-        zaklocenie = 0.0;
-        us->model.setZaklocenie(zaklocenie);
-    }
+
     double wartZadana = us->gwz.pobierzWartoscZadana(time);
     double wyjscie_arx = us->model.wykonajKrok(wartZadana);
     double wyjscie_pid = us->regulator.wykonajKrok(uchyb);
@@ -83,7 +69,6 @@ void UkladAutomatycznejRegulacji::startSymulacji()
     ui->customPlot->yAxis->rescale();
     ui->customPlot_pid->yAxis->rescale();
     ui->customPlot_uchyb->yAxis->rescale();
-    ui->zaklocenie_wartosc->setText("zakłócenie: " + QString::number(us->model.getZaklocenie()));
 }
 
 void UkladAutomatycznejRegulacji::on_symuluj_clicked()
@@ -142,7 +127,6 @@ void UkladAutomatycznejRegulacji::on_resetuj_clicked()
     // Reset wartości symulacji
     time = 0.0;
     uchyb = 0.0;
-    isZaklocenie = false;
 
     // Czyszczenie wykresów
     ui->customPlot->graph(0)->data()->clear();
@@ -168,6 +152,7 @@ void UkladAutomatycznejRegulacji::on_resetuj_clicked()
     ui->te_a->clear();
     ui->te_b->clear();
     ui->te_opoznienie->clear();
+    ui->te_zaklocenie->clear();
     ui->te_k->clear();
     ui->te_ti->clear();
     ui->te_td->clear();
@@ -184,6 +169,7 @@ void UkladAutomatycznejRegulacji::on_wyczyscDane_clicked()
     ui->te_a->clear();
     ui->te_b->clear();
     ui->te_opoznienie->clear();
+    ui->te_zaklocenie->clear();
     ui->te_k->clear();
     ui->te_ti->clear();
     ui->te_td->clear();
@@ -233,13 +219,10 @@ void UkladAutomatycznejRegulacji::ustawARX()
         }
     }
     int delay = ui->te_opoznienie->value();
-    if(isZaklocenie)
+    double disruption = ui->te_zaklocenie->value();
+    if(disruption >= 0.0)
     {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::normal_distribution<double> dist(0.0, 0.05);
-        double zaklocenie = dist(gen);
-        us->model.setZaklocenie(zaklocenie);
+        us->model.setZaklocenie(disruption);
     }
     us->model.setA(a);
     us->model.setB(b);
@@ -287,19 +270,6 @@ void UkladAutomatycznejRegulacji::ustawGWZ()
     us->gwz.setCzas(czas);
 
 }
-void UkladAutomatycznejRegulacji::on_zaklocenie_clicked()
-{
-    if(isZaklocenie)
-    {
-        isZaklocenie = false;
-        ui->zaklocenie_wartosc->setVisible(true);
-    }
-    else
-    {
-        isZaklocenie = true;
-        ui->zaklocenie_wartosc->setVisible(false);
-    }
-}
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
 {
@@ -331,6 +301,7 @@ void UkladAutomatycznejRegulacji::ZapisDoPliku()
         out << "b: " << 0 << "\n";
     }
     out << "opoznienie: " << ui->te_opoznienie->value() << "\n";
+    out << "zaklocenie: " << ui->te_zaklocenie->value() << "\n";
     out << "k: " << ui->te_k->value() << "\n";
     out << "Ti: " << ui->te_ti->value() << "\n";
     out << "Td: " << ui->te_td->value() << "\n";
@@ -367,6 +338,8 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
             ui->te_b->setPlainText(linia.mid(2).trimmed());
         } else if (linia.startsWith("opoznienie:")) {
             ui->te_opoznienie->setValue(linia.section(':', 1).trimmed().toDouble());
+        } else if (linia.startsWith("zaklocenie:")) {
+            ui->te_zaklocenie->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("k:")) {
             ui->te_k->setValue(linia.section(':', 1).trimmed().toDouble());
         } else if (linia.startsWith("Ti:")) {
@@ -402,11 +375,13 @@ void UkladAutomatycznejRegulacji::ustawShortcuty()
     QShortcut* start_skrot = new QShortcut(QKeySequence("Ctrl+F2"),this);
     QShortcut* stop_skrot = new QShortcut(QKeySequence("Ctrl+F3"), this);
     QShortcut* wyczysc_skrot = new QShortcut(QKeySequence("Ctrl+F4"), this);
+    QShortcut* reset_skrot = new QShortcut(QKeySequence("Ctrl+R"), this);
     connect(zapis_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::ZapisDoPliku);
     connect(wczytaj_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::WczytajzPliku);
     connect(start_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_symuluj_clicked);
     connect(stop_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_zatrzymaj_clicked);
     connect(wyczysc_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_wyczyscDane_clicked);
+    connect(reset_skrot, &QShortcut::activated, this, &UkladAutomatycznejRegulacji::on_resetuj_clicked);
 }
 
 
