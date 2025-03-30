@@ -6,15 +6,25 @@ RegulatorPID :: RegulatorPID(double k, double Ti, double Td, double dG, double g
 RegulatorPID::RegulatorPID() {}
 double RegulatorPID::wykonajKrok(double uchyb)
 {
+    // Składowa proporcjonalna
     skladnik_wzmocnienia = wzmocnienie * uchyb;
 
+    // Składowa całkująca
     if (stala_calkowania > 0) {
         if (!antiwindup) {
-            suma_calkowita += uchyb;
+            if (!metoda_calkowania) {
+                // Metoda standardowa (dzielenie po sumowaniu)
+                suma_calkowita += uchyb;
+                skladnik_calkowania = suma_calkowita / stala_calkowania;
+            } else {
+                // Metoda zalecana (przemnażanie w każdym kroku)
+                suma_calkowita += (uchyb * (1.0 / stala_calkowania));
+                skladnik_calkowania = suma_calkowita;
+            }
         }
-        skladnik_calkowania = suma_calkowita / stala_calkowania;
+    } else {
+        skladnik_calkowania = 0; // Gdy Ti = 0, całkowanie wyłączone
     }
-
     if (stala_rozniczkowania > 0) {
         double roznicaUchybow = uchyb - poprzedniUchyb;
         skladnik_rozniczkowania = stala_rozniczkowania * roznicaUchybow;
@@ -40,6 +50,7 @@ double RegulatorPID::wykonajKrok(double uchyb)
 void RegulatorPID::reset()
 {
 	suma_calkowita = 0;
+    poprzedniUchyb = 0;
 }
 
 void RegulatorPID::setGranica(double dolna, double gorna)

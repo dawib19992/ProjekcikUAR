@@ -15,6 +15,7 @@ class RegulatorPID
     double gGranicaAW;
     bool antiwindup;
     bool czyAW;
+    bool metoda_calkowania;
 
 public:
 
@@ -30,5 +31,6 @@ public:
     void setK(double k) {wzmocnienie = k;}
     void setTi(double Ti) {stala_calkowania = Ti;}
     void setTd(double Td) {stala_rozniczkowania =Td;}
+    void ustawMetodeCalkowania(bool metoda) { metoda_calkowania=metoda;}
 };
 

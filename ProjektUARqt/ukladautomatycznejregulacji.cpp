@@ -241,11 +241,13 @@ void UkladAutomatycznejRegulacji::ustawPID()
     double gorna = ui->gorna->value();
     double dolna = ui->dolna->value();
     bool czyAW = ui->antiwindup->isChecked();
+    bool metodaCalkowania = ui->checkbox_calkowanie->isChecked();
     us->regulator.setK(wzmocnienie);
     us->regulator.setTi(stala_calkowania);
     us->regulator.setTd(stala_rozniczkowania);
     us->regulator.setGranica(dolna, gorna);
     us->regulator.setAW(czyAW);
+    us->regulator.ustawMetodeCalkowania(metodaCalkowania);
 }
 
 void UkladAutomatycznejRegulacji::ustawGWZ()
