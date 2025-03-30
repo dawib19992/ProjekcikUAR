@@ -45,8 +45,6 @@ private slots:
 
     void on_zatrzymaj_clicked();
 
-    void on_zaklocenie_clicked();
-
     void on_ukryjLegendy_clicked();
 
     void on_wgrajARX_clicked();
