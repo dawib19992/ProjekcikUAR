@@ -1,0 +1,13 @@
+a: -0.4
+b: 0.6
+opoznienie: 3
+k: 1
+Ti: 5
+Td: 0.2
+amplituda: 1
+wypelnienie: 1
+czas_aktywacji: 2
+okres: 2
+typ: prostokatny
+dolna: -1000
+gorna: 1000
