@@ -12,7 +12,7 @@ private:
     double zaklocenie;
     //double interwal;
 public:
-    ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie = 1, double zaklocenie_ = 0.0 /*,double interwal = 0.0*/);
+    ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie = 1, double zaklocenie_ = 0.0 /*double interwal = 0.0*/);
     ModelARX();
     std::vector<double> getA() {return a;}
     std::vector<double> getB() {return b;}

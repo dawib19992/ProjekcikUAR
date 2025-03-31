@@ -1,5 +1,6 @@
 #include "ukladautomatycznejregulacji.h"
 #include "ui_ukladautomatycznejregulacji.h"
+#include "oknoarx.h"
 
 const QString nazwa = "konfiguracja.txt";
 
@@ -14,11 +15,34 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
     ustawWykresy();
     ui->gorna->setMaximum(1000);
     ui->dolna->setMinimum(-1000);
+
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &UkladAutomatycznejRegulacji::startSymulacji);
     ui->zatrzymaj->setEnabled(false);
     ui->ukryjLegendy->setEnabled(false);
 
+
+}
+
+void UkladAutomatycznejRegulacji::otworzOknoARX()
+{
+    OknoARX dialog(this);
+    std::vector<double> a = us->model.getA();
+    std::vector<double> b = us->model.getB();
+    int opoznienie = us->model.getOpoznienie();
+    double zaklocenie = us->model.getZaklocenie();
+
+    dialog.ustawDane(a, b, opoznienie, zaklocenie);
+
+    if (dialog.exec() == QDialog::Accepted)
+    {
+        dialog.pobierzDane(a, b, opoznienie, zaklocenie);
+        us->model.setA(a);
+        us->model.setB(b);
+        us->model.setOpoznienie(opoznienie);
+        us->model.setZaklocenie(zaklocenie);
+        QMessageBox::information(this, "Model ARX", "Zmieniono ustawienia modelu ARX");
+    }
 }
 
 UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
@@ -475,7 +499,7 @@ void UkladAutomatycznejRegulacji::on_ukryjLegendy_clicked()
 
 void UkladAutomatycznejRegulacji::on_wgrajARX_clicked()
 {
-    ustawARX();
+    otworzOknoARX();
     isWgrane[0] = 1;
 }
 

@@ -5,9 +5,12 @@
 #include "UkladSterowania.h"
 #include <QShortcut>
 QT_BEGIN_NAMESPACE
-namespace Ui {
+
+namespace Ui
+{
 class UkladAutomatycznejRegulacji;
 }
+
 QT_END_NAMESPACE
 
 class UkladAutomatycznejRegulacji : public QMainWindow
@@ -19,6 +22,8 @@ public:
     ~UkladAutomatycznejRegulacji();
 
 private slots:
+
+    void otworzOknoARX();
 
     void on_zapisDoPliku_clicked();
 
@@ -41,7 +46,6 @@ private slots:
     void ustawARX();
     void ustawPID();
     void ustawGWZ();
-
 
     void on_zatrzymaj_clicked();
 
