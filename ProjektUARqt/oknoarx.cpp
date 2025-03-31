@@ -7,47 +7,56 @@ OknoARX::OknoARX(QWidget *parent) :
     ui(new Ui::OknoARX)
 {
     ui->setupUi(this);
+    connect(ui->button_zatwiedz,&QPushButton::clicked,this,&OknoARX::accept);
+    connect(ui->button_anuluj,&QPushButton::clicked,this,&OknoARX::reject);
+
+    ui->spinbox_zaklocenie->setMinimum(0.0);
+    ui->spinbox_zaklocenie->setMaximum(1000.0);
+    ui->spinbox_opoznienie->setMinimum(1.0);
+    ui->spinbox_opoznienie->setMaximum(1000.0);
+
 }
+
+
 
 OknoARX::~OknoARX()
 {
     delete ui;
 }
 
-void OknoARX::ustawDane(const std::vector<double> &a, const std::vector<double> &b, int opoznienie, double zaklocenie)
+QString OknoARX::getA()
 {
-    QStringList a_str, b_str;
-    for (double val : a)
-        a_str << QString::number(val);
-    for (double val : b)
-        b_str << QString::number(val);
-    ui->plain_a->setPlainText(a_str.join(" "));
-    ui->plain_b->setPlainText(b_str.join(" "));
-    ui->spinbox_opoznienie->setValue(opoznienie);
-    ui->spinbox_zaklocenie->setValue(zaklocenie);
+    return ui->text_a->text();
+}
+QString OknoARX::getB()
+{
+    return ui->text_b->text();
 }
 
-void OknoARX::pobierzDane(std::vector<double> &a, std::vector<double> &b, int &opoznienie, double &zaklocenie) const
+void OknoARX::setA(QString wartosc_a)
 {
-    a.clear();
-    b.clear();
-    bool czyjestok;
-    for (const QString &val : ui->plain_a->toPlainText().split(" ", Qt::SkipEmptyParts))
-    {
-        double d = val.toDouble(&czyjestok);
-        if (czyjestok) a.push_back(d);
-    }
-
-    for (const QString &val : ui->plain_b->toPlainText().split(" ", Qt::SkipEmptyParts))
-    {
-        double d = val.toDouble(&czyjestok);
-        if (czyjestok) b.push_back(d);
-    }
-    opoznienie = static_cast<int>(ui->spinbox_opoznienie->value());
-    zaklocenie = ui->spinbox_zaklocenie->value();
+    ui->text_a->setText(wartosc_a);
 }
-void OknoARX::on_buttonBox_accepted()
+void OknoARX::setB(QString wartosc_b)
 {
-    this->accepted();
+    ui->text_b->setText(wartosc_b);
+}
+
+int OknoARX::getOpoznienie()
+{
+    return ui->spinbox_opoznienie->value();
+}
+double OknoARX::getZaklocenie()
+{
+    return ui->spinbox_zaklocenie->value();
+}
+
+void OknoARX::setOpoznienie(int opoz)
+{
+    ui->spinbox_opoznienie->setValue(opoz);
+}
+void OknoARX::setZaklocenie(double zak)
+{
+    ui->spinbox_zaklocenie->setValue(zak);
 }
 

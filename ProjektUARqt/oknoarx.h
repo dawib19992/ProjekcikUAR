@@ -6,7 +6,8 @@
 #include <QDialog>
 #include <vector>
 
-namespace Ui {
+namespace Ui
+{
 class OknoARX;
 }
 
@@ -18,11 +19,25 @@ public:
     explicit OknoARX(QWidget *parent = nullptr);
     ~OknoARX();
 
-    void ustawDane(const std::vector<double> &a, const std::vector<double> &b, int opoznienie, double zaklocenie);
-    void pobierzDane(std::vector<double> &a, std::vector<double> &b, int &opoznienie, double &zaklocenie) const;
+    QString getA();
+    QString getB();
+
+    void setA(QString wartosc);
+    void setB(QString wartosc);
+
+    int getOpoznienie();
+    double getZaklocenie();
+
+    void setOpoznienie(int wartosc_op);
+    void setZaklocenie(double wartosc_zak);
+
+
+
+
+
 
 private slots:
-    void on_buttonBox_accepted();
+
 
 private:
     Ui::OknoARX *ui;

@@ -1,67 +1,40 @@
-#include "GWZ.h"
-#include <QtMath>
+#include "ModelARX.h"
+#include <vector>
 
-GWZ::GWZ(TypSygnalu typ_, double amplituda_, int czas_aktywacji_, double okres_, double wypelnienie_, double skladowa_stala_)
-    : amplituda(amplituda_), czas_aktywacji(czas_aktywacji_), typ(typ_), okres(okres_), wypelnienie(wypelnienie_), skladowa_stala(skladowa_stala_)
-{}
-
-
-GWZ::GWZ() {}
-
-double GWZ::pobierzWartoscZadana(double czas)
+ModelARX::ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie, double zaklocenie_)
+    : a(a_), b(b_), opoznienie_k(opoznienie), zaklocenie(zaklocenie_)
 {
-    double wartosc = 0.0;
-    switch (typ)
+    bufor_sterowania = std::deque<double>(b.size() + opoznienie_k, 0.0);
+    bufor_opoznienia = std::deque<double>(a.size(), 0.0);
+}
+
+ModelARX::ModelARX() {}
+
+double ModelARX::wykonajKrok(double wejscie) {
+
+    bufor_sterowania.push_front(wejscie);
+
+    if (bufor_sterowania.size() > a.size() + opoznienie_k)
     {
-    case TypSygnalu::skok:
-        if (czas >= czas_aktywacji)
-        {
-            wartosc = amplituda;
-        }
-        else
-        {
-            wartosc = 0.0;
-        }
-        break;
-    case TypSygnalu::sinusoida:
-    {
-        if(czas >= czas_aktywacji)
-        {
-            wartosc = amplituda * std::sin((2*M_PI/okres) * czas);
-            if(std::abs(wartosc) < 0.00000000001)
-            {
-                wartosc = 0.0;
-            }
-        }
-        break;
+        bufor_sterowania.resize(bufor_sterowania.size() - 1);
     }
-    case TypSygnalu::prostokatny:
-        if (czas >= czas_aktywacji)
-        {
-            // Oblicz resztę z dzielenia czasu przez okres
-            double faza = std::fmod(czas, okres);
 
-            // Uwzględnij wypełnienie sygnału
-            if (faza < (okres * wypelnienie))
-            {
-                wartosc = amplituda + skladowa_stala;  // A + S
-            }
-            else
-            {
-                wartosc = skladowa_stala;  // S
-            }
-        }
-        break;
+    double wyjscie = zaklocenie;
+    for (size_t i = 0; i < b.size(); i++) {
+        wyjscie += b[i] * bufor_sterowania[opoznienie_k + i];
+    }
 
-    default:
-        wartosc = 0.0;
-        break;
-    };
-    return wartosc;
+    for (size_t i = 0; i < a.size(); i++) {
+        wyjscie -= a[i] * bufor_opoznienia[i];
+    }
+
+    bufor_opoznienia.push_front(wyjscie);
+    if (bufor_opoznienia.size() > a.size()) {
+        bufor_opoznienia.resize(bufor_opoznienia.size() - 1);
+    }
+    return wyjscie;
 }
 
 
-void GWZ::reset() {
-    aktualny_czas = 0;
-}
+
 

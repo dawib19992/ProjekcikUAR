@@ -24,27 +24,6 @@ UkladAutomatycznejRegulacji::UkladAutomatycznejRegulacji(QWidget *parent)
 
 }
 
-void UkladAutomatycznejRegulacji::otworzOknoARX()
-{
-    OknoARX dialog(this);
-    std::vector<double> a = us->model.getA();
-    std::vector<double> b = us->model.getB();
-    int opoznienie = us->model.getOpoznienie();
-    double zaklocenie = us->model.getZaklocenie();
-
-    dialog.ustawDane(a, b, opoznienie, zaklocenie);
-
-    if (dialog.exec() == QDialog::Accepted)
-    {
-        dialog.pobierzDane(a, b, opoznienie, zaklocenie);
-        us->model.setA(a);
-        us->model.setB(b);
-        us->model.setOpoznienie(opoznienie);
-        us->model.setZaklocenie(zaklocenie);
-        QMessageBox::information(this, "Model ARX", "Zmieniono ustawienia modelu ARX");
-    }
-}
-
 UkladAutomatycznejRegulacji::~UkladAutomatycznejRegulacji()
 {
     delete ui;
@@ -221,7 +200,8 @@ void UkladAutomatycznejRegulacji::ustawARX()
     for (const QString &a_i : aList)
     {
         double value = a_i.toDouble(&ok);
-        if (ok) {
+        if (ok)
+        {
             a.push_back(value);
         }
         else
@@ -233,15 +213,36 @@ void UkladAutomatycznejRegulacji::ustawARX()
     for (const QString &b_i : bList)
     {
         double value = b_i.toDouble(&ok);
-        if (ok) {
+        if (ok)
+        {
             b.push_back(value);
         }
         else
         {
-             QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wektora B!", QMessageBox::Ok);
+            QMessageBox::warning(this, "Błąd wartości", "Podaj poprawną wartość wektora B!", QMessageBox::Ok);
         }
     }
+
     int delay = ui->te_opoznienie->value();
+
+    /*
+     * PYTANIE CZY TO NIE PIERDOLI PROGRAMU, SKORO ZAKŁÓCENIE JEST
+     * PODAWANE W OKNIE DIALOGOWYM, A NIE W OKNIE PROGRAMU, MOŻE JEST
+     * WYPEŁNIONE Z CIPKI JAKIMIŚ LOSOWYMI WARTOŚCIAMI ALBO NULLEM,
+     * I PRZEZ TO PIERDOLI SIĘ CAŁOŚĆ W PIZDU MATER? ZAPYTAJ TWOJEGO
+     * BOTA CO ON O TYM KURWA MYŚLI, BO MÓJ JEDYNIE PRZEKLINA XDDDD
+     * POZA TYM, NA LOGIKĘ, JEŻELI ARX_BUTTON JEST NACIŚNIETY TO DOPIERO
+     * WTEDY PRZCHODZIMY DO USTAWIANIA ARX'A... CZY TO ZNACZY, ŻE CAŁA TA
+     * FUNKCJA JEST DO WYPIERDOLENIA, BO JEST USELESS? EWENTUALNIE, MOŻNABY
+     * SPRÓBOWAĆ W OKNIE DIALOGOWYM PONAZYWAĆ WSZELKIE ZMIENNE (SPINBOXY,
+     * TEXT EDITY I INNE CIPSY) TAK SAMO, JAK BYŁY, I TO, CO ROBIŁO SIĘ
+     * W OKNIE GŁÓWNYM (USTAWIANIE) PRZENIEŚĆ TYLKO DO OKNA DIALOGOWEGO, TYLKO
+     * WTEDY PROBLEMEM BĘDZIĘ TO, ŻE NIE DAMY RADY NIJAK WYŚWIETLIĆ SOBIE TEGO
+     * ŁATWIUTKO W GŁÓWNYM OKNIE PROGRAMU, A PONADTO WSZYSTKO INNE, CO DO TEJ
+     * PORY BYŁO ZROBIONE MOŻE SIĘ POKOMPLIKOWAĆ.
+     *                                                  -rpisonfire 31.03.2025
+     */
+
     double disruption = ui->te_zaklocenie->value();
     if(disruption >= 0.0)
     {
@@ -299,7 +300,6 @@ void UkladAutomatycznejRegulacji::ustawGWZ()
     us->gwz.setWypelnienie(wypelnienie);
     us->gwz.setCzas(czas);
     us->gwz.setSkladowaStala(skladowa_stala);
-
 }
 
 void UkladAutomatycznejRegulacji::on_zapisDoPliku_clicked()
@@ -362,7 +362,8 @@ void UkladAutomatycznejRegulacji::WczytajzPliku()
         return;
     }
     QTextStream in(&plik);
-    while (!in.atEnd()) {
+    while (!in.atEnd())
+    {
         QString linia = in.readLine();
         if (linia.startsWith("a:")) {
             ui->te_a->setPlainText(linia.mid(2).trimmed());
@@ -474,8 +475,6 @@ void UkladAutomatycznejRegulacji::ustawWykresy()
     ui->customPlot_pid->yAxis->setRange(-5, 5);
 }
 
-
-
 void UkladAutomatycznejRegulacji::on_ukryjLegendy_clicked()
 {
     if(isLegenda == true)
@@ -497,12 +496,36 @@ void UkladAutomatycznejRegulacji::on_ukryjLegendy_clicked()
 }
 
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void UkladAutomatycznejRegulacji::on_wgrajARX_clicked()
 {
-    otworzOknoARX();
-    isWgrane[0] = 1;
-}
+    OknoARX okno(this);
 
+    // Wstępne wartości do pokazania w oknie (opcjonalnie)
+    QString a_str = ui->te_a->toPlainText().trimmed();
+    QString b_str = ui->te_b->toPlainText().trimmed();
+    okno.setA(a_str);
+    okno.setB(b_str);
+    okno.setOpoznienie(ui->te_opoznienie->value());
+    okno.setZaklocenie(ui->te_zaklocenie->value());
+    okno.findChild<QDoubleSpinBox*>("doubleSpinBox")->setValue(ui->interwal->value());
+
+    if (okno.exec() == QDialog::Accepted)
+    {
+        // Wprowadź dane do pól tekstowych (ułatwi debugowanie)
+        ui->te_a->setPlainText(okno.getA());
+        ui->te_b->setPlainText(okno.getB());
+        ui->te_opoznienie->setValue(okno.getOpoznienie());
+        ui->te_zaklocenie->setValue(okno.getZaklocenie());
+        ui->interwal->setValue(okno.findChild<QDoubleSpinBox*>("doubleSpinBox")->value());
+
+        // I teraz ustaw model!
+        ustawARX();
+        QMessageBox::information(this, "Sukces", "Zmieniono parametry modelu ARX");
+        isWgrane[0] = true;
+    }
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void UkladAutomatycznejRegulacji::on_wgrajPID_clicked()
 {
@@ -515,8 +538,6 @@ void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
     ustawGWZ();
     isWgrane[2] = 1;
 }
-
-
 
 void UkladAutomatycznejRegulacji::on_resetcalka_clicked()
 {

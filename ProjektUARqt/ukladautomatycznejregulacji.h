@@ -23,8 +23,6 @@ public:
 
 private slots:
 
-    void otworzOknoARX();
-
     void on_zapisDoPliku_clicked();
 
     void on_wgrajzPliku_clicked();
@@ -51,7 +49,7 @@ private slots:
 
     void on_ukryjLegendy_clicked();
 
-    void on_wgrajARX_clicked();
+    //void on_wgrajARX_clicked();
 
     void on_wgrajPID_clicked();
 
@@ -61,6 +59,10 @@ private slots:
     void on_resetuj_clicked();
 
     void on_resetcalka_clicked();
+
+    //void wgrajARX();
+
+    void on_wgrajARX_clicked();
 
 private:
     Ui::UkladAutomatycznejRegulacji *ui;

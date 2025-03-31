@@ -10,12 +10,14 @@ UkladSterowania::UkladSterowania(ModelARX arx_model, RegulatorPID pid, GWZ gwz)
 }
 
 UkladSterowania::UkladSterowania()
-: model(), regulator(), gwz(){
+: model(), regulator(), gwz()
+{
     uchyb = 0.0;
     poprzedniUchyb = 0.0;
 }
 
-double UkladSterowania::symuluj(double aktualne_wejscie) {
+double UkladSterowania::symuluj(double aktualne_wejscie)
+{
     double wyjscie_pid;
     double uchyb = aktualne_wejscie - getPoprzedniUchyb();
     setUchyb(uchyb);
