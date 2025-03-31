@@ -6,7 +6,8 @@
 #include <QDialog>
 #include "RegulatorPID.h"
 
-namespace Ui {
+namespace Ui
+{
 class OknoPID;
 }
 
@@ -16,7 +17,7 @@ class OknoPID : public QDialog
 
 public:
     explicit OknoPID(QWidget *parent = nullptr);
-    ~OknoPID;
+    ~OknoPID();
 
     void ustawDane(RegulatorPID pid); // wczytanie istniejących danych
     RegulatorPID pobierzDane() const;  // zwrócenie zmodyfikowanego obiektu

@@ -32,5 +32,11 @@ public:
     void setTi(double Ti) {stala_calkowania = Ti;}
     void setTd(double Td) {stala_rozniczkowania =Td;}
     void ustawMetodeCalkowania(bool metoda) { metoda_calkowania=metoda;}
+
+    //aby działoło drugie okno - narazie wrzucam ale trzeba ogranąć co i jak XD
+    bool getAW() const { return czyAW; }
+    double getDolna() const { return dGranicaAW; }
+    double getGorna() const { return gGranicaAW; }
+    bool getMetodaCalkowania() const { return metoda_calkowania; }
 };
 
