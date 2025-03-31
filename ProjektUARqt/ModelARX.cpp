@@ -1,8 +1,9 @@
 #include "ModelARX.h"  
 #include <vector>
 
-ModelARX::ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie, double zaklocenie_ /*,double interwal*/)
-    : a(a_), b(b_), opoznienie_k(opoznienie), zaklocenie(zaklocenie_) /*,interwal(interwal)*/ {
+ModelARX::ModelARX(std::vector<double>& a_, std::vector<double>& b_, int opoznienie, double zaklocenie_)
+    : a(a_), b(b_), opoznienie_k(opoznienie), zaklocenie(zaklocenie_)
+{
     bufor_sterowania = std::deque<double>(b.size() + opoznienie_k, 0.0);
     bufor_opoznienia = std::deque<double>(a.size(), 0.0);
 }
@@ -39,7 +40,4 @@ void ModelARX::setZaklocenie(double zak)
     zaklocenie = zak;
 }
 
-/*void ModelARX::setInterwal(double inter)
-{
-    interwal = inter;
-}*/
+

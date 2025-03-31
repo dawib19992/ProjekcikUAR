@@ -517,3 +517,9 @@ void UkladAutomatycznejRegulacji::on_wgrajGWZ_clicked()
 }
 
 
+
+void UkladAutomatycznejRegulacji::on_resetcalka_clicked()
+{
+    //tutaj reset całka dupadupa123
+}
+

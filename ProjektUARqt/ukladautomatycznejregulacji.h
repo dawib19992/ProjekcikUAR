@@ -60,6 +60,8 @@ private slots:
 
     void on_resetuj_clicked();
 
+    void on_resetcalka_clicked();
+
 private:
     Ui::UkladAutomatycznejRegulacji *ui;
     UkladSterowania* us;

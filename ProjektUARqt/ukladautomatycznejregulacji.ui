@@ -490,6 +490,13 @@
                           </layout>
                          </item>
                          <item>
+                          <widget class="QPushButton" name="resetcalka">
+                           <property name="text">
+                            <string>Zresetuj część całkującą</string>
+                           </property>
+                          </widget>
+                         </item>
+                         <item>
                           <widget class="QRadioButton" name="antiwindup">
                            <property name="sizePolicy">
                             <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
@@ -1041,7 +1048,7 @@
      <x>0</x>
      <y>0</y>
      <width>1800</width>
-     <height>42</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
