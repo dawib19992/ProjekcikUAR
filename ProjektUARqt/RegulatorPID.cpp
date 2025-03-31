@@ -49,7 +49,7 @@ double RegulatorPID::wykonajKrok(double uchyb)
 
 void RegulatorPID::reset()
 {
-	suma_calkowita = 0;
+    suma_calkowita = 0;
     poprzedniUchyb = 0;
 }
 

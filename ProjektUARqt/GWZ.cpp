@@ -38,17 +38,15 @@ double GWZ::pobierzWartoscZadana(double czas)
     case TypSygnalu::prostokatny:
         if (czas >= czas_aktywacji)
         {
-            // Oblicz resztę z dzielenia czasu przez okres
-            double faza = std::fmod(czas, okres);
 
-            // Uwzględnij wypełnienie sygnału
+            double faza = std::fmod(czas, okres);
             if (faza < (okres * wypelnienie))
             {
-                wartosc = amplituda + skladowa_stala;  // A + S
+                wartosc = amplituda + skladowa_stala;
             }
             else
             {
-                wartosc = skladowa_stala;  // S
+                wartosc = skladowa_stala;
             }
         }
         break;
@@ -62,6 +60,6 @@ double GWZ::pobierzWartoscZadana(double czas)
 
 
 void GWZ::reset() {
-	aktualny_czas = 0;
+    aktualny_czas = 0;
 }
 
